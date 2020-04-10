@@ -11,7 +11,7 @@ description: Track all data of Corona Virus around the World.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.1+1
+version: 1.0.2+1
 
 environment:
     sdk: '>=2.2.0 <3.0.0'
@@ -61,6 +61,8 @@ flutter:
     assets:
      - assets/images/developer.jpeg
      - assets/images/no-internet.png
+     - assets/images/update.png
+     - assets/images/no-location.png
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see

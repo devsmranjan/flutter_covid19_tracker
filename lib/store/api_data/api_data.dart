@@ -50,6 +50,7 @@ abstract class _ApiDataStoreBase with Store {
   Future fetchAppVersionsData() async {
     try {
       appVersionsData = await _fetchAppVersionsData();
+      print(appVersionsData.latestAppVersion);
     } catch (e) {
       print("Error in fetchAppVersionsData : " + e.toString());
     }
@@ -57,6 +58,7 @@ abstract class _ApiDataStoreBase with Store {
 
   @action
   void compareVersion(String version) {
+    isVersionMatched = true;
     if (appVersionsData.latestAppVersion != version) {
       isVersionMatched = false;
     }

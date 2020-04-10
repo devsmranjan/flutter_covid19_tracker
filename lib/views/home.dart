@@ -1,7 +1,10 @@
 import 'dart:async';
 
-import 'package:covid19_tracker/store/connection/connection.dart';
-import 'package:covid19_tracker/views/more_page/more_page.dart';
+import '../store/connection/connection.dart';
+import '../store/update_later/update_later.dart';
+import '../views/more_page/more_page.dart';
+import '../views/update_dialog.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:package_info/package_info.dart';
 
@@ -25,8 +28,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // stores
+  // store
   final ConnectionStore _connectionStore = ConnectionStore();
+  final UpdateLaterStore _updateLaterStore = UpdateLaterStore();
   final NavbarIndexStore _navbarIndexStore = NavbarIndexStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
 
@@ -37,8 +41,12 @@ class _HomeState extends State<Home> {
   final _locationStore = LocationStore();
   List<Widget> _allPageWidgets;
 
+  PackageInfo packageInfo;
+
   Future _onLoad() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    packageInfo = await PackageInfo.fromPlatform();
+
+    _updateLaterStore.checkUpdateLater();
 
     await _apiDataStore.fetchAppVersionsData();
     _apiDataStore.compareVersion(packageInfo.version);
@@ -48,7 +56,85 @@ class _HomeState extends State<Home> {
 
     await _locationStore.getLocation();
 
+    if (!_locationStore.isLocationEnabled) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) =>
+              SimpleDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                children: <Widget>[
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                          child: Image.asset("assets/images/no-location.png"),
+                        ),
+                        SizedBox(
+                          height: 18,
+                        ),
+                        Text(
+                          "Location is off",
+                          style: GoogleFonts.paytoneOne(
+                              fontSize: 18.0,
+                              color: Theme.of(context).primaryColor),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 28),
+                          child: Text(
+                            "Please enable location",
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color:
+                                    NeumorphicTheme.defaultTextColor(context),
+                                fontWeight: FontWeight.bold,
+                                height: 1.6),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 36,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            NeumorphicButton(
+                              child: Text(
+                                "Retry",
+                                style: TextStyle(
+                                    color: NeumorphicTheme.defaultTextColor(
+                                        context)),
+                              ),
+                              onClick: () {
+                                Navigator.pop(context);
+                                _onLoad();
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                ],
+                backgroundColor: NeumorphicTheme.baseColor(context),
+                contentPadding: EdgeInsets.all(18),
+              ));
+    }
+
     await _apiDataStore.fetchAPI1Data();
+
     _apiDataStore.getStateData(stateName: _locationStore.state);
 
     _apiDataStore.fetchAPI2WorldTotalStatistics();
@@ -57,6 +143,26 @@ class _HomeState extends State<Home> {
     _apiDataStore.getTwitterHandleOfMyState(_locationStore.state);
 
     await _apiDataStore.fetchAPI1StateDistrictsData();
+
+    if (!_updateLaterStore.isUpdateLater && !_apiDataStore.isVersionMatched) {
+      showDialog(
+          context: context,
+          builder: (context) => SimpleDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                children: <Widget>[
+                  SizedBox(
+                    height: 24,
+                  ),
+                  UpdateDialog(),
+                  SizedBox(
+                    height: 24,
+                  ),
+                ],
+                backgroundColor: NeumorphicTheme.baseColor(context),
+                contentPadding: EdgeInsets.all(18),
+              ));
+    }
   }
 
   Future _onRefresh() async {

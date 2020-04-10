@@ -7,7 +7,7 @@ part 'emoji.g.dart';
 class Emoji = _Emoji with _$Emoji;
 
 abstract class _Emoji with Store {
-  List _normalExp = ["😌", "😀", "😃", "🌚"];
+  List _normalExp = ["😌", "😀", "😃"];
 
   List _sadExp = ["😟", "😕", "😩", "😷", "😬"];
 

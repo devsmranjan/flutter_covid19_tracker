@@ -65,7 +65,7 @@ class _DonatePageState extends State<DonatePage> {
                 ),
               ),
               SizedBox(
-                height: 36.0,
+                height: 24.0,
               ),
               Text("Donate today",
                   style: GoogleFonts.paytoneOne(

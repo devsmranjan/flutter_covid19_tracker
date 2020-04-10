@@ -21,22 +21,37 @@ abstract class _LocationStoreBase with Store {
   @observable
   String dist = "";
 
+  @observable
+  bool isLocationEnabled = true;
+
   @action
   Future getLocation() async {
     try {
-      GeolocationStatus geolocationStatus =
-          await Geolocator().checkGeolocationPermissionStatus();
-      print("geolocationStatus : " + geolocationStatus.toString());
-      Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print(position);
+      Geolocator geolocator = Geolocator();
 
-      List<Placemark> placemark = await Geolocator()
-          .placemarkFromCoordinates(position.latitude, position.longitude);
+      bool _serviceEnabled = await geolocator.isLocationServiceEnabled();
 
-      country = placemark[0].country;
-      state = placemark[0].administrativeArea;
-      dist = placemark[0].subAdministrativeArea;
+      if (!_serviceEnabled) {
+        print(_serviceEnabled);
+        isLocationEnabled = false;
+      } else {
+        isLocationEnabled = true;
+        GeolocationStatus _geolocationStatus =
+            await geolocator.checkGeolocationPermissionStatus(
+                locationPermission: GeolocationPermission.locationWhenInUse);
+        print("geolocationStatus : " + _geolocationStatus.toString());
+
+        Position _position = await geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        print(_position);
+
+        List<Placemark> placemark = await geolocator.placemarkFromCoordinates(
+            _position.latitude, _position.longitude);
+
+        country = placemark[0].country;
+        state = placemark[0].administrativeArea;
+        dist = placemark[0].subAdministrativeArea;
+      }
     } catch (e) {
       print("Error in location fetching : " + e.toString());
     }

@@ -10,9 +10,10 @@ import '../../store/dark_mode/dark_mode.dart';
 import '../../util/more_listtile/more_listtile.dart';
 import '../../views/donate_page/donate_page.dart';
 import '../../views/helplines_page/helplines_page.dart';
-import '../../views/more_page/about_developer.dart';
 import '../../views/self_risk_scan/self_risk_scan.dart';
 import '../../views/tweets_page/tweets_page.dart';
+import '../../store/update_later/update_later.dart';
+import '../../views/about_page/about_page.dart';
 
 class MorePage extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class MorePage extends StatefulWidget {
 }
 
 class _MorePageState extends State<MorePage> {
+  final UpdateLaterStore _updateLaterStore = UpdateLaterStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
   final DarkModeStore _darkModeStore = DarkModeStore();
 
@@ -34,7 +36,7 @@ class _MorePageState extends State<MorePage> {
   void _shareApp() {
     Share.text(
         'COVID-19 Tracker',
-        'I am loving this app 😍. Download COVID-19 Tracker app to get track over Corona from all over the World.\nAndroid: http://bit.ly/devsmranjan-covid19T\nLets fight against Corona together.',
+        'I am loving this app 😍. Download COVID-19 Tracker app to get track over Corona from all over the World.\nAndroid: https://bit.ly/devsmranjan-covid19-tracker\nLets fight against Corona together.',
         'text/plain');
   }
 
@@ -159,28 +161,13 @@ class _MorePageState extends State<MorePage> {
                           height: 18.0,
                         ),
                         MoreListTile(
-                            title: "About Developer",
-                            icon: LineAwesomeIcons.user_secret,
+                            title: "About this App",
+                            icon: LineAwesomeIcons.info,
                             iconColor: Color(0xFF607d8b),
-                            action: () => showDialog(
-                                context: context,
-                                builder: (context) => SimpleDialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      children: <Widget>[
-                                        SizedBox(
-                                          height: 24,
-                                        ),
-                                        AboutDeveloper(),
-                                        SizedBox(
-                                          height: 24,
-                                        ),
-                                      ],
-                                      backgroundColor:
-                                          NeumorphicTheme.baseColor(context),
-                                      contentPadding: EdgeInsets.all(18),
-                                    ))),
+                            action: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AboutPage()))),
                         Observer(
                           builder: (_) => !_apiDataStore.isVersionMatched
                               ? SizedBox(
@@ -194,8 +181,11 @@ class _MorePageState extends State<MorePage> {
                                   title: "Update Available",
                                   icon: LineAwesomeIcons.download,
                                   iconColor: Color(0xFF304ffe),
-                                  action: () => _launchURL(_apiDataStore
-                                      .appVersionsData.latestAppLink))
+                                  action: () {
+                                    _updateLaterStore.updateUpdatePopup(false);
+                                    _launchURL(_apiDataStore
+                                        .appVersionsData.latestAppLink);
+                                  })
                               : Container(),
                         ),
                         SizedBox(
