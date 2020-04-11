@@ -9,7 +9,6 @@ import '../../store/location/location.dart';
 import '../../util/error_container/error_container.dart';
 import '../../views/donate_page/donate_container.dart';
 
-
 class DonatePage extends StatefulWidget {
   @override
   _DonatePageState createState() => _DonatePageState();
@@ -38,43 +37,50 @@ class _DonatePageState extends State<DonatePage> {
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                height: kToolbarHeight,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    NeumorphicButton(
-                      onClick: () {
-                        Navigator.pop(context);
-                      },
-                      style: NeumorphicStyle(shape: NeumorphicShape.convex),
-                      boxShape: NeumorphicBoxShape.circle(),
-                      padding: const EdgeInsets.all(12.0),
-                      child: Icon(LineAwesomeIcons.long_arrow_left,
-                          color: NeumorphicTheme.currentTheme(context)
-                              .accentColor),
-                    ),
-                  ],
+          child: Observer(
+            builder: (_) => Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: kToolbarHeight,
                 ),
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              Text("Donate today",
-                  style: GoogleFonts.paytoneOne(
-                      fontSize: 24, color: Theme.of(context).primaryColor)),
-              SizedBox(
-                height: 24.0,
-              ),
-              Observer(
-                builder: (_) => !_connectionStore.isInternetConnected
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      NeumorphicButton(
+                        onClick: () {
+                          Navigator.pop(context);
+                        },
+                        style: NeumorphicStyle(shape: NeumorphicShape.convex),
+                        boxShape: NeumorphicBoxShape.circle(),
+                        padding: const EdgeInsets.all(12.0),
+                        child: Icon(LineAwesomeIcons.long_arrow_left,
+                            color: NeumorphicTheme.currentTheme(context)
+                                .accentColor),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
+                _connectionStore.isInternetConnected &&
+                        _apiDataStore.organisationProfileList != null
+                    ? Text("Donate today",
+                        style: GoogleFonts.paytoneOne(
+                            fontSize: 24,
+                            color: Theme.of(context).accentColor))
+                    : Container(),
+                _connectionStore.isInternetConnected &&
+                        _apiDataStore.organisationProfileList != null
+                    ? SizedBox(
+                        height: 24.0,
+                      )
+                    : Container(),
+                !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : _apiDataStore.organisationProfileList != null
                         ? DonateContainer(
@@ -94,9 +100,7 @@ class _DonatePageState extends State<DonatePage> {
                               child: CircularProgressIndicator(),
                             ),
                           ),
-              ),
-              Observer(
-                builder: (_) => !_connectionStore.isInternetConnected
+                !_connectionStore.isInternetConnected
                     ? Container()
                     : _apiDataStore.organisationProfileList != null
                         ? ListView.builder(
@@ -125,8 +129,8 @@ class _DonatePageState extends State<DonatePage> {
                             },
                           )
                         : Container(),
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),

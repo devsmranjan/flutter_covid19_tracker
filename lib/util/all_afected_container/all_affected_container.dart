@@ -27,7 +27,7 @@ class AllAffectedContainer extends StatelessWidget {
                 child: Text(
               title,
               style:
-                  GoogleFonts.paytoneOne(color: Theme.of(context).primaryColor),
+                  GoogleFonts.paytoneOne(color: Theme.of(context).accentColor),
             )),
             NeumorphicButton(
               onClick: action,

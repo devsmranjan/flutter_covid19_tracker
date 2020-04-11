@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../store/connection/connection.dart';
 import '../../util/error_container/error_container.dart';
 
-
 class SelfRiskScan extends StatefulWidget {
   @override
   _SelfRiskScanState createState() => _SelfRiskScanState();
@@ -17,7 +16,6 @@ class _SelfRiskScanState extends State<SelfRiskScan> {
   final ConnectionStore _connectionStore = ConnectionStore();
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
 
   var js_light = r'''
                                 var bgColor = '#e4e9ed';
@@ -99,63 +97,66 @@ class _SelfRiskScanState extends State<SelfRiskScan> {
       key: _scaffoldKey,
       backgroundColor: NeumorphicTheme.baseColor(context),
       resizeToAvoidBottomInset: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: kToolbarHeight,
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: NeumorphicButton(
-              onClick: () {
-                Navigator.pop(context);
-              },
-              style: NeumorphicStyle(shape: NeumorphicShape.convex),
-              boxShape: NeumorphicBoxShape.circle(),
-              padding: const EdgeInsets.all(12.0),
-              child: Icon(LineAwesomeIcons.long_arrow_left,
-                  color: NeumorphicTheme.currentTheme(context).accentColor),
+      body: Observer(
+              builder: (_) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: kToolbarHeight,
             ),
-          ),
-          SizedBox(
-            height: 24,
-          ),
-          Observer(
-            builder: (_) => Expanded(
-                child: !_connectionStore.isInternetConnected
-                    ? ErrorContainer()
-                    : WebviewScaffold(
-                        url: "https://web.swaraksha.gov.in/ncv19/chat/?lang=en",
-                        withLocalStorage: true,
-                        hidden: true,
-                        geolocationEnabled: true,
-                        javascriptChannels: [
-                          JavascriptChannel(
-                              name: 'Print',
-                              onMessageReceived: (JavascriptMessage message) {
-                                print(message.message);
-                              }),
-                        ].toSet(),
-                        withJavascript: true,
-                        initialChild: Container(
-                          color: NeumorphicTheme.baseColor(context),
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                      )),
-          ),
-          Container(
-            height: 24,
-            child: Center(
-              child: Text(
-                "Powered by Swaraksha",
-                style: TextStyle(color: Colors.green),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: NeumorphicButton(
+                onClick: () {
+                  Navigator.pop(context);
+                },
+                style: NeumorphicStyle(shape: NeumorphicShape.convex),
+                boxShape: NeumorphicBoxShape.circle(),
+                padding: const EdgeInsets.all(12.0),
+                child: Icon(LineAwesomeIcons.long_arrow_left,
+                    color: NeumorphicTheme.currentTheme(context).accentColor),
               ),
             ),
-          ),
-        ],
+            _connectionStore.isInternetConnected
+                ? SizedBox(
+                    height: 24,
+                  )
+                : Container(),
+             Expanded(
+                  child: !_connectionStore.isInternetConnected
+                      ? ErrorContainer()
+                      : WebviewScaffold(
+                          url: "https://web.swaraksha.gov.in/ncv19/chat/?lang=en",
+                          withLocalStorage: true,
+                          hidden: true,
+                          geolocationEnabled: true,
+                          javascriptChannels: [
+                            JavascriptChannel(
+                                name: 'Print',
+                                onMessageReceived: (JavascriptMessage message) {
+                                  print(message.message);
+                                }),
+                          ].toSet(),
+                          withJavascript: true,
+                          initialChild: Container(
+                            color: NeumorphicTheme.baseColor(context),
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        )),
+         
+            Container(
+              height: 24,
+              child: Center(
+                child: Text(
+                  "Powered by Swaraksha",
+                  style: TextStyle(color: Colors.green),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

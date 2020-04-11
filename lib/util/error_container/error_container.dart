@@ -20,11 +20,21 @@ class ErrorContainer extends StatelessWidget {
             SizedBox(
               height: 24,
             ),
-            Text("You are lost!!!",
+            Text("You are lost in space",
                 style: GoogleFonts.paytoneOne(
-                    fontSize: 28,
-                    color: NeumorphicTheme.defaultTextColor(context)),
-                textAlign: TextAlign.center)
+                    fontSize: 24, color: Theme.of(context).primaryColor)),
+            SizedBox(
+              height: 12.0,
+            ),
+            Text(
+              "Please turn on Internet",
+              style: TextStyle(
+                  fontSize: 14.0,
+                  color: NeumorphicTheme.defaultTextColor(context),
+                  fontWeight: FontWeight.bold,
+                  height: 1.6),
+              textAlign: TextAlign.center,
+            ),
           ],
         ));
   }

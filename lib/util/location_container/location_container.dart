@@ -37,7 +37,7 @@ class _LocationContainerState extends State<LocationContainer> {
                             : "India".toUpperCase(),
                         style: GoogleFonts.paytoneOne(
                             fontSize: 18.0,
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).accentColor),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(

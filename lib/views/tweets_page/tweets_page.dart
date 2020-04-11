@@ -7,7 +7,6 @@ import 'dart:convert';
 import '../../store/connection/connection.dart';
 import '../../util/error_container/error_container.dart';
 
-
 import 'package:url_launcher/url_launcher.dart';
 
 class TweetsPage extends StatefulWidget {
@@ -119,28 +118,29 @@ class _TweetsPageState extends State<TweetsPage> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: NeumorphicTheme.baseColor(context),
-      body: Column(
-        children: <Widget>[
-          SizedBox(
-            height: kToolbarHeight,
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                NeumorphicButton(
-                  onClick: () {
-                    Navigator.pop(context);
-                  },
-                  style: NeumorphicStyle(shape: NeumorphicShape.convex),
-                  boxShape: NeumorphicBoxShape.circle(),
-                  padding: const EdgeInsets.all(12.0),
-                  child: Icon(LineAwesomeIcons.long_arrow_left,
-                      color: NeumorphicTheme.currentTheme(context).accentColor),
-                ),
-                Observer(
-                  builder: (_) => NeumorphicButton(
+      body: Observer(
+        builder: (_) => Column(
+          children: <Widget>[
+            SizedBox(
+              height: kToolbarHeight,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  NeumorphicButton(
+                    onClick: () {
+                      Navigator.pop(context);
+                    },
+                    style: NeumorphicStyle(shape: NeumorphicShape.convex),
+                    boxShape: NeumorphicBoxShape.circle(),
+                    padding: const EdgeInsets.all(12.0),
+                    child: Icon(LineAwesomeIcons.long_arrow_left,
+                        color:
+                            NeumorphicTheme.currentTheme(context).accentColor),
+                  ),
+                  NeumorphicButton(
                     onClick: () {
                       _launchURL(profileUrl);
                     },
@@ -152,15 +152,15 @@ class _TweetsPageState extends State<TweetsPage> {
                         color:
                             NeumorphicTheme.currentTheme(context).accentColor),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 24,
-          ),
-          Observer(
-            builder: (_) => Expanded(
+            !_connectionStore.isInternetConnected
+                    ? Container()
+                    : SizedBox(
+              height: 24,
+            ),
+            Expanded(
                 child: !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : WebviewScaffold(
@@ -184,8 +184,8 @@ class _TweetsPageState extends State<TweetsPage> {
                           ),
                         ),
                       )),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

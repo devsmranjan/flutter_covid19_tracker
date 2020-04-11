@@ -44,8 +44,8 @@ class _Covid19TrackerState extends State<Covid19Tracker> {
           child: MaterialApp(
             title: Covid19Tracker.APP_TITLE,
             theme: ThemeData(
-              primaryColor: const Color(0xFF7D9DF8),
-              accentColor: const Color(0xFF3f51b5),
+              primaryColor: const Color(0xFF5791F8),
+              accentColor: const Color(0xFF7D9DF8),
               textTheme: GoogleFonts.montserratAlternatesTextTheme(
                 Theme.of(context).textTheme,
               ),

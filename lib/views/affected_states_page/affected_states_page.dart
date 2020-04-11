@@ -62,7 +62,7 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
                         "Affected States".toUpperCase(),
                         style: GoogleFonts.paytoneOne(
                             fontSize: 14,
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).accentColor),
                         textAlign: TextAlign.center,
                       ),
                     ),

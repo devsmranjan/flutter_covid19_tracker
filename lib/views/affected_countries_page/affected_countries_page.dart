@@ -67,7 +67,7 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
                         "Affected Countries".toUpperCase(),
                         style: GoogleFonts.paytoneOne(
                             fontSize: 14,
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).accentColor),
                         textAlign: TextAlign.center,
                       ),
                     ),

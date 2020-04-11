@@ -72,7 +72,7 @@ class _AboutPageState extends State<AboutPage> {
               ),
               Text("COVID-19 Tracker",
                   style: GoogleFonts.paytoneOne(
-                      fontSize: 24, color: Theme.of(context).primaryColor)),
+                      fontSize: 24, color: Theme.of(context).accentColor)),
               SizedBox(
                 height: 12.0,
               ),
@@ -130,7 +130,7 @@ class _AboutPageState extends State<AboutPage> {
               Text(
                 "Smruti Ranjan Rana",
                 style: GoogleFonts.paytoneOne(
-                    fontSize: 18.0, color: Theme.of(context).primaryColor),
+                    fontSize: 18.0, color: Theme.of(context).accentColor),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
