@@ -36,7 +36,7 @@ class _MorePageState extends State<MorePage> {
   void _shareApp() {
     Share.text(
         'COVID-19 Tracker',
-        'I am loving this app 😍. Download COVID-19 Tracker app to get track over Corona from all over the World.\nAndroid: https://bit.ly/devsmranjan-covid19-tracker\nLets fight against Corona together.',
+        'I am loving this app 😍. Download COVID-19 Tracker app to get track over Corona from all over the World.\nAndroid: https://play.google.com/store/apps/details?id=io.github.devsmranjan.covid19_tracker\nLets fight against Corona together.',
         'text/plain');
   }
 
