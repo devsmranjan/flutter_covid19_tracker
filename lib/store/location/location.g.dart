@@ -60,6 +60,24 @@ mixin _$LocationStore on _LocationStoreBase, Store {
     }, _$distAtom, name: '${_$distAtom.name}_set');
   }
 
+  final _$isLocationEnabledAtom =
+      Atom(name: '_LocationStoreBase.isLocationEnabled');
+
+  @override
+  bool get isLocationEnabled {
+    _$isLocationEnabledAtom.context.enforceReadPolicy(_$isLocationEnabledAtom);
+    _$isLocationEnabledAtom.reportObserved();
+    return super.isLocationEnabled;
+  }
+
+  @override
+  set isLocationEnabled(bool value) {
+    _$isLocationEnabledAtom.context.conditionallyRunInAction(() {
+      super.isLocationEnabled = value;
+      _$isLocationEnabledAtom.reportChanged();
+    }, _$isLocationEnabledAtom, name: '${_$isLocationEnabledAtom.name}_set');
+  }
+
   final _$getLocationAsyncAction = AsyncAction('getLocation');
 
   @override
@@ -70,7 +88,7 @@ mixin _$LocationStore on _LocationStoreBase, Store {
   @override
   String toString() {
     final string =
-        'country: ${country.toString()},state: ${state.toString()},dist: ${dist.toString()}';
+        'country: ${country.toString()},state: ${state.toString()},dist: ${dist.toString()},isLocationEnabled: ${isLocationEnabled.toString()}';
     return '{$string}';
   }
 }
