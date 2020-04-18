@@ -46,9 +46,12 @@ class _Covid19TrackerState extends State<Covid19Tracker> {
             theme: ThemeData(
               primaryColor: const Color(0xFF5791F8),
               accentColor: const Color(0xFF7D9DF8),
-              textTheme: GoogleFonts.montserratAlternatesTextTheme(
+              textTheme: GoogleFonts.firaSansTextTheme(
                 Theme.of(context).textTheme,
               ),
+              // textTheme: GoogleFonts.montserratAlternatesTextTheme(
+              //   Theme.of(context).textTheme,
+              // ),
             ),
             debugShowCheckedModeBanner: false,
             home: Home(),

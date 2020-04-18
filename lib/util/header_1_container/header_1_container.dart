@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Header1Container extends StatelessWidget {
   @override
@@ -14,8 +15,13 @@ class Header1Container extends StatelessWidget {
           child: Center(
               child: Text(
             "COVID-19 Tracker",
-            style: TextStyle(fontSize: 18).copyWith(
-                color: NeumorphicTheme.currentTheme(context).defaultTextColor),
+            style: GoogleFonts.poiretOne(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.5)
+                .copyWith(
+                    color:
+                        NeumorphicTheme.currentTheme(context).defaultTextColor),
           )),
         ),
         SizedBox(

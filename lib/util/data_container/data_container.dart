@@ -21,9 +21,9 @@ class DataContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
-          child: Neumorphic(
-        boxShape:
-            NeumorphicBoxShape.roundRect(borderRadius: BorderRadius.circular(14)),
+      child: Neumorphic(
+        boxShape: NeumorphicBoxShape.roundRect(
+            borderRadius: BorderRadius.circular(14)),
         style: NeumorphicStyle(
           shape: NeumorphicShape.flat,
         ),
@@ -37,11 +37,12 @@ class DataContainer extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: TextStyle(
+                style: GoogleFonts.firaSans(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1, color: NeumorphicTheme.currentTheme(context)
-                                    .defaultTextColor),
+                    letterSpacing: 0.6,
+                    color:
+                        NeumorphicTheme.currentTheme(context).defaultTextColor),
               ),
               SizedBox(
                 width: 18,
@@ -55,19 +56,26 @@ class DataContainer extends StatelessWidget {
                           height: 12,
                         ),
                         Text(
-                          "${totalCases.length <= 6 ? NumberFormat.decimalPattern().format(int.parse(totalCases)).padLeft(2, "0") : NumberFormat.compact().format(int.parse(totalCases))}",
-                          style: GoogleFonts.pacifico(
-                              fontSize: 36, color: color, height: 1),
+                          "${totalCases.length <= 6 ? NumberFormat.decimalPattern().format(int.parse(totalCases)).padLeft(2, "0") : NumberFormat.compact().format(int.parse(totalCases))}"
+                              .toLowerCase(),
+                          style: GoogleFonts.fjallaOne(
+                              fontSize: 34,
+                              color: color,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1),
                           textAlign: TextAlign.end,
                         ),
                         SizedBox(
-                          height: 12,
+                          height: 8,
                         ),
                         newCases != "" && int.tryParse(newCases) != 0
                             ? Text(
-                                "[+ ${newCases.length <= 4 ? NumberFormat.decimalPattern().format(int.parse(newCases)) : NumberFormat.compact().format(int.parse(newCases))}]",
-                                style: GoogleFonts.pacifico(
-                                    fontSize: 14, color: color, height: 1),
+                                "+ ${newCases.length <= 4 ? NumberFormat.decimalPattern().format(int.parse(newCases)) : NumberFormat.compact().format(int.parse(newCases))}".toLowerCase(),
+                                style: GoogleFonts.fjallaOne(
+                                    fontSize: 18,
+                                    color: color.withOpacity(0.7),
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1),
                                 textAlign: TextAlign.end,
                               )
                             : Container(),
