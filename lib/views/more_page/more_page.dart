@@ -142,6 +142,17 @@ class _MorePageState extends State<MorePage> {
                         SizedBox(
                           height: 24.0,
                         ),
+                        MoreListTile(
+                            title: "Essentials",
+                            icon: LineAwesomeIcons.hand_stop_o,
+                            iconColor: Color(0xFFff9800),
+                            action: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HelplinesPage()))),
+                        SizedBox(
+                          height: 24.0,
+                        ),
                         Neumorphic(
                           boxShape: NeumorphicBoxShape.roundRect(
                               borderRadius: BorderRadius.circular(14)),

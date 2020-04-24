@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/store/scroll/scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -10,6 +11,23 @@ import 'chart_theme.dart' show chartThemeScript;
 import 'chart_theme_dark.dart' show chartThemeDark;
 
 class ChartContainer extends StatefulWidget {
+  final ScrollStore scrollStore;
+  final Loading loading;
+  final List datesList;
+  final List confirmedList;
+  final List recoveredList;
+  final List deceasedList;
+
+  const ChartContainer({
+    Key key,
+    @required this.scrollStore,
+    @required this.loading,
+    @required this.datesList,
+    @required this.confirmedList,
+    @required this.recoveredList,
+    @required this.deceasedList,
+  }) : super(key: key);
+
   @override
   _ChartContainerState createState() => _ChartContainerState();
 }
@@ -17,20 +35,18 @@ class ChartContainer extends StatefulWidget {
 class _ChartContainerState extends State<ChartContainer> {
   final ApiDataStore _apiDataStore = ApiDataStore();
 
-  final loading = Loading();
+  // Future _getMapOfIndivisualListOfCaseTimeSeries() async {
+  //   await _apiDataStore.getMapOfIndivisualListOfCaseTimeSeries();
+  //   print(_apiDataStore.mapOfIndivisualListOfCaseTimeSeries);
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    loading.startLoading1000();
-    _apiDataStore.getMapOfIndivisualListOfCaseTimeSeries();
-  }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.datesList.isEmpty);
     return Neumorphic(
       boxShape:
-          NeumorphicBoxShape.roundRect(borderRadius: BorderRadius.circular(14)),
+          NeumorphicBoxShape.roundRect(borderRadius: BorderRadius.circular(8)),
       style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -4),
       padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
       child: Column(
@@ -40,9 +56,12 @@ class _ChartContainerState extends State<ChartContainer> {
             height: 300,
             width: MediaQuery.of(context).size.width,
             child: Observer(
-              builder: (_) => !loading.isLoading &&
-                      _apiDataStore.mapOfIndivisualListOfCaseTimeSeries
-                          .isNotEmpty
+              builder: (_) => widget.scrollStore.isScrollReached &&
+                      !widget.loading.isLoading &&
+                      (widget.datesList != null && widget.datesList.isNotEmpty)
+                      && (widget.confirmedList != null && widget.confirmedList.isNotEmpty)
+                      && (widget.recoveredList != null && widget.recoveredList.isNotEmpty)
+                      && (widget.deceasedList != null && widget.deceasedList.isNotEmpty)
                   ? Echarts(
                       theme: !NeumorphicTheme.isUsingDark(context)
                           ? 'covid19'
@@ -68,7 +87,7 @@ class _ChartContainerState extends State<ChartContainer> {
       xAxis: {
         type: 'category',
         boundaryGap: true,
-        data: ${jsonEncode(_apiDataStore.mapOfIndivisualListOfCaseTimeSeries['dates'])}
+        data: ${jsonEncode(widget.datesList)}
       },
       yAxis: {
         type: 'value'
@@ -77,7 +96,7 @@ class _ChartContainerState extends State<ChartContainer> {
         {
           type: 'line',
           stack: 'tracker1',
-          data: ${jsonEncode(_apiDataStore.mapOfIndivisualListOfCaseTimeSeries['totalConfirmed'])},
+          data: ${jsonEncode(widget.confirmedList)},
           smooth: true
         },
         {
@@ -89,13 +108,13 @@ class _ChartContainerState extends State<ChartContainer> {
         {
               type: 'line',
               stack: 'tracker3',
-              data: ${jsonEncode(_apiDataStore.mapOfIndivisualListOfCaseTimeSeries['totalRecovered'])},
+              data: ${jsonEncode(widget.recoveredList)},
               smooth: true
         },
         {
               type: 'line',
               stack: 'tracker4',
-              data: ${jsonEncode(_apiDataStore.mapOfIndivisualListOfCaseTimeSeries['totalDeceased'])},
+              data: ${jsonEncode(widget.deceasedList)},
               smooth: true
         },
       ]

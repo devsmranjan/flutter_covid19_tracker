@@ -6,7 +6,6 @@ import '../../util/header_2_container/header_2_container.dart';
 import '../../store/api_data/api_data.dart';
 import '../../util/data_container/data_container.dart';
 
-
 class WorldData extends StatelessWidget {
   final ApiDataStore _apiDataStore = ApiDataStore();
 
@@ -18,8 +17,8 @@ class WorldData extends StatelessWidget {
           Header2Container(
             title: "World",
             lastUpdatedTime: _apiDataStore.worldStatisticsData != null
-                ? DateFormat('dd/MM/yyyy hh:mm:ss').format(DateTime.parse(
-                    _apiDataStore.worldStatisticsData.lastUpdatedTime))
+                ? DateFormat('dd/MM/yyyy hh:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(
+                    _apiDataStore.worldStatisticsData.lastUpdatedTime) * 1000))
                 : "",
             color: Colors.green,
           ),

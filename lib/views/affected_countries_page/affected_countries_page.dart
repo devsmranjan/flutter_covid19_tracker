@@ -10,7 +10,6 @@ import '../../store/loading/loading.dart';
 import '../../util/country_listtile/country_listtile.dart';
 import '../../util/error_container/error_container.dart';
 
-
 class AffectedCountriesPage extends StatefulWidget {
   @override
   _AffectedCountriesPageState createState() => _AffectedCountriesPageState();
@@ -49,6 +48,7 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     NeumorphicButton(
                       onClick: () {
@@ -61,17 +61,6 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
                           color: NeumorphicTheme.currentTheme(context)
                               .accentColor),
                     ),
-                    SizedBox(width: 24),
-                    Expanded(
-                      child: Text(
-                        "Affected Countries".toUpperCase(),
-                        style: GoogleFonts.paytoneOne(
-                            fontSize: 14,
-                            color: Theme.of(context).accentColor),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(width: 24),
                     NeumorphicButton(
                       onClick: () async {
                         _apiDataStore.listOfCountriesData.clear();
@@ -89,36 +78,48 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
                   ],
                 ),
               ),
+              // SizedBox(
+              //   height: 24,
+              // ),
+              // Neumorphic(
+              //   boxShape: NeumorphicBoxShape.roundRect(
+              //       borderRadius: BorderRadius.circular(14)),
+              //   style: NeumorphicStyle(
+              //     shape: NeumorphicShape.flat,
+              //     depth: -2,
+              //   ),
+              //   padding:
+              //       const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
+              //   child: Container(
+              //       child: Row(
+              //     children: <Widget>[
+              //       Expanded(
+              //         child: Text(
+              //           "There ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 1 ? "is" : "are"} ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 0 ? "no" : _apiDataStore.myCountryData.deltaConfirmed} new ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 1 ? "case" : "cases"} in India ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 0 ? _emoji.normalEmoji : _emoji.sadEmoji} ! Stay Safe !!!",
+              //           style: TextStyle(
+              //               fontSize: 14.0,
+              //               height: 1.6,
+              //               color: NeumorphicTheme.currentTheme(context)
+              //                   .defaultTextColor),
+              //           textAlign: TextAlign.center,
+              //         ),
+              //       ),
+              //     ],
+              //   )),
+              // ),
+              // SizedBox(height: 12),
               SizedBox(
-                height: 24,
+                height: 36,
               ),
-              Neumorphic(
-                boxShape: NeumorphicBoxShape.roundRect(
-                    borderRadius: BorderRadius.circular(14)),
-                style: NeumorphicStyle(
-                  shape: NeumorphicShape.flat,
-                  depth: -2,
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
-                child: Container(
-                    child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        "There ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 1 ? "is" : "are"} ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 0 ? "no" : _apiDataStore.myCountryData.deltaConfirmed} new ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 1 ? "case" : "cases"} in India ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 0 ? _emoji.normalEmoji : _emoji.sadEmoji} ! Stay Safe !!!",
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            height: 1.6,
-                            color: NeumorphicTheme.currentTheme(context)
-                                .defaultTextColor),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                )),
+              Text(
+                "Affected Countries",
+                style: GoogleFonts.paytoneOne(
+                    fontSize: 24, color: Theme.of(context).accentColor),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 12),
+              !_connectionStore.isInternetConnected
+                  ? Container()
+                  : SizedBox(height: 24),
               Observer(
                   builder: (_) => !_connectionStore.isInternetConnected
                       ? ErrorContainer()

@@ -55,6 +55,7 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       NeumorphicButton(
                         onClick: () {
@@ -67,17 +68,6 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
                             color: NeumorphicTheme.currentTheme(context)
                                 .accentColor),
                       ),
-                      SizedBox(width: 24),
-                      Expanded(
-                        child: Text(
-                          "Affected Districts".toUpperCase(),
-                          style: GoogleFonts.paytoneOne(
-                              fontSize: 14,
-                              color: Theme.of(context).accentColor),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      SizedBox(width: 24),
                       NeumorphicButton(
                         onClick: () async {
                           _loading.startLoading3000();
@@ -95,37 +85,17 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 24,
+                  height: 36,
                 ),
-                Neumorphic(
-                  boxShape: NeumorphicBoxShape.roundRect(
-                      borderRadius: BorderRadius.circular(14)),
-                  style: NeumorphicStyle(
-                    shape: NeumorphicShape.flat,
-                    depth: -2,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 24),
-                  child: Container(
-                      child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          "There ${int.parse(_apiDataStore.myStateData.deltaConfirmed) <= 1 ? "is" : "are"} ${int.parse(_apiDataStore.myStateData.deltaConfirmed) <= 0 ? "no" : _apiDataStore.myStateData.deltaConfirmed} new ${int.parse(_apiDataStore.myStateData.deltaConfirmed) <= 1 ? "case" : "cases"} in your state ${int.parse(_apiDataStore.myStateData.deltaConfirmed) <= 0 ? _emoji.normalEmoji : _emoji.sadEmoji} ! Stay Safe !!!",
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              height: 1.6,
-                              color: NeumorphicTheme.currentTheme(context)
-                                  .defaultTextColor),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  )),
+                Text(
+                  "Affected Districts",
+                  style: GoogleFonts.paytoneOne(
+                      fontSize: 24, color: Theme.of(context).accentColor),
+                  textAlign: TextAlign.center,
                 ),
                 !_connectionStore.isInternetConnected
                     ? Container()
-                    : SizedBox(height: 12),
+                    : SizedBox(height: 24),
                 !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : !_loading.isLoading &&

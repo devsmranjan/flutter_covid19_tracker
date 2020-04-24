@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/util/header_2_container/header_2_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,31 +33,11 @@ class StateData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(
-          stateName,
-          style:
-              GoogleFonts.paytoneOne(fontSize: 28, color: Colors.indigo[400]),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(
-          height: 18.0,
-        ),
-        lastUpdatedTime != ""
-            ? Text(
-                "Lastly Updated at $lastUpdatedTime",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color:
-                        NeumorphicTheme.currentTheme(context).defaultTextColor),
-                textAlign: TextAlign.center,
-              )
-            : Container(),
-        lastUpdatedTime != ""
-            ? SizedBox(
-                height: 32.0,
-              )
-            : Container(),
+        Header2Container(
+            title: stateName,
+            lastUpdatedTime: lastUpdatedTime != "" ? lastUpdatedTime : "",
+            color: Colors.indigo[400],
+          ),
         Column(
           children: <Widget>[
             DataContainer(

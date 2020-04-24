@@ -44,6 +44,7 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     NeumorphicButton(
                       onClick: () {
@@ -56,17 +57,7 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
                           color: NeumorphicTheme.currentTheme(context)
                               .accentColor),
                     ),
-                    SizedBox(width: 24),
-                    Expanded(
-                      child: Text(
-                        "Affected States".toUpperCase(),
-                        style: GoogleFonts.paytoneOne(
-                            fontSize: 14,
-                            color: Theme.of(context).accentColor),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(width: 24),
+                    
                     NeumorphicButton(
                       onClick: () {
                         _loading.startLoading3000();
@@ -83,35 +74,17 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
                 ),
               ),
               SizedBox(
-                height: 24,
+                height: 36,
               ),
-              Neumorphic(
-                boxShape: NeumorphicBoxShape.roundRect(
-                    borderRadius: BorderRadius.circular(14)),
-                style: NeumorphicStyle(
-                  shape: NeumorphicShape.flat,
-                  depth: -2,
+              Text(
+                  "Affected States",
+                  style: GoogleFonts.paytoneOne(
+                      fontSize: 24, color: Theme.of(context).accentColor),
+                  textAlign: TextAlign.center,
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
-                child: Container(
-                    child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        "There ${int.parse(_apiDataStore.myStateData.deltaConfirmed) <= 1 ? "is" : "are"} ${int.parse(_apiDataStore.myStateData.deltaConfirmed) <= 0 ? "no" : _apiDataStore.myStateData.deltaConfirmed} new ${int.parse(_apiDataStore.myStateData.deltaConfirmed) <= 1 ? "case" : "cases"} in ${_apiDataStore.myStateData.state} ${int.parse(_apiDataStore.myStateData.deltaConfirmed) <= 0 ? _emoji.normalEmoji : _emoji.sadEmoji} ! Stay Safe !!!",
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            height: 1.6,
-                            color: NeumorphicTheme.currentTheme(context)
-                                .defaultTextColor),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                )),
-              ),
-              SizedBox(height: 12),
+              !_connectionStore.isInternetConnected
+                    ? Container()
+                    : SizedBox(height: 24),
               Observer(
                   builder: (_) => !_connectionStore.isInternetConnected
                       ? ErrorContainer()

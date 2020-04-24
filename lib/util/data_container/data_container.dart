@@ -23,7 +23,7 @@ class DataContainer extends StatelessWidget {
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
       child: Neumorphic(
         boxShape: NeumorphicBoxShape.roundRect(
-            borderRadius: BorderRadius.circular(14)),
+            borderRadius: BorderRadius.circular(8)),
         style: NeumorphicStyle(
           shape: NeumorphicShape.flat,
         ),

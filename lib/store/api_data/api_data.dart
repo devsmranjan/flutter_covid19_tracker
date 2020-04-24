@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:covid19_tracker/api/novel_covid/world_statistics_data_model_v2.dart';
+import 'package:covid19_tracker/api/novel_covid/world_total_statistics.dart';
+
 import '../../api/app_versions/app_versions_model.dart';
 import '../../api/donation/donation_model.dart';
 import '../../api/factoids/factoids_model.dart';
 import '../../api/help_lines/help_lines.dart';
-import '../../api/rapid_api_astsiatsko/world_statistics_data_model_v2.dart';
+// import '../../api/rapid_api_astsiatsko/world_statistics_data_model_v2.dart';
 import '../../api/twitter_handles_statewise/twitter_handles_statewise.dart';
-import '../../api/rapid_api_astsiatsko/world_total_statistics_data_model.dart';
+// import '../../api/rapid_api_astsiatsko/world_total_statistics_data_model.dart';
 import '../../api/rapid_api_astsiatsko/cases_by_country_data_model.dart';
 import '../../api/covid_19_india/all_data_model/state_districts_data_model.dart';
 import '../../api/covid_19_india/all_data_model/data_model.dart';
@@ -101,10 +104,10 @@ abstract class _ApiDataStoreBase with Store {
 
   // state data
   @observable
-  List<StateData> allStatesData = [];
+  List<StateData> allStatesData;
 
   @observable
-  List<CasesTimeSeries> allCaseTimeSeriesData = [];
+  List<CasesTimeSeries> allCaseTimeSeriesData;
 
   @observable
   Map<String, List<String>> mapOfIndivisualListOfCaseTimeSeries = {};
@@ -130,6 +133,9 @@ abstract class _ApiDataStoreBase with Store {
   @observable
   DistrictData myDistrictData;
 
+  @observable
+  bool isMyDistrictDataAvailable = true;
+
   Future<API1Data> _fetchAPI1Data() async {
     final _dataURL = "https://api.covid19india.org/data.json";
 
@@ -138,17 +144,6 @@ abstract class _ApiDataStoreBase with Store {
       return API1Data.fromJson(response.data);
     } else {
       throw Exception('Failed to load data');
-    }
-  }
-
-  // fetch api 1 state districts data
-  Future<API1StateDistrictsData> _fetchAPI1StateDistrictsData() async {
-    final _dataURL = "https://api.covid19india.org/v2/state_district_wise.json";
-    final response = await _dio.get(_dataURL);
-    if (response.statusCode == 200) {
-      return API1StateDistrictsData.fromJson(response.data);
-    } else {
-      throw Exception('Failed to load state districts data.');
     }
   }
 
@@ -199,7 +194,17 @@ abstract class _ApiDataStoreBase with Store {
       "totalRecovered": _totalRecovered,
       "totalDeceased": _totalDeceased
     };
+  }
 
+  // fetch api 1 state districts data
+  Future<API1StateDistrictsData> _fetchAPI1StateDistrictsData() async {
+    final _dataURL = "https://api.covid19india.org/v2/state_district_wise.json";
+    final response = await _dio.get(_dataURL);
+    if (response.statusCode == 200) {
+      return API1StateDistrictsData.fromJson(response.data);
+    } else {
+      throw Exception('Failed to load state districts data.');
+    }
   }
 
   @action
@@ -243,6 +248,100 @@ abstract class _ApiDataStoreBase with Store {
     _myStateDistrictsData.forEach((districtData) {
       if (districtData.district.toLowerCase() == districtName.toLowerCase()) {
         myDistrictData = districtData;
+      } else {
+        isMyDistrictDataAvailable = false;
+      }
+    });
+  }
+
+  // api1 - states daily data
+  // It dont have any model
+  List<dynamic> _statesDailyData;
+
+  @observable
+  List<String> stateDailyDataDates = [];
+
+  List<dynamic> _statesDailyDataConfirmedMapList = [];
+
+  List<dynamic> _statesDailyDataRecoveredMapList = [];
+
+  List<dynamic> _statesDailyDataDeceasedMapList = [];
+
+  @observable
+  List<String> stateDailyDataTotalConfirmed = [];
+
+  @observable
+  List<String> stateDailyDataTotalRecovered = [];
+
+  @observable
+  List<String> stateDailyDataTotalDeceased = [];
+
+  @action
+  Future fetchStatesDaily() async {
+    Response response =
+        await _dio.get("https://api.covid19india.org/states_daily.json");
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = await response.data;
+
+      _statesDailyData = data['states_daily'];
+
+      _statesDailyData.forEach((dailyData) {
+        if (!stateDailyDataDates.contains(dailyData['date'])) {
+          stateDailyDataDates.add(dailyData['date']);
+        }
+
+        if (dailyData['status'].toLowerCase() == "confirmed") {
+          _statesDailyDataConfirmedMapList.add(dailyData);
+        }
+        if (dailyData['status'].toLowerCase() == "recovered") {
+          _statesDailyDataRecoveredMapList.add(dailyData);
+        }
+        if (dailyData['status'].toLowerCase() == "deceased") {
+          _statesDailyDataDeceasedMapList.add(dailyData);
+        }
+      });
+    } else {
+      throw Exception('Failed to load fetchStatesDaily data');
+    }
+  }
+
+  @action
+  void getStateDaily({String stateCode}) {
+    stateCode = stateCode.toLowerCase();
+    _statesDailyDataConfirmedMapList.forEach((dailyData) {
+      if (dailyData[stateCode] != null) {
+        var totalTillNow = stateDailyDataTotalConfirmed.length <= 0
+            ? dailyData[stateCode]
+            : (int.parse(stateDailyDataTotalConfirmed[
+                        stateDailyDataTotalConfirmed.length - 1]) +
+                    int.parse(dailyData[stateCode]))
+                .toString();
+        stateDailyDataTotalConfirmed.add(totalTillNow);
+      }
+    });
+
+    _statesDailyDataRecoveredMapList.forEach((dailyData) {
+      if (dailyData[stateCode] != null) {
+        var totalTillNow = stateDailyDataTotalRecovered.length <= 0
+            ? dailyData[stateCode]
+            : (int.parse(stateDailyDataTotalRecovered[
+                        stateDailyDataTotalRecovered.length - 1]) +
+                    int.parse(dailyData[stateCode]))
+                .toString();
+        stateDailyDataTotalRecovered.add(totalTillNow);
+      }
+    });
+
+    _statesDailyDataDeceasedMapList.forEach((dailyData) {
+      if (dailyData[stateCode] != null) {
+        var totalTillNow = stateDailyDataTotalDeceased.length <= 0
+            ? dailyData[stateCode]
+            : (int.parse(stateDailyDataTotalDeceased[
+                        stateDailyDataTotalDeceased.length - 1]) +
+                    int.parse(dailyData[stateCode]))
+                .toString();
+        stateDailyDataTotalDeceased.add(totalTillNow);
       }
     });
   }
@@ -259,15 +358,11 @@ abstract class _ApiDataStoreBase with Store {
 
   Future<API2WorldTotalStatistics> _fetchAPI2WorldTotalStatistics() async {
     Response response = await _dio.get(
-        "https://coronavirus-monitor.p.rapidapi.com/coronavirus/worldstat.php",
-        options: Options(headers: {
-          'content-type': 'application/json',
-          "x-rapidapi-host": "coronavirus-monitor.p.rapidapi.com",
-          "x-rapidapi-key": "ec10cd426bmsh3f5a4374a5c4830p175217jsnf3faaf2e0cde"
-        }));
+      "https://corona.lmao.ninja/v2/all",
+    );
 
     if (response.statusCode == 200) {
-      return API2WorldTotalStatistics.fromJson(json.decode(response.data));
+      return API2WorldTotalStatistics.fromJson(response.data);
     } else {
       _fetchAPI2WorldTotalStatistics();
       throw Exception('Failed to load data');
@@ -281,12 +376,15 @@ abstract class _ApiDataStoreBase with Store {
       var api2WorldTotalStatistics = await _fetchAPI2WorldTotalStatistics();
 
       _worldStatisticsDataModelV2.confirmed = api2WorldTotalStatistics.confirmed
+          .toString()
           .replaceAllMapped(RegExp(r","), (match) => "");
 
       _worldStatisticsDataModelV2.recovered = api2WorldTotalStatistics.recovered
+          .toString()
           .replaceAllMapped(RegExp(r","), (match) => "");
 
       _worldStatisticsDataModelV2.deaths = api2WorldTotalStatistics.deaths
+          .toString()
           .replaceAllMapped(RegExp(r","), (match) => "");
 
       _worldStatisticsDataModelV2.active =
@@ -297,15 +395,18 @@ abstract class _ApiDataStoreBase with Store {
 
       _worldStatisticsDataModelV2.deltaConfirmed = api2WorldTotalStatistics
           .deltaConfirmed
+          .toString()
           .replaceAllMapped(RegExp(r","), (match) => "");
       _worldStatisticsDataModelV2.deltaDeathes = api2WorldTotalStatistics
           .deltaDeathes
+          .toString()
           .replaceAllMapped(RegExp(r","), (match) => "");
 
       _worldStatisticsDataModelV2.lastUpdatedTime =
-          api2WorldTotalStatistics.lastUpdatedTime;
+          api2WorldTotalStatistics.lastUpdatedTime.toString();
 
       worldStatisticsData = _worldStatisticsDataModelV2;
+      print(worldStatisticsData);
     } catch (e) {
       print("Error in fetchAPI2WorldTotalStatistics : " + e.toString());
     }
@@ -339,6 +440,50 @@ abstract class _ApiDataStoreBase with Store {
       print("Error in fetchAPI2CasesByCountriesData : " + e.toString());
     }
   }
+
+  // api 2 - get worlds historicalData
+  @observable
+  Map<String, dynamic> worldDailyData;
+
+  Map<String, dynamic> _worldDailyDataConfirmedMap;
+  Map<String, dynamic> _worldDailyDataRecoveredMap;
+  Map<String, dynamic> _worldDailyDataDeathsMap;
+
+  @observable
+  List<String> worldDailyDataDates = [];
+
+  @observable
+  List<dynamic> worldDailyDataTotalConfirmed = [];
+
+  @observable
+  List<dynamic> worldDailyDataTotalRecovered = [];
+
+  @observable
+  List<dynamic> worldDailyDataTotalDeceased = [];
+
+  @action
+  Future fetchWorldDaily() async {
+    Response response = await _dio.get(
+      "https://corona.lmao.ninja/v2/historical/all",
+    );
+
+    if (response.statusCode == 200) {
+      worldDailyData = await response.data;
+      _worldDailyDataConfirmedMap = worldDailyData['cases'];
+      _worldDailyDataRecoveredMap = worldDailyData['recovered'];
+      _worldDailyDataDeathsMap = worldDailyData['deaths'];
+
+      worldDailyDataDates.addAll(_worldDailyDataConfirmedMap.keys);
+      worldDailyDataTotalConfirmed.addAll(_worldDailyDataConfirmedMap.values);
+      worldDailyDataTotalRecovered.addAll(_worldDailyDataRecoveredMap.values);
+      worldDailyDataTotalDeceased.addAll(_worldDailyDataDeathsMap.values);
+    } else {
+      throw Exception('Failed to fetchWorldDaily data');
+    }
+  }
+
+
+
 
   // twitter handels
   @observable

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
 import '../../store/location/location.dart';
 import '../../store/navbar_index/navbar_index.dart';
 import '../../store/api_data/api_data.dart';
@@ -21,53 +22,85 @@ class _LocationContainerState extends State<LocationContainer> {
   Widget build(BuildContext context) {
     return Neumorphic(
         boxShape: NeumorphicBoxShape.roundRect(
-            borderRadius: BorderRadius.circular(14)),
+            borderRadius: BorderRadius.circular(8)),
         style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -4),
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
-        child: Container(
-          child: Observer(
-            builder: (_) => _locationStore.state != ""
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18),
+        child: Observer(
+          builder: (_) => _apiDataStore.myDistrictData != null
+              ? Container(
+                  child: Column(
                     children: <Widget>[
-                      Text(
-                        _navbarIndexStore.selectedIndex != 2
-                            ? "${_locationStore.dist}, ${_locationStore.state}"
-                                .toUpperCase()
-                            : "India".toUpperCase(),
-                        style: GoogleFonts.paytoneOne(
-                            fontSize: 18.0,
-                            color: Theme.of(context).accentColor),
-                        textAlign: TextAlign.center,
+                      Row(
+                        children: <Widget>[
+                          Neumorphic(
+                              boxShape: NeumorphicBoxShape.circle(),
+                              style: NeumorphicStyle(
+                                shape: NeumorphicShape.convex,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              child: Icon(LineAwesomeIcons.exclamation,
+                                  color: _apiDataStore
+                                              .myDistrictData.delta.confirmed >=
+                                          1
+                                      ? Colors.red[500]
+                                      : _apiDataStore
+                                                  .myDistrictData.confirmed >=
+                                              1
+                                          ? Colors.orange[400]
+                                          : Colors.green[500])),
+                          SizedBox(
+                            width: 14,
+                          ),
+                          Expanded(
+                              child: Text(
+                            "${_apiDataStore.myDistrictData.delta.confirmed >= 1 ? _apiDataStore.myDistrictData.delta.confirmed : "No"} new ${_apiDataStore.myDistrictData.delta.confirmed > 1 || _apiDataStore.myDistrictData.delta.confirmed == 0 ? "cases" : "case"} in ${_apiDataStore.myDistrictData.district}. Total ${_apiDataStore.myDistrictData.confirmed >= 1 ? _apiDataStore.myDistrictData.confirmed : "No"} ${_apiDataStore.myDistrictData.confirmed > 1 || _apiDataStore.myDistrictData.confirmed == 0 ? "cases" : "case"} ${_apiDataStore.myDistrictData.confirmed > 1 || _apiDataStore.myDistrictData.confirmed == 0 ? "have" : "has"} confirmed till now.",
+                            // textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                // height: 1.3,
+                                color: NeumorphicTheme.currentTheme(context)
+                                    .defaultTextColor
+                                    .withOpacity(0.5)),
+                          )),
+                        ],
                       ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      Text(
-                        _apiDataStore.factoroid.message,
+                      // SizedBox(
+                      //   height: 8.0,
+                      // ),
+                    ],
+                  ),
+                )
+              : !_apiDataStore.isMyDistrictDataAvailable
+                  ? Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        "Sorry! Couldn't fetch data for ${_locationStore.dist}.",
                         style: TextStyle(
                             fontSize: 14.0,
-                            height: 1.3,
+                            // height: 1.3,
                             color: NeumorphicTheme.currentTheme(context)
                                 .defaultTextColor
                                 .withOpacity(0.5)),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(
-                        height: 4.0,
+                    )
+                  : Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Center(
+                        child: Text(
+                          "Fetching data from your location...",
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              // height: 1.3,
+                              color: NeumorphicTheme.currentTheme(context)
+                                  .defaultTextColor
+                                  .withOpacity(0.5)),
+                        ),
                       ),
-                    ],
-                  )
-                : Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Text(
-                      "Fetching location...",
-                      style: TextStyle(
-                          color: NeumorphicTheme.currentTheme(context)
-                              .defaultTextColor),
-                      textAlign: TextAlign.center,
-                    )),
-          ),
+                    ),
         ));
   }
 }

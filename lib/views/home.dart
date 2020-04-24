@@ -60,8 +60,7 @@ class _HomeState extends State<Home> {
       showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) =>
-              SimpleDialog(
+          builder: (context) => SimpleDialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
                 children: <Widget>[
@@ -72,7 +71,8 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                           child: Image.asset("assets/images/no-location.png"),
                         ),
                         SizedBox(
@@ -134,15 +134,22 @@ class _HomeState extends State<Home> {
     }
 
     await _apiDataStore.fetchAPI1Data();
+    await _apiDataStore.fetchAPI1StateDistrictsData();
 
     _apiDataStore.getStateData(stateName: _locationStore.state);
 
+    await _apiDataStore.fetchStatesDaily();
+    _apiDataStore.getStateDaily(stateCode: _apiDataStore.myStateData.stateCode);
+
+    _apiDataStore.getMyDistrictData(
+        stateName: _locationStore.state, districtName: _locationStore.dist);
+    _apiDataStore.getMapOfIndivisualListOfCaseTimeSeries();
+
     _apiDataStore.fetchAPI2WorldTotalStatistics();
+    _apiDataStore.fetchWorldDaily();
 
     await _apiDataStore.fetchTwitterHandlesStatewise();
     _apiDataStore.getTwitterHandleOfMyState(_locationStore.state);
-
-    await _apiDataStore.fetchAPI1StateDistrictsData();
 
     if (!_updateLaterStore.isUpdateLater && !_apiDataStore.isVersionMatched) {
       showDialog(

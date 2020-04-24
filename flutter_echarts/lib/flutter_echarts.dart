@@ -115,7 +115,7 @@ class _EchartsState extends State<Echarts> {
             init();
             // --- FIX_BLINK ---
 
-            Future.delayed(const Duration(milliseconds: 600), () {
+            Future.delayed(const Duration(milliseconds: 800), () {
               if (Platform.isAndroid) {
                 setState(() {
                   _opacity = 1.0;

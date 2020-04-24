@@ -24,17 +24,18 @@ class Header2Container extends StatelessWidget {
                 textAlign: TextAlign.center)
             : Container(),
         SizedBox(
-          height: 18.0,
+          height: 12.0,
         ),
         lastUpdatedTime != ""
             ? Text(
                 "Lastly Updated at $lastUpdatedTime",
                 style: TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                    // fontWeight: FontWeight.w600,
                     // color: Colors.black54
+                    letterSpacing: 0.4, 
                     color:
-                        NeumorphicTheme.currentTheme(context).defaultTextColor),
+                        NeumorphicTheme.currentTheme(context).defaultTextColor.withOpacity(0.5)),
                 textAlign: TextAlign.center,
               )
             : Container(),

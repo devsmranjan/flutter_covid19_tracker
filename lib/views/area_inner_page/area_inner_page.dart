@@ -1,10 +1,13 @@
+import 'package:covid19_tracker/store/loading/loading.dart';
+import 'package:covid19_tracker/store/scroll/scroll.dart';
+import 'package:covid19_tracker/util/analysis_container/analysis_container.dart';
+import 'package:covid19_tracker/util/chart_container/chart_container.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../../store/api_data/api_data.dart';
 import 'affected_districts.dart';
 import 'state_data.dart';
-
 
 class AreaInnerPage extends StatefulWidget {
   final lastUpdatedTime;
@@ -35,13 +38,26 @@ class AreaInnerPage extends StatefulWidget {
 }
 
 class _AreaInnerPageState extends State<AreaInnerPage> {
+  ScrollController _scrollController;
   final ApiDataStore _apiDataStore = ApiDataStore();
+  final ScrollStore _scrollStore = ScrollStore();
+  final Loading _loading = Loading();
+
+  _scrollListener() {
+    _scrollStore.updateScrollReached(_scrollController, _scrollController.position.maxScrollExtent - 400);
+
+    if (_scrollStore.scrollReachedTimes == 1) {
+      _loading.startLoading1000();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _apiDataStore
-        .getListOfOtherStateDistrictsData(stateName: widget.stateName);
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+    _apiDataStore.getStateDaily(stateCode: "or");
+    _apiDataStore.getListOfOtherStateDistrictsData(stateName: widget.stateName);
   }
 
   @override
@@ -50,6 +66,7 @@ class _AreaInnerPageState extends State<AreaInnerPage> {
       backgroundColor: NeumorphicTheme.baseColor(context),
       body: LayoutBuilder(
         builder: (context, constraint) => SingleChildScrollView(
+          controller: _scrollController,
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraint.maxHeight),
             child: IntrinsicHeight(
@@ -101,6 +118,27 @@ class _AreaInnerPageState extends State<AreaInnerPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
+                          // SizedBox(
+                          //   height: 24.0,
+                          // ),
+                          // Text(
+                          //   "Recover Rate - 47.9 %",
+                          //   style: TextStyle(
+                          //       fontSize: 18,
+                          //       color:
+                          //           NeumorphicTheme.defaultTextColor(context)),
+                          // ),
+                          // SizedBox(
+                          //   height: 8.0,
+                          // ),
+                          // Text(
+                          //   "Decsased Rate - 21 %",
+                          //   style: TextStyle(
+                          //       // fontSize: 21,
+                          //       //  fontWeight: FontWeight.bold
+                          //       color:
+                          //           NeumorphicTheme.defaultTextColor(context)),
+                          // ),
                           SizedBox(
                             height: 36.0,
                           ),
@@ -114,6 +152,33 @@ class _AreaInnerPageState extends State<AreaInnerPage> {
                             deltaConfirmed: widget.deltaConfirmed,
                             deltaDeaths: widget.deltaDeaths,
                             deltaRecovered: widget.deltaRecovered,
+                          ),
+                          AnalysisContainer(
+                            scrollStore: _scrollStore,
+                            loading: _loading,
+                            recoveredRate: _apiDataStore.myStateData != null
+                                ? ((double.tryParse(_apiDataStore
+                                                .myStateData.recovered) /
+                                            double.tryParse(_apiDataStore
+                                                .myStateData.confirmed)) *
+                                        100)
+                                    .toStringAsFixed(2)
+                                : "",
+                            deceasedRate: _apiDataStore.myStateData != null
+                                ? ((double.tryParse(_apiDataStore
+                                                .myStateData.deaths) /
+                                            double.tryParse(_apiDataStore
+                                                .myStateData.confirmed)) *
+                                        100)
+                                    .toStringAsFixed(2)
+                                : "",
+                            datesList: _apiDataStore.stateDailyDataDates,
+                            confirmedList:
+                                _apiDataStore.stateDailyDataTotalConfirmed,
+                            recoveredList:
+                                _apiDataStore.stateDailyDataTotalRecovered,
+                            deceasedList:
+                                _apiDataStore.stateDailyDataTotalDeceased,
                           ),
                           SizedBox(
                             height: 48.0,
