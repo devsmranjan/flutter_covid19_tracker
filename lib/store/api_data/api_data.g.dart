@@ -464,27 +464,6 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
         name: '${_$listOfCountriesDataAtom.name}_set');
   }
 
-  final _$lastUpadetedTimeCasesByCountriesDataAtom =
-      Atom(name: '_ApiDataStoreBase.lastUpadetedTimeCasesByCountriesData');
-
-  @override
-  String get lastUpadetedTimeCasesByCountriesData {
-    _$lastUpadetedTimeCasesByCountriesDataAtom.context
-        .enforceReadPolicy(_$lastUpadetedTimeCasesByCountriesDataAtom);
-    _$lastUpadetedTimeCasesByCountriesDataAtom.reportObserved();
-    return super.lastUpadetedTimeCasesByCountriesData;
-  }
-
-  @override
-  set lastUpadetedTimeCasesByCountriesData(String value) {
-    _$lastUpadetedTimeCasesByCountriesDataAtom.context.conditionallyRunInAction(
-        () {
-      super.lastUpadetedTimeCasesByCountriesData = value;
-      _$lastUpadetedTimeCasesByCountriesDataAtom.reportChanged();
-    }, _$lastUpadetedTimeCasesByCountriesDataAtom,
-        name: '${_$lastUpadetedTimeCasesByCountriesDataAtom.name}_set');
-  }
-
   final _$worldDailyDataAtom = Atom(name: '_ApiDataStoreBase.worldDailyData');
 
   @override
@@ -580,6 +559,104 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
       _$worldDailyDataTotalDeceasedAtom.reportChanged();
     }, _$worldDailyDataTotalDeceasedAtom,
         name: '${_$worldDailyDataTotalDeceasedAtom.name}_set');
+  }
+
+  final _$countryDailyDataAtom =
+      Atom(name: '_ApiDataStoreBase.countryDailyData');
+
+  @override
+  Map<String, dynamic> get countryDailyData {
+    _$countryDailyDataAtom.context.enforceReadPolicy(_$countryDailyDataAtom);
+    _$countryDailyDataAtom.reportObserved();
+    return super.countryDailyData;
+  }
+
+  @override
+  set countryDailyData(Map<String, dynamic> value) {
+    _$countryDailyDataAtom.context.conditionallyRunInAction(() {
+      super.countryDailyData = value;
+      _$countryDailyDataAtom.reportChanged();
+    }, _$countryDailyDataAtom, name: '${_$countryDailyDataAtom.name}_set');
+  }
+
+  final _$countryDailyDataDatesAtom =
+      Atom(name: '_ApiDataStoreBase.countryDailyDataDates');
+
+  @override
+  List<String> get countryDailyDataDates {
+    _$countryDailyDataDatesAtom.context
+        .enforceReadPolicy(_$countryDailyDataDatesAtom);
+    _$countryDailyDataDatesAtom.reportObserved();
+    return super.countryDailyDataDates;
+  }
+
+  @override
+  set countryDailyDataDates(List<String> value) {
+    _$countryDailyDataDatesAtom.context.conditionallyRunInAction(() {
+      super.countryDailyDataDates = value;
+      _$countryDailyDataDatesAtom.reportChanged();
+    }, _$countryDailyDataDatesAtom,
+        name: '${_$countryDailyDataDatesAtom.name}_set');
+  }
+
+  final _$countryDailyDataTotalConfirmedAtom =
+      Atom(name: '_ApiDataStoreBase.countryDailyDataTotalConfirmed');
+
+  @override
+  List<dynamic> get countryDailyDataTotalConfirmed {
+    _$countryDailyDataTotalConfirmedAtom.context
+        .enforceReadPolicy(_$countryDailyDataTotalConfirmedAtom);
+    _$countryDailyDataTotalConfirmedAtom.reportObserved();
+    return super.countryDailyDataTotalConfirmed;
+  }
+
+  @override
+  set countryDailyDataTotalConfirmed(List<dynamic> value) {
+    _$countryDailyDataTotalConfirmedAtom.context.conditionallyRunInAction(() {
+      super.countryDailyDataTotalConfirmed = value;
+      _$countryDailyDataTotalConfirmedAtom.reportChanged();
+    }, _$countryDailyDataTotalConfirmedAtom,
+        name: '${_$countryDailyDataTotalConfirmedAtom.name}_set');
+  }
+
+  final _$countryDailyDataTotalRecoveredAtom =
+      Atom(name: '_ApiDataStoreBase.countryDailyDataTotalRecovered');
+
+  @override
+  List<dynamic> get countryDailyDataTotalRecovered {
+    _$countryDailyDataTotalRecoveredAtom.context
+        .enforceReadPolicy(_$countryDailyDataTotalRecoveredAtom);
+    _$countryDailyDataTotalRecoveredAtom.reportObserved();
+    return super.countryDailyDataTotalRecovered;
+  }
+
+  @override
+  set countryDailyDataTotalRecovered(List<dynamic> value) {
+    _$countryDailyDataTotalRecoveredAtom.context.conditionallyRunInAction(() {
+      super.countryDailyDataTotalRecovered = value;
+      _$countryDailyDataTotalRecoveredAtom.reportChanged();
+    }, _$countryDailyDataTotalRecoveredAtom,
+        name: '${_$countryDailyDataTotalRecoveredAtom.name}_set');
+  }
+
+  final _$countryDailyDataTotalDeceasedAtom =
+      Atom(name: '_ApiDataStoreBase.countryDailyDataTotalDeceased');
+
+  @override
+  List<dynamic> get countryDailyDataTotalDeceased {
+    _$countryDailyDataTotalDeceasedAtom.context
+        .enforceReadPolicy(_$countryDailyDataTotalDeceasedAtom);
+    _$countryDailyDataTotalDeceasedAtom.reportObserved();
+    return super.countryDailyDataTotalDeceased;
+  }
+
+  @override
+  set countryDailyDataTotalDeceased(List<dynamic> value) {
+    _$countryDailyDataTotalDeceasedAtom.context.conditionallyRunInAction(() {
+      super.countryDailyDataTotalDeceased = value;
+      _$countryDailyDataTotalDeceasedAtom.reportChanged();
+    }, _$countryDailyDataTotalDeceasedAtom,
+        name: '${_$countryDailyDataTotalDeceasedAtom.name}_set');
   }
 
   final _$twitterHandleOfStatesListAtom =
@@ -745,6 +822,14 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
     return _$fetchWorldDailyAsyncAction.run(() => super.fetchWorldDaily());
   }
 
+  final _$fetchCountryDailyAsyncAction = AsyncAction('fetchCountryDaily');
+
+  @override
+  Future<dynamic> fetchCountryDaily({String countryName}) {
+    return _$fetchCountryDailyAsyncAction
+        .run(() => super.fetchCountryDaily(countryName: countryName));
+  }
+
   final _$fetchTwitterHandlesStatewiseAsyncAction =
       AsyncAction('fetchTwitterHandlesStatewise');
 
@@ -888,7 +973,7 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
   @override
   String toString() {
     final string =
-        'appVersionsData: ${appVersionsData.toString()},isVersionMatched: ${isVersionMatched.toString()},factoidsList: ${factoidsList.toString()},factoroid: ${factoroid.toString()},allStatesData: ${allStatesData.toString()},allCaseTimeSeriesData: ${allCaseTimeSeriesData.toString()},mapOfIndivisualListOfCaseTimeSeries: ${mapOfIndivisualListOfCaseTimeSeries.toString()},myCountryData: ${myCountryData.toString()},myStateData: ${myStateData.toString()},otherStateData: ${otherStateData.toString()},allStatesDistrictsData: ${allStatesDistrictsData.toString()},listOfMyStateDistrictsData: ${listOfMyStateDistrictsData.toString()},listOfOtherStateDistrictsData: ${listOfOtherStateDistrictsData.toString()},myDistrictData: ${myDistrictData.toString()},isMyDistrictDataAvailable: ${isMyDistrictDataAvailable.toString()},stateDailyDataDates: ${stateDailyDataDates.toString()},myStateDailyDataTotalConfirmed: ${myStateDailyDataTotalConfirmed.toString()},myStateDailyDataTotalRecovered: ${myStateDailyDataTotalRecovered.toString()},myStateDailyDataTotalDeceased: ${myStateDailyDataTotalDeceased.toString()},stateDailyDataTotalConfirmed: ${stateDailyDataTotalConfirmed.toString()},stateDailyDataTotalRecovered: ${stateDailyDataTotalRecovered.toString()},stateDailyDataTotalDeceased: ${stateDailyDataTotalDeceased.toString()},worldStatisticsData: ${worldStatisticsData.toString()},listOfCountriesData: ${listOfCountriesData.toString()},lastUpadetedTimeCasesByCountriesData: ${lastUpadetedTimeCasesByCountriesData.toString()},worldDailyData: ${worldDailyData.toString()},worldDailyDataDates: ${worldDailyDataDates.toString()},worldDailyDataTotalConfirmed: ${worldDailyDataTotalConfirmed.toString()},worldDailyDataTotalRecovered: ${worldDailyDataTotalRecovered.toString()},worldDailyDataTotalDeceased: ${worldDailyDataTotalDeceased.toString()},twitterHandleOfStatesList: ${twitterHandleOfStatesList.toString()},twitterHandleOfMyState: ${twitterHandleOfMyState.toString()},helplinesOfStatesList: ${helplinesOfStatesList.toString()},organisationProfileList: ${organisationProfileList.toString()},myStateOrganisationsList: ${myStateOrganisationsList.toString()}';
+        'appVersionsData: ${appVersionsData.toString()},isVersionMatched: ${isVersionMatched.toString()},factoidsList: ${factoidsList.toString()},factoroid: ${factoroid.toString()},allStatesData: ${allStatesData.toString()},allCaseTimeSeriesData: ${allCaseTimeSeriesData.toString()},mapOfIndivisualListOfCaseTimeSeries: ${mapOfIndivisualListOfCaseTimeSeries.toString()},myCountryData: ${myCountryData.toString()},myStateData: ${myStateData.toString()},otherStateData: ${otherStateData.toString()},allStatesDistrictsData: ${allStatesDistrictsData.toString()},listOfMyStateDistrictsData: ${listOfMyStateDistrictsData.toString()},listOfOtherStateDistrictsData: ${listOfOtherStateDistrictsData.toString()},myDistrictData: ${myDistrictData.toString()},isMyDistrictDataAvailable: ${isMyDistrictDataAvailable.toString()},stateDailyDataDates: ${stateDailyDataDates.toString()},myStateDailyDataTotalConfirmed: ${myStateDailyDataTotalConfirmed.toString()},myStateDailyDataTotalRecovered: ${myStateDailyDataTotalRecovered.toString()},myStateDailyDataTotalDeceased: ${myStateDailyDataTotalDeceased.toString()},stateDailyDataTotalConfirmed: ${stateDailyDataTotalConfirmed.toString()},stateDailyDataTotalRecovered: ${stateDailyDataTotalRecovered.toString()},stateDailyDataTotalDeceased: ${stateDailyDataTotalDeceased.toString()},worldStatisticsData: ${worldStatisticsData.toString()},listOfCountriesData: ${listOfCountriesData.toString()},worldDailyData: ${worldDailyData.toString()},worldDailyDataDates: ${worldDailyDataDates.toString()},worldDailyDataTotalConfirmed: ${worldDailyDataTotalConfirmed.toString()},worldDailyDataTotalRecovered: ${worldDailyDataTotalRecovered.toString()},worldDailyDataTotalDeceased: ${worldDailyDataTotalDeceased.toString()},countryDailyData: ${countryDailyData.toString()},countryDailyDataDates: ${countryDailyDataDates.toString()},countryDailyDataTotalConfirmed: ${countryDailyDataTotalConfirmed.toString()},countryDailyDataTotalRecovered: ${countryDailyDataTotalRecovered.toString()},countryDailyDataTotalDeceased: ${countryDailyDataTotalDeceased.toString()},twitterHandleOfStatesList: ${twitterHandleOfStatesList.toString()},twitterHandleOfMyState: ${twitterHandleOfMyState.toString()},helplinesOfStatesList: ${helplinesOfStatesList.toString()},organisationProfileList: ${organisationProfileList.toString()},myStateOrganisationsList: ${myStateOrganisationsList.toString()}';
     return '{$string}';
   }
 }

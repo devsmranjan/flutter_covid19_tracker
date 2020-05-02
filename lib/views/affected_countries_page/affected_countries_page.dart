@@ -19,7 +19,6 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
   final ConnectionStore _connectionStore = ConnectionStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
   final Loading _loading = Loading();
-  final Emoji _emoji = Emoji();
 
   Future _getData() async {
     await _apiDataStore.fetchAPI2CasesByCountriesData();
@@ -28,7 +27,6 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
   @override
   void initState() {
     super.initState();
-    _emoji.getRandomEmoji();
     _loading.startLoading5000();
     _getData();
   }
@@ -78,36 +76,6 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
                   ],
                 ),
               ),
-              // SizedBox(
-              //   height: 24,
-              // ),
-              // Neumorphic(
-              //   boxShape: NeumorphicBoxShape.roundRect(
-              //       borderRadius: BorderRadius.circular(14)),
-              //   style: NeumorphicStyle(
-              //     shape: NeumorphicShape.flat,
-              //     depth: -2,
-              //   ),
-              //   padding:
-              //       const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
-              //   child: Container(
-              //       child: Row(
-              //     children: <Widget>[
-              //       Expanded(
-              //         child: Text(
-              //           "There ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 1 ? "is" : "are"} ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 0 ? "no" : _apiDataStore.myCountryData.deltaConfirmed} new ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 1 ? "case" : "cases"} in India ${int.parse(_apiDataStore.myCountryData.deltaConfirmed) <= 0 ? _emoji.normalEmoji : _emoji.sadEmoji} ! Stay Safe !!!",
-              //           style: TextStyle(
-              //               fontSize: 14.0,
-              //               height: 1.6,
-              //               color: NeumorphicTheme.currentTheme(context)
-              //                   .defaultTextColor),
-              //           textAlign: TextAlign.center,
-              //         ),
-              //       ),
-              //     ],
-              //   )),
-              // ),
-              // SizedBox(height: 12),
               SizedBox(
                 height: 36,
               ),
@@ -117,9 +85,11 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
                     fontSize: 24, color: Theme.of(context).accentColor),
                 textAlign: TextAlign.center,
               ),
-              !_connectionStore.isInternetConnected
-                  ? Container()
-                  : SizedBox(height: 24),
+              Observer(
+                builder: (_) => !_connectionStore.isInternetConnected
+                    ? Container()
+                    : SizedBox(height: 24),
+              ),
               Observer(
                   builder: (_) => !_connectionStore.isInternetConnected
                       ? ErrorContainer()
@@ -132,29 +102,10 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
                               itemCount:
                                   _apiDataStore.listOfCountriesData.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return _apiDataStore.listOfCountriesData[index]
-                                            .countryName !=
+                                return _apiDataStore.listOfCountriesData[index].countryName !=
                                         "India"
                                     ? CountryListTile(
-                                        countryName: _apiDataStore
-                                            .listOfCountriesData[index]
-                                            .countryName,
-                                        confirmed: _apiDataStore
-                                            .listOfCountriesData[index]
-                                            .confirmed,
-                                        active: _apiDataStore
-                                            .listOfCountriesData[index].active,
-                                        recovered: _apiDataStore
-                                            .listOfCountriesData[index]
-                                            .recovered,
-                                        deaths: _apiDataStore
-                                            .listOfCountriesData[index].deaths,
-                                        deltaConfirmed: _apiDataStore
-                                            .listOfCountriesData[index]
-                                            .deltaConfirmed,
-                                        deltaDeaths: _apiDataStore
-                                            .listOfCountriesData[index]
-                                            .deltaDeaths,
+                                        countryData: _apiDataStore.listOfCountriesData[index]
                                       )
                                     : Container();
                               },

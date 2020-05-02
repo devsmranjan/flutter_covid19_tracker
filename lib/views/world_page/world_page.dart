@@ -45,69 +45,75 @@ class _WorldPageState extends State<WorldPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      controller: _scrollController,
+        controller: _scrollController,
         child: Observer(
-      builder: (_) => _apiDataStore.worldStatisticsData == null &&
-              !_connectionStore.isInternetConnected
-          ? ErrorContainer()
-          : Container(
-              margin:
-                  const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 24.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Header1Container(),
-                    LocationContainer(),
-                    SizedBox(
-                      height: 36.0,
-                    ),
-                    WorldData(),
-                    SizedBox(
-                      height: 36.0,
-                    ),
-                    AllAffectedContainer(
-                        title: "All affected Countries",
-                        color: Colors.green,
-                        isEnabled:
-                            _apiDataStore.myCountryData != null ? true : false,
-                        action: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    AffectedCountriesPage()))),
-                    AnalysisContainer(
-                      scrollStore: _scrollStore,
-                      loading: _loading,
-                      recoveredRate: _apiDataStore.worldStatisticsData != null
-                          ? ((double.tryParse(_apiDataStore
-                                          .worldStatisticsData.recovered) /
-                                      double.tryParse(_apiDataStore
-                                          .worldStatisticsData.confirmed)) *
-                                  100)
-                              .toStringAsFixed(2)
-                          : "",
-                      deceasedRate: _apiDataStore.worldStatisticsData != null
-                          ? ((double.tryParse(_apiDataStore
-                                          .worldStatisticsData.deaths) /
-                                      double.tryParse(_apiDataStore
-                                          .worldStatisticsData.confirmed)) *
-                                  100)
-                              .toStringAsFixed(2)
-                          : "",
-                      datesList: _apiDataStore.worldDailyData != null
-                          ? _apiDataStore.worldDailyDataDates
-                          : [],
-                      confirmedList: _apiDataStore.worldDailyData != null
-                          ? _apiDataStore.worldDailyDataTotalConfirmed
-                          : [],
-                      recoveredList: _apiDataStore.worldDailyData != null
-                          ? _apiDataStore.worldDailyDataTotalRecovered
-                          : [],
-                      deceasedList: _apiDataStore.worldDailyData != null
-                          ? _apiDataStore.worldDailyDataTotalDeceased
-                          : [],
-                    )
-                  ])),
-    ));
+          builder: (_) => _apiDataStore.worldStatisticsData == null &&
+                  !_connectionStore.isInternetConnected
+              ? ErrorContainer()
+              : Container(
+                  margin: const EdgeInsets.only(
+                      left: 18.0, right: 18.0, bottom: 24.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Header1Container(),
+                        LocationContainer(),
+                        SizedBox(
+                          height: 36.0,
+                        ),
+                        WorldData(),
+                        SizedBox(
+                          height: 36.0,
+                        ),
+                        AllAffectedContainer(
+                            title: "All affected Countries",
+                            color: Colors.green,
+                            isEnabled: _apiDataStore.myCountryData != null
+                                ? true
+                                : false,
+                            action: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AffectedCountriesPage()))),
+                        AnalysisContainer(
+                          scrollStore: _scrollStore,
+                          loading: _loading,
+                          recoveredRate:
+                              _apiDataStore.worldStatisticsData != null
+                                  ? ((double.tryParse(_apiDataStore
+                                                  .worldStatisticsData
+                                                  .recovered) /
+                                              double.tryParse(_apiDataStore
+                                                  .worldStatisticsData
+                                                  .confirmed)) *
+                                          100)
+                                      .toStringAsFixed(2)
+                                  : "",
+                          deceasedRate:
+                              _apiDataStore.worldStatisticsData != null
+                                  ? ((double.tryParse(_apiDataStore
+                                                  .worldStatisticsData.deaths) /
+                                              double.tryParse(_apiDataStore
+                                                  .worldStatisticsData
+                                                  .confirmed)) *
+                                          100)
+                                      .toStringAsFixed(2)
+                                  : "",
+                          datesList: _apiDataStore.worldDailyData != null
+                              ? _apiDataStore.worldDailyDataDates
+                              : [],
+                          confirmedList: _apiDataStore.worldDailyData != null
+                              ? _apiDataStore.worldDailyDataTotalConfirmed
+                              : [],
+                          recoveredList: _apiDataStore.worldDailyData != null
+                              ? _apiDataStore.worldDailyDataTotalRecovered
+                              : [],
+                          deceasedList: _apiDataStore.worldDailyData != null
+                              ? _apiDataStore.worldDailyDataTotalDeceased
+                              : [],
+                        )
+                      ])),
+        ));
   }
 }

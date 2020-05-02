@@ -49,9 +49,6 @@ class _Covid19TrackerState extends State<Covid19Tracker> {
               textTheme: GoogleFonts.firaSansTextTheme(
                 Theme.of(context).textTheme,
               ),
-              // textTheme: GoogleFonts.montserratAlternatesTextTheme(
-              //   Theme.of(context).textTheme,
-              // ),
             ),
             debugShowCheckedModeBanner: false,
             home: Home(),

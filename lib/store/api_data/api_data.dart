@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:covid19_tracker/api/novel_covid/cases_by_country_data_model.dart';
 import 'package:covid19_tracker/api/novel_covid/world_statistics_data_model_v2.dart';
 import 'package:covid19_tracker/api/novel_covid/world_total_statistics.dart';
 
@@ -10,7 +11,7 @@ import '../../api/help_lines/help_lines.dart';
 // import '../../api/rapid_api_astsiatsko/world_statistics_data_model_v2.dart';
 import '../../api/twitter_handles_statewise/twitter_handles_statewise.dart';
 // import '../../api/rapid_api_astsiatsko/world_total_statistics_data_model.dart';
-import '../../api/rapid_api_astsiatsko/cases_by_country_data_model.dart';
+// import '../../api/rapid_api_astsiatsko/cases_by_country_data_model.dart';
 import '../../api/covid_19_india/all_data_model/state_districts_data_model.dart';
 import '../../api/covid_19_india/all_data_model/data_model.dart';
 import 'package:mobx/mobx.dart';
@@ -181,24 +182,20 @@ abstract class _ApiDataStoreBase with Store {
 
   @action
   void getMapOfIndivisualListOfCaseTimeSeries() {
-    List<String> _dates = [];
-    List<String> _totalConfirmed = [];
-    List<String> _totalRecovered = [];
-    List<String> _totalDeceased = [];
+    mapOfIndivisualListOfCaseTimeSeries['dates'].clear();
+    mapOfIndivisualListOfCaseTimeSeries['totalConfirmed'].clear();
+    mapOfIndivisualListOfCaseTimeSeries['totalRecovered'].clear();
+    mapOfIndivisualListOfCaseTimeSeries['totalDeceased'].clear();
 
     allCaseTimeSeriesData.forEach((ctsd) {
-      _dates.add(ctsd.date);
-      _totalConfirmed.add(ctsd.totalConfirmed);
-      _totalRecovered.add(ctsd.totalRecovered);
-      _totalDeceased.add(ctsd.totalDeceased);
+      mapOfIndivisualListOfCaseTimeSeries['dates'].add(ctsd.date);
+      mapOfIndivisualListOfCaseTimeSeries['totalConfirmed']
+          .add(ctsd.totalConfirmed);
+      mapOfIndivisualListOfCaseTimeSeries['totalRecovered']
+          .add(ctsd.totalRecovered);
+      mapOfIndivisualListOfCaseTimeSeries['totalDeceased']
+          .add(ctsd.totalDeceased);
     });
-
-    mapOfIndivisualListOfCaseTimeSeries = {
-      "dates": _dates,
-      "totalConfirmed": _totalConfirmed,
-      "totalRecovered": _totalRecovered,
-      "totalDeceased": _totalDeceased
-    };
   }
 
   // fetch api 1 state districts data
@@ -297,8 +294,12 @@ abstract class _ApiDataStoreBase with Store {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = await response.data;
-
+      _statesDailyData = [];
       _statesDailyData = data['states_daily'];
+
+      _statesDailyDataConfirmedMapList.clear();
+      _statesDailyDataRecoveredMapList.clear();
+      _statesDailyDataDeceasedMapList.clear();
 
       _statesDailyData.forEach((dailyData) {
         if (!stateDailyDataDates.contains(dailyData['date'])) {
@@ -365,7 +366,6 @@ abstract class _ApiDataStoreBase with Store {
     });
   }
 
-
   @action
   void getOtherStateDaily({String stateCode}) {
     stateDailyDataTotalConfirmed.clear();
@@ -413,12 +413,6 @@ abstract class _ApiDataStoreBase with Store {
   // api 2 - world data
   @observable
   WorldStatisticsDataModelV2 worldStatisticsData;
-
-  @observable
-  List<CountryData> listOfCountriesData = [];
-
-  @observable
-  String lastUpadetedTimeCasesByCountriesData;
 
   Future<API2WorldTotalStatistics> _fetchAPI2WorldTotalStatistics() async {
     Response response = await _dio.get(
@@ -476,19 +470,18 @@ abstract class _ApiDataStoreBase with Store {
     }
   }
 
+  @observable
+  List<CountryData> listOfCountriesData = [];
+
   Future<API2CasesByCountriesData> _fetchAPI2CasesByCountriesData() async {
     Response response = await _dio.get(
-        "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php",
-        options: Options(headers: {
-          'content-type': 'application/json',
-          "x-rapidapi-host": "coronavirus-monitor.p.rapidapi.com",
-          "x-rapidapi-key": "ec10cd426bmsh3f5a4374a5c4830p175217jsnf3faaf2e0cde"
-        }));
+      "https://corona.lmao.ninja/v2/countries",
+    );
 
     if (response.statusCode == 200) {
-      return API2CasesByCountriesData.fromJson(json.decode(response.data));
+      return API2CasesByCountriesData.fromJson(response.data);
     } else {
-      throw Exception('Failed to load data');
+      throw Exception('Failed to load _fetchAPI2CasesByCountriesData data');
     }
   }
 
@@ -497,9 +490,6 @@ abstract class _ApiDataStoreBase with Store {
     try {
       var api2CasesByCountriesData = await _fetchAPI2CasesByCountriesData();
       listOfCountriesData = api2CasesByCountriesData.countryData;
-
-      lastUpadetedTimeCasesByCountriesData =
-          api2CasesByCountriesData.lastUpdatedTime;
     } catch (e) {
       print("Error in fetchAPI2CasesByCountriesData : " + e.toString());
     }
@@ -548,6 +538,54 @@ abstract class _ApiDataStoreBase with Store {
       worldDailyDataTotalDeceased.addAll(_worldDailyDataDeathsMap.values);
     } else {
       throw Exception('Failed to fetchWorldDaily data');
+    }
+  }
+
+  // api 2 - get country historicalData
+  @observable
+  Map<String, dynamic> countryDailyData;
+
+  Map<String, dynamic> _countryDailyDataConfirmedMap;
+  Map<String, dynamic> _countryDailyDataRecoveredMap;
+  Map<String, dynamic> _countryDailyDataDeathsMap;
+
+  @observable
+  List<String> countryDailyDataDates = [];
+
+  @observable
+  List<dynamic> countryDailyDataTotalConfirmed = [];
+
+  @observable
+  List<dynamic> countryDailyDataTotalRecovered = [];
+
+  @observable
+  List<dynamic> countryDailyDataTotalDeceased = [];
+
+  @action
+  Future fetchCountryDaily({String countryName}) async {
+    countryDailyDataDates.clear();
+    countryDailyDataTotalConfirmed.clear();
+    countryDailyDataTotalRecovered.clear();
+    countryDailyDataTotalDeceased.clear();
+
+    Response response = await _dio.get(
+      "https://corona.lmao.ninja/v2/historical/${countryName}",
+    );
+
+    if (response.statusCode == 200) {
+      countryDailyData = await response.data['timeline'];
+      _countryDailyDataConfirmedMap = countryDailyData['cases'];
+      _countryDailyDataRecoveredMap = countryDailyData['recovered'];
+      _countryDailyDataDeathsMap = countryDailyData['deaths'];
+
+      countryDailyDataDates.addAll(_countryDailyDataConfirmedMap.keys);
+      countryDailyDataTotalConfirmed
+          .addAll(_countryDailyDataConfirmedMap.values);
+      countryDailyDataTotalRecovered
+          .addAll(_countryDailyDataRecoveredMap.values);
+      countryDailyDataTotalDeceased.addAll(_countryDailyDataDeathsMap.values);
+    } else {
+      throw Exception('Failed to fetchCountryDaily data');
     }
   }
 

@@ -78,9 +78,11 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
                     fontSize: 24, color: Theme.of(context).accentColor),
                 textAlign: TextAlign.center,
               ),
-              !_connectionStore.isInternetConnected
-                  ? Container()
-                  : SizedBox(height: 24),
+              Observer(
+                builder: (_) => !_connectionStore.isInternetConnected
+                    ? Container()
+                    : SizedBox(height: 24),
+              ),
               Observer(
                   builder: (_) => !_connectionStore.isInternetConnected
                       ? ErrorContainer()
