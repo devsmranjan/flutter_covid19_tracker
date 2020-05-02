@@ -96,9 +96,9 @@ class _AreaPageState extends State<AreaPage> {
                               .toStringAsFixed(2)
                           : "",
                       datesList: _apiDataStore.stateDailyDataDates,
-                      confirmedList: _apiDataStore.stateDailyDataTotalConfirmed,
-                      recoveredList:  _apiDataStore.stateDailyDataTotalRecovered,
-                      deceasedList: _apiDataStore.stateDailyDataTotalDeceased,
+                      confirmedList: _apiDataStore.myStateDailyDataTotalConfirmed,
+                      recoveredList:  _apiDataStore.myStateDailyDataTotalRecovered,
+                      deceasedList: _apiDataStore.myStateDailyDataTotalDeceased,
                     )
                  
                  

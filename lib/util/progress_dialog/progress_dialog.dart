@@ -24,11 +24,6 @@ class _ProgressDialogState extends State<ProgressDialog> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(12),
-      // ),
-      // elevation: 0.0,
-      // backgroundColor: Colors.transparent,
       child: Observer(
         builder: (_) => Container(
           padding: EdgeInsets.all(24),
@@ -55,15 +50,15 @@ class _ProgressDialogState extends State<ProgressDialog> {
                                 ? "Please Wait"
                                 : "Downloading v${_apiDataStore.appVersionsData.latestAppVersion}",
                     style: TextStyle(
-                        // fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                        color: NeumorphicTheme.defaultTextColor(context)),
                   ),
                   SizedBox(width: 12),
                   Text(
                     "${widget.downloadStore.downloadPercentage.toStringAsFixed(0)}%",
                     style: TextStyle(
-                        // fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                        color: NeumorphicTheme.defaultTextColor(context)),
                   ),
                 ],
               )),

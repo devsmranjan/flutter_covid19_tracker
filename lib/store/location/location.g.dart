@@ -78,6 +78,26 @@ mixin _$LocationStore on _LocationStoreBase, Store {
     }, _$isLocationEnabledAtom, name: '${_$isLocationEnabledAtom.name}_set');
   }
 
+  final _$isLocationPermissionGrantedAtom =
+      Atom(name: '_LocationStoreBase.isLocationPermissionGranted');
+
+  @override
+  bool get isLocationPermissionGranted {
+    _$isLocationPermissionGrantedAtom.context
+        .enforceReadPolicy(_$isLocationPermissionGrantedAtom);
+    _$isLocationPermissionGrantedAtom.reportObserved();
+    return super.isLocationPermissionGranted;
+  }
+
+  @override
+  set isLocationPermissionGranted(bool value) {
+    _$isLocationPermissionGrantedAtom.context.conditionallyRunInAction(() {
+      super.isLocationPermissionGranted = value;
+      _$isLocationPermissionGrantedAtom.reportChanged();
+    }, _$isLocationPermissionGrantedAtom,
+        name: '${_$isLocationPermissionGrantedAtom.name}_set');
+  }
+
   final _$getLocationAsyncAction = AsyncAction('getLocation');
 
   @override
@@ -85,10 +105,23 @@ mixin _$LocationStore on _LocationStoreBase, Store {
     return _$getLocationAsyncAction.run(() => super.getLocation());
   }
 
+  final _$_LocationStoreBaseActionController =
+      ActionController(name: '_LocationStoreBase');
+
+  @override
+  void updateLocationPermissionGranted(bool update) {
+    final _$actionInfo = _$_LocationStoreBaseActionController.startAction();
+    try {
+      return super.updateLocationPermissionGranted(update);
+    } finally {
+      _$_LocationStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     final string =
-        'country: ${country.toString()},state: ${state.toString()},dist: ${dist.toString()},isLocationEnabled: ${isLocationEnabled.toString()}';
+        'country: ${country.toString()},state: ${state.toString()},dist: ${dist.toString()},isLocationEnabled: ${isLocationEnabled.toString()},isLocationPermissionGranted: ${isLocationPermissionGranted.toString()}';
     return '{$string}';
   }
 }

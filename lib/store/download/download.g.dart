@@ -113,6 +113,16 @@ mixin _$DownloadStore on _DownloadStoreBase, Store {
   }
 
   @override
+  void reset() {
+    final _$actionInfo = _$_DownloadStoreBaseActionController.startAction();
+    try {
+      return super.reset();
+    } finally {
+      _$_DownloadStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string =
         'isDownloading: ${isDownloading.toString()},totalSize: ${totalSize.toString()},sizeDownloaded: ${sizeDownloaded.toString()},downloadPercentage: ${downloadPercentage.toString()}';

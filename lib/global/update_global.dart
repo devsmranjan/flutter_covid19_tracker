@@ -103,8 +103,6 @@ class UpdateGlobal {
             ));
 
     if (_updateLaterStore.isUpdateNow) {
-      // await _downloadApk(context,
-      //     "https://cdn.pixabay.com/photo/2016/11/29/12/30/android-1869510_960_720.jpg");
       await _downloadApk(
           "https://firebasestorage.googleapis.com/v0/b/covid-19-tracker-4cff5.appspot.com/o/app.apk?alt=media&token=4db2aba3-39f4-442c-b12b-c50c50140797");
     }

@@ -25,6 +25,7 @@ class _StateListTileState extends State<StateListTile> {
                     builder: (context) => AreaInnerPage(
                         lastUpdatedTime: widget.stateData.lastUpdatedTime,
                         stateName: widget.stateData.state,
+                        stateCode: widget.stateData.stateCode,
                         confirmed: widget.stateData.confirmed,
                         active: widget.stateData.active,
                         recovered: widget.stateData.recovered,

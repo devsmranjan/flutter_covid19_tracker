@@ -12,6 +12,7 @@ import 'state_data.dart';
 class AreaInnerPage extends StatefulWidget {
   final lastUpdatedTime;
   final stateName;
+  final stateCode;
   final confirmed;
   final active;
   final recovered;
@@ -24,6 +25,7 @@ class AreaInnerPage extends StatefulWidget {
       {Key key,
       @required this.lastUpdatedTime,
       @required this.stateName,
+      @required this.stateCode,
       @required this.confirmed,
       @required this.active,
       @required this.recovered,
@@ -56,7 +58,7 @@ class _AreaInnerPageState extends State<AreaInnerPage> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-    _apiDataStore.getStateDaily(stateCode: "or");
+    _apiDataStore.getOtherStateDaily(stateCode: widget.stateCode);
     _apiDataStore.getListOfOtherStateDistrictsData(stateName: widget.stateName);
   }
 
@@ -118,27 +120,7 @@ class _AreaInnerPageState extends State<AreaInnerPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          // SizedBox(
-                          //   height: 24.0,
-                          // ),
-                          // Text(
-                          //   "Recover Rate - 47.9 %",
-                          //   style: TextStyle(
-                          //       fontSize: 18,
-                          //       color:
-                          //           NeumorphicTheme.defaultTextColor(context)),
-                          // ),
-                          // SizedBox(
-                          //   height: 8.0,
-                          // ),
-                          // Text(
-                          //   "Decsased Rate - 21 %",
-                          //   style: TextStyle(
-                          //       // fontSize: 21,
-                          //       //  fontWeight: FontWeight.bold
-                          //       color:
-                          //           NeumorphicTheme.defaultTextColor(context)),
-                          // ),
+                          
                           SizedBox(
                             height: 36.0,
                           ),

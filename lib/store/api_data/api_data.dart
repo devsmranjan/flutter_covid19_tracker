@@ -273,6 +273,15 @@ abstract class _ApiDataStoreBase with Store {
   List<dynamic> _statesDailyDataDeceasedMapList = [];
 
   @observable
+  List<String> myStateDailyDataTotalConfirmed = [];
+
+  @observable
+  List<String> myStateDailyDataTotalRecovered = [];
+
+  @observable
+  List<String> myStateDailyDataTotalDeceased = [];
+
+  @observable
   List<String> stateDailyDataTotalConfirmed = [];
 
   @observable
@@ -312,7 +321,53 @@ abstract class _ApiDataStoreBase with Store {
   }
 
   @action
-  void getStateDaily({String stateCode}) {
+  void getMyStateDaily({String stateCode}) {
+    myStateDailyDataTotalConfirmed.clear();
+    myStateDailyDataTotalRecovered.clear();
+    myStateDailyDataTotalDeceased.clear();
+
+    stateCode = stateCode.toLowerCase();
+
+    _statesDailyDataConfirmedMapList.forEach((dailyData) {
+      if (dailyData[stateCode] != null) {
+        var totalTillNow = myStateDailyDataTotalConfirmed.length <= 0
+            ? dailyData[stateCode]
+            : (int.parse(myStateDailyDataTotalConfirmed[
+                        myStateDailyDataTotalConfirmed.length - 1]) +
+                    int.parse(dailyData[stateCode]))
+                .toString();
+        myStateDailyDataTotalConfirmed.add(totalTillNow);
+      }
+    });
+
+    _statesDailyDataRecoveredMapList.forEach((dailyData) {
+      if (dailyData[stateCode] != null) {
+        var totalTillNow = myStateDailyDataTotalRecovered.length <= 0
+            ? dailyData[stateCode]
+            : (int.parse(myStateDailyDataTotalRecovered[
+                        myStateDailyDataTotalRecovered.length - 1]) +
+                    int.parse(dailyData[stateCode]))
+                .toString();
+        myStateDailyDataTotalRecovered.add(totalTillNow);
+      }
+    });
+
+    _statesDailyDataDeceasedMapList.forEach((dailyData) {
+      if (dailyData[stateCode] != null) {
+        var totalTillNow = myStateDailyDataTotalDeceased.length <= 0
+            ? dailyData[stateCode]
+            : (int.parse(myStateDailyDataTotalDeceased[
+                        myStateDailyDataTotalDeceased.length - 1]) +
+                    int.parse(dailyData[stateCode]))
+                .toString();
+        myStateDailyDataTotalDeceased.add(totalTillNow);
+      }
+    });
+  }
+
+
+  @action
+  void getOtherStateDaily({String stateCode}) {
     stateDailyDataTotalConfirmed.clear();
     stateDailyDataTotalRecovered.clear();
     stateDailyDataTotalDeceased.clear();

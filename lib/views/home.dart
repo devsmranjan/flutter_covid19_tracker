@@ -167,7 +167,7 @@ class _HomeState extends State<Home> {
     await _apiDataStore.fetchStatesDaily();
 
     if (checkLocationPermission) {
-      _apiDataStore.getStateDaily(
+      _apiDataStore.getMyStateDaily(
           stateCode: _apiDataStore.myStateData.stateCode);
       _apiDataStore.getMyDistrictData(
           stateName: _locationStore.state, districtName: _locationStore.dist);

@@ -19,12 +19,10 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
   final ConnectionStore _connectionStore = ConnectionStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
   final Loading _loading = Loading();
-  final Emoji _emoji = Emoji();
 
   @override
   void initState() {
     super.initState();
-    _emoji.getRandomEmoji();
     _loading.startLoading3000();
   }
 
