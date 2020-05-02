@@ -71,10 +71,10 @@ class _CountryPageState extends State<CountryPage> {
                       ),
                       AllAffectedContainer(
                           title: "All affected States",
-                          isEnabled: _apiDataStore.myStateData != null &&
-                                  _apiDataStore.allStatesDistrictsData != null
-                              ? true
-                              : false,
+                          isEnabled:
+                              _apiDataStore.allStatesDistrictsData != null
+                                  ? true
+                                  : false,
                           color: Colors.blue,
                           action: () => Navigator.push(
                               context,

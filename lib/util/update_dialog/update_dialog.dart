@@ -1,9 +1,16 @@
-import '../store/api_data/api_data.dart';
-import '../store/update_later/update_later.dart';
+import 'dart:io';
+import 'package:covid19_tracker/store/api_data/api_data.dart';
+import 'package:covid19_tracker/store/download/download.dart';
+import 'package:covid19_tracker/store/keys/keys.dart';
+import 'package:covid19_tracker/store/update_later/update_later.dart';
+import 'package:covid19_tracker/util/progress_dialog/progress_dialog.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:install_plugin/install_plugin.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpdateDialog extends StatefulWidget {
@@ -12,17 +19,9 @@ class UpdateDialog extends StatefulWidget {
 }
 
 class _UpdateDialogState extends State<UpdateDialog> {
+  final KeysStore _keysStore = KeysStore();
   UpdateLaterStore _updateLaterStore = UpdateLaterStore();
-
   ApiDataStore _apiDataStore = ApiDataStore();
-
-  Future _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +71,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                       color: NeumorphicTheme.defaultTextColor(context)),
                 ),
                 onClick: () {
-                  _updateLaterStore.updateUpdatePopup(true);
+                  _updateLaterStore.updateUpdateLater(true);
                   Navigator.pop(context);
                 },
               ),
@@ -86,9 +85,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
                       style: TextStyle(
                           color: NeumorphicTheme.defaultTextColor(context))),
                   onClick: () {
-                    _updateLaterStore.updateUpdatePopup(false);
+                    _updateLaterStore.updateUpdateLater(false);
+                    _updateLaterStore.updateUpdateNow(true);
                     Navigator.pop(context);
-                    _launchURL(_apiDataStore.appVersionsData.latestAppLink);
                   },
                 ),
               ),

@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:covid19_tracker/global/update_global.dart';
+import 'package:covid19_tracker/store/keys/keys.dart';
+import 'package:covid19_tracker/util/update_dialog/update_dialog.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../store/connection/connection.dart';
 import '../store/update_later/update_later.dart';
 import '../views/more_page/more_page.dart';
-import '../views/update_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:package_info/package_info.dart';
@@ -28,8 +32,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // permission
+  Permission _locationPermission = Permission.locationWhenInUse;
+
   // store
+  final UpdateGlobal _updateGlobal = UpdateGlobal();
   final ConnectionStore _connectionStore = ConnectionStore();
+  final KeysStore _keysStore = KeysStore();
   final UpdateLaterStore _updateLaterStore = UpdateLaterStore();
   final NavbarIndexStore _navbarIndexStore = NavbarIndexStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
@@ -37,6 +46,7 @@ class _HomeState extends State<Home> {
   // check connection
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  StreamSubscription<bool> _isLocationPermissionGranted;
 
   final _locationStore = LocationStore();
   List<Widget> _allPageWidgets;
@@ -51,132 +61,136 @@ class _HomeState extends State<Home> {
     await _apiDataStore.fetchAppVersionsData();
     _apiDataStore.compareVersion(packageInfo.version);
 
-    await _apiDataStore.fetchFactoidsData();
-    _apiDataStore.getRandomFactoroid();
+    // await _apiDataStore.fetchFactoidsData();
+    // _apiDataStore.getRandomFactoroid();
 
-    await _locationStore.getLocation();
+    bool checkLocationPermission = await _locationPermission.isGranted;
+    print("checkLocationPermission: " + checkLocationPermission.toString());
 
-    if (!_locationStore.isLocationEnabled) {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => SimpleDialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                children: <Widget>[
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                          child: Image.asset("assets/images/no-location.png"),
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        Text(
-                          "Location is off",
-                          style: GoogleFonts.paytoneOne(
-                              fontSize: 18.0,
-                              color: Theme.of(context).primaryColor),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 28),
-                          child: Text(
-                            "Please enable location",
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                color:
-                                    NeumorphicTheme.defaultTextColor(context),
-                                fontWeight: FontWeight.bold,
-                                height: 1.6),
+    if (!checkLocationPermission) {
+      await _locationPermission.request();
+      checkLocationPermission = await _locationPermission.isGranted;
+      _locationStore.updateLocationPermissionGranted(checkLocationPermission);
+    }
+
+    if (checkLocationPermission) {
+      
+      // _locationStore.
+      await _locationStore.getLocation();
+
+      if (!_locationStore.isLocationEnabled) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => SimpleDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  children: <Widget>[
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 18, vertical: 8),
+                            child: Image.asset("assets/images/no-location.png"),
+                          ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          Text(
+                            "Location is off",
+                            style: GoogleFonts.paytoneOne(
+                                fontSize: 18.0,
+                                color: Theme.of(context).primaryColor),
                             textAlign: TextAlign.center,
                           ),
-                        ),
-                        SizedBox(
-                          height: 36,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            NeumorphicButton(
-                              child: Text(
-                                "Retry",
-                                style: TextStyle(
-                                    color: NeumorphicTheme.defaultTextColor(
-                                        context)),
-                              ),
-                              onClick: () {
-                                Navigator.pop(context);
-                                _onLoad();
-                              },
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 28),
+                            child: Text(
+                              "Please enable location",
+                              style: TextStyle(
+                                  fontSize: 14.0,
+                                  color:
+                                      NeumorphicTheme.defaultTextColor(context),
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.6),
+                              textAlign: TextAlign.center,
                             ),
-                          ],
-                        )
-                      ],
+                          ),
+                          SizedBox(
+                            height: 36,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              NeumorphicButton(
+                                child: Text(
+                                  "Retry",
+                                  style: TextStyle(
+                                      color: NeumorphicTheme.defaultTextColor(
+                                          context)),
+                                ),
+                                onClick: () {
+                                  Navigator.pop(context);
+                                  _onLoad();
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                ],
-                backgroundColor: NeumorphicTheme.baseColor(context),
-                contentPadding: EdgeInsets.all(18),
-              ));
+                    SizedBox(
+                      height: 24,
+                    ),
+                  ],
+                  backgroundColor: NeumorphicTheme.baseColor(context),
+                  contentPadding: EdgeInsets.all(18),
+                ));
+      }
     }
 
     await _apiDataStore.fetchAPI1Data();
     await _apiDataStore.fetchAPI1StateDistrictsData();
 
-    _apiDataStore.getStateData(stateName: _locationStore.state);
+    if (checkLocationPermission) {
+      print("isLocationPermissionGranted --- getStateData");
+      _apiDataStore.getStateData(stateName: _locationStore.state);
+    }
 
     await _apiDataStore.fetchStatesDaily();
-    _apiDataStore.getStateDaily(stateCode: _apiDataStore.myStateData.stateCode);
 
-    _apiDataStore.getMyDistrictData(
-        stateName: _locationStore.state, districtName: _locationStore.dist);
+    if (checkLocationPermission) {
+      _apiDataStore.getStateDaily(
+          stateCode: _apiDataStore.myStateData.stateCode);
+      _apiDataStore.getMyDistrictData(
+          stateName: _locationStore.state, districtName: _locationStore.dist);
+    }
+
     _apiDataStore.getMapOfIndivisualListOfCaseTimeSeries();
 
     _apiDataStore.fetchAPI2WorldTotalStatistics();
     _apiDataStore.fetchWorldDaily();
 
     await _apiDataStore.fetchTwitterHandlesStatewise();
-    _apiDataStore.getTwitterHandleOfMyState(_locationStore.state);
+
+    if (checkLocationPermission) {
+      _apiDataStore.getTwitterHandleOfMyState(_locationStore.state);
+    }
 
     if (!_updateLaterStore.isUpdateLater && !_apiDataStore.isVersionMatched) {
-      showDialog(
-          context: context,
-          builder: (context) => SimpleDialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                children: <Widget>[
-                  SizedBox(
-                    height: 24,
-                  ),
-                  UpdateDialog(),
-                  SizedBox(
-                    height: 24,
-                  ),
-                ],
-                backgroundColor: NeumorphicTheme.baseColor(context),
-                contentPadding: EdgeInsets.all(18),
-              ));
+      _updateGlobal.handleUpdateAvailable();
     }
   }
 
   Future _onRefresh() async {
     await _onLoad();
-
-    _apiDataStore.getMapOfIndivisualListOfCaseTimeSeries();
-    _apiDataStore.fetchAPI2WorldTotalStatistics();
 
     print('Page refreshed.');
   }
@@ -214,6 +228,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
+        key: _keysStore.homeScaffoldKey,
         backgroundColor: NeumorphicTheme.baseColor(context),
         body: _connectionStore.isInternetConnected
             ? RefreshIndicator(

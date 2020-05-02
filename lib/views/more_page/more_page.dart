@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:covid19_tracker/global/update_global.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +15,6 @@ import '../../views/donate_page/donate_page.dart';
 import '../../views/helplines_page/helplines_page.dart';
 import '../../views/self_risk_scan/self_risk_scan.dart';
 import '../../views/tweets_page/tweets_page.dart';
-import '../../store/update_later/update_later.dart';
 import '../../views/about_page/about_page.dart';
 
 class MorePage extends StatefulWidget {
@@ -21,9 +23,9 @@ class MorePage extends StatefulWidget {
 }
 
 class _MorePageState extends State<MorePage> {
-  final UpdateLaterStore _updateLaterStore = UpdateLaterStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
   final DarkModeStore _darkModeStore = DarkModeStore();
+  final UpdateGlobal _updateGlobal = UpdateGlobal();
 
   Future _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -36,9 +38,17 @@ class _MorePageState extends State<MorePage> {
   void _shareApp() {
     Share.text(
         'COVID-19 Tracker',
-        'I am loving this app 😍. Download COVID-19 Tracker app to get track over Corona from all over the World.\nAndroid: https://play.google.com/store/apps/details?id=io.github.devsmranjan.covid19_tracker\nLets fight against Corona together.',
+        'I am loving this app 😍. Download COVID-19 Tracker app to get track over Corona from all over the World.\nAndroid: ${_apiDataStore.appVersionsData.latestAppLink}\nLets fight against Corona together.',
         'text/plain');
   }
+
+  // Future _launchURL(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -192,10 +202,8 @@ class _MorePageState extends State<MorePage> {
                                   title: "Update Available",
                                   icon: LineAwesomeIcons.download,
                                   iconColor: Color(0xFF304ffe),
-                                  action: () {
-                                    _updateLaterStore.updateUpdatePopup(false);
-                                    _launchURL(_apiDataStore
-                                        .appVersionsData.latestAppLink);
+                                  action: () async {
+                                    _updateGlobal.handleUpdateAvailable();
                                   })
                               : Container(),
                         ),

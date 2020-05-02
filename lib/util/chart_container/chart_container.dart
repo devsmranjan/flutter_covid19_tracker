@@ -43,7 +43,6 @@ class _ChartContainerState extends State<ChartContainer> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.datesList.isEmpty);
     return Neumorphic(
       boxShape:
           NeumorphicBoxShape.roundRect(borderRadius: BorderRadius.circular(8)),

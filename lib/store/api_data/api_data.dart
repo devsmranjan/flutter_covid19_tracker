@@ -110,7 +110,12 @@ abstract class _ApiDataStoreBase with Store {
   List<CasesTimeSeries> allCaseTimeSeriesData;
 
   @observable
-  Map<String, List<String>> mapOfIndivisualListOfCaseTimeSeries = {};
+  Map<String, List<String>> mapOfIndivisualListOfCaseTimeSeries = {
+    'dates': [],
+    'totalConfirmed': [],
+    'totalRecovered': [],
+    'totalDeceased': []
+  };
 
   @observable
   StateData myCountryData;
@@ -308,6 +313,10 @@ abstract class _ApiDataStoreBase with Store {
 
   @action
   void getStateDaily({String stateCode}) {
+    stateDailyDataTotalConfirmed.clear();
+    stateDailyDataTotalRecovered.clear();
+    stateDailyDataTotalDeceased.clear();
+
     stateCode = stateCode.toLowerCase();
     _statesDailyDataConfirmedMapList.forEach((dailyData) {
       if (dailyData[stateCode] != null) {
@@ -473,6 +482,11 @@ abstract class _ApiDataStoreBase with Store {
       _worldDailyDataRecoveredMap = worldDailyData['recovered'];
       _worldDailyDataDeathsMap = worldDailyData['deaths'];
 
+      worldDailyDataDates.clear();
+      worldDailyDataTotalConfirmed.clear();
+      worldDailyDataTotalRecovered.clear();
+      worldDailyDataTotalDeceased.clear();
+
       worldDailyDataDates.addAll(_worldDailyDataConfirmedMap.keys);
       worldDailyDataTotalConfirmed.addAll(_worldDailyDataConfirmedMap.values);
       worldDailyDataTotalRecovered.addAll(_worldDailyDataRecoveredMap.values);
@@ -481,9 +495,6 @@ abstract class _ApiDataStoreBase with Store {
       throw Exception('Failed to fetchWorldDaily data');
     }
   }
-
-
-
 
   // twitter handels
   @observable

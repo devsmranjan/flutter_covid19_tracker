@@ -17,6 +17,9 @@ abstract class _UpdateLaterStoreBase with Store {
   @observable
   bool isUpdateLater = false;
 
+  @observable
+  bool isUpdateNow = false;
+
   @action
   Future checkUpdateLater() async {
     _prefs = await SharedPreferences.getInstance();
@@ -24,9 +27,14 @@ abstract class _UpdateLaterStoreBase with Store {
   }
 
   @action
-  Future updateUpdatePopup(bool update) async {
+  Future updateUpdateLater(bool update) async {
     _prefs = await SharedPreferences.getInstance();
     await _prefs.setBool('isUpdateLater', update);
     isUpdateLater = update;
+  }
+
+  @action
+  void updateUpdateNow(bool update) {
+    isUpdateNow = update;
   }
 }

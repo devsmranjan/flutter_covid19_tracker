@@ -26,6 +26,23 @@ mixin _$UpdateLaterStore on _UpdateLaterStoreBase, Store {
     }, _$isUpdateLaterAtom, name: '${_$isUpdateLaterAtom.name}_set');
   }
 
+  final _$isUpdateNowAtom = Atom(name: '_UpdateLaterStoreBase.isUpdateNow');
+
+  @override
+  bool get isUpdateNow {
+    _$isUpdateNowAtom.context.enforceReadPolicy(_$isUpdateNowAtom);
+    _$isUpdateNowAtom.reportObserved();
+    return super.isUpdateNow;
+  }
+
+  @override
+  set isUpdateNow(bool value) {
+    _$isUpdateNowAtom.context.conditionallyRunInAction(() {
+      super.isUpdateNow = value;
+      _$isUpdateNowAtom.reportChanged();
+    }, _$isUpdateNowAtom, name: '${_$isUpdateNowAtom.name}_set');
+  }
+
   final _$checkUpdateLaterAsyncAction = AsyncAction('checkUpdateLater');
 
   @override
@@ -33,17 +50,31 @@ mixin _$UpdateLaterStore on _UpdateLaterStoreBase, Store {
     return _$checkUpdateLaterAsyncAction.run(() => super.checkUpdateLater());
   }
 
-  final _$updateUpdatePopupAsyncAction = AsyncAction('updateUpdatePopup');
+  final _$updateUpdateLaterAsyncAction = AsyncAction('updateUpdateLater');
 
   @override
-  Future<dynamic> updateUpdatePopup(bool update) {
-    return _$updateUpdatePopupAsyncAction
-        .run(() => super.updateUpdatePopup(update));
+  Future<dynamic> updateUpdateLater(bool update) {
+    return _$updateUpdateLaterAsyncAction
+        .run(() => super.updateUpdateLater(update));
+  }
+
+  final _$_UpdateLaterStoreBaseActionController =
+      ActionController(name: '_UpdateLaterStoreBase');
+
+  @override
+  void updateUpdateNow(bool update) {
+    final _$actionInfo = _$_UpdateLaterStoreBaseActionController.startAction();
+    try {
+      return super.updateUpdateNow(update);
+    } finally {
+      _$_UpdateLaterStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
-    final string = 'isUpdateLater: ${isUpdateLater.toString()}';
+    final string =
+        'isUpdateLater: ${isUpdateLater.toString()},isUpdateNow: ${isUpdateNow.toString()}';
     return '{$string}';
   }
 }

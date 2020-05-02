@@ -24,6 +24,9 @@ abstract class _LocationStoreBase with Store {
   @observable
   bool isLocationEnabled = true;
 
+  @observable
+  bool isLocationPermissionGranted = false;
+
   @action
   Future getLocation() async {
     try {
@@ -32,17 +35,20 @@ abstract class _LocationStoreBase with Store {
       bool _serviceEnabled = await geolocator.isLocationServiceEnabled();
 
       if (!_serviceEnabled) {
-        print(_serviceEnabled);
+        print("_serviceEnabled : " + _serviceEnabled.toString());
         isLocationEnabled = false;
       } else {
         isLocationEnabled = true;
+
         GeolocationStatus _geolocationStatus =
-            await geolocator.checkGeolocationPermissionStatus(
-                locationPermission: GeolocationPermission.locationWhenInUse);
+            await geolocator.checkGeolocationPermissionStatus();
+
         print("geolocationStatus : " + _geolocationStatus.toString());
 
+        print("I am here!!!!!!!!");
+
         Position _position = await geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
+            desiredAccuracy: LocationAccuracy.high, locationPermissionLevel: GeolocationPermission.locationWhenInUse);
         print(_position);
 
         List<Placemark> placemark = await geolocator.placemarkFromCoordinates(
@@ -55,5 +61,10 @@ abstract class _LocationStoreBase with Store {
     } catch (e) {
       print("Error in location fetching : " + e.toString());
     }
+  }
+
+  @action
+  void updateLocationPermissionGranted(bool update) {
+    isLocationPermissionGranted = update;
   }
 }

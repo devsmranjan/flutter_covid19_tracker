@@ -11,7 +11,7 @@ description: Track all data of Corona Virus around the World.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.5+2
+version: 1.0.3+1
 
 environment:
     sdk: '>=2.2.0 <3.0.0'
@@ -36,6 +36,10 @@ dependencies:
     url_launcher: ^5.4.2
     flutter_webview_plugin:
     esys_flutter_share: ^1.0.2
+    path_provider: ^1.6.7
+    permission_handler: ^5.0.0+hotfix.4
+    install_plugin:
+        path: ./install_plugin
 
 
     # The following adds the Cupertino Icons font to your application.

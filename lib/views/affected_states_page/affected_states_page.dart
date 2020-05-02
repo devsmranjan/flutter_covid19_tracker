@@ -10,7 +10,6 @@ import '../../store/loading/loading.dart';
 import '../../util/error_container/error_container.dart';
 import '../../util/state_listtile/state_listtile.dart';
 
-
 class AffectedStatesPage extends StatefulWidget {
   @override
   _AffectedStatesPageState createState() => _AffectedStatesPageState();
@@ -57,7 +56,6 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
                           color: NeumorphicTheme.currentTheme(context)
                               .accentColor),
                     ),
-                    
                     NeumorphicButton(
                       onClick: () {
                         _loading.startLoading3000();
@@ -77,14 +75,14 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
                 height: 36,
               ),
               Text(
-                  "Affected States",
-                  style: GoogleFonts.paytoneOne(
-                      fontSize: 24, color: Theme.of(context).accentColor),
-                  textAlign: TextAlign.center,
-                ),
+                "Affected States",
+                style: GoogleFonts.paytoneOne(
+                    fontSize: 24, color: Theme.of(context).accentColor),
+                textAlign: TextAlign.center,
+              ),
               !_connectionStore.isInternetConnected
-                    ? Container()
-                    : SizedBox(height: 24),
+                  ? Container()
+                  : SizedBox(height: 24),
               Observer(
                   builder: (_) => !_connectionStore.isInternetConnected
                       ? ErrorContainer()
@@ -96,16 +94,30 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
                               padding: EdgeInsets.zero,
                               itemCount: _apiDataStore.allStatesData.length,
                               itemBuilder: (BuildContext context, int index) {
-                                if (index != 0 &&
-                                    _apiDataStore
-                                            .allStatesData[index].stateCode !=
-                                        _apiDataStore.myStateData.stateCode &&
-                                    int.tryParse(_apiDataStore
-                                            .allStatesData[index].confirmed) !=
-                                        0) {
-                                  return StateListTile(
-                                      stateData:
-                                          _apiDataStore.allStatesData[index]);
+                                if (_apiDataStore.myStateData !=
+                                    null) {
+                                  if (index != 0 &&
+                                      _apiDataStore
+                                              .allStatesData[index].stateCode !=
+                                          _apiDataStore.myStateData.stateCode &&
+                                      int.tryParse(_apiDataStore
+                                              .allStatesData[index]
+                                              .confirmed) !=
+                                          0) {
+                                    return StateListTile(
+                                        stateData:
+                                            _apiDataStore.allStatesData[index]);
+                                  }
+                                } else {
+                                  if (index != 0 &&
+                                      int.tryParse(_apiDataStore
+                                              .allStatesData[index]
+                                              .confirmed) !=
+                                          0) {
+                                    return StateListTile(
+                                        stateData:
+                                            _apiDataStore.allStatesData[index]);
+                                  }
                                 }
                                 return Container();
                               },
