@@ -1,3 +1,5 @@
+import 'package:covid19_tracker/store/search/search.dart';
+import 'package:covid19_tracker/util/search_bar/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -13,10 +15,18 @@ class AffectedDistricts extends StatefulWidget {
 class _AffectedDistrictsState extends State<AffectedDistricts> {
   final ApiDataStore _apiDataStore = ApiDataStore();
   final Loading _loading = Loading();
+  SearchStore _searchStore = SearchStore();
 
   @override
   void initState() {
     super.initState();
+    List list = [];
+    _apiDataStore.listOfOtherStateDistrictsData.districtData.forEach((data) {
+      list.add(data);
+    });
+
+    // print(list);
+    _searchStore.addObservableList(list);
     _loading.startLoading3000();
   }
 
@@ -31,27 +41,33 @@ class _AffectedDistrictsState extends State<AffectedDistricts> {
               "Affected Districts",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: NeumorphicTheme.currentTheme(context)
-                      .defaultTextColor
-                      .withOpacity(0.7),
+                  color: Theme.of(context).accentColor,
                   letterSpacing: 1),
             ),
           ),
+          SizedBox(height: 24),
+          SearchBar(searchStore: _searchStore, title: "Search Districts"),
           SizedBox(
             height: 14.0,
           ),
           Observer(
             builder: (_) => !_loading.isLoading &&
                     _apiDataStore.listOfOtherStateDistrictsData != null
-                ? Column(
-                    children:
-                        _apiDataStore.listOfOtherStateDistrictsData.districtData
-                            .map((district) => DistrictListTile(
-                                  districtName: district.district,
-                                  totalConfirmed: district.confirmed,
-                                  delta: district.delta,
-                                ))
-                            .toList(),
+                ? ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    children: _searchStore.observableList
+                        .where((element) => element.district
+                            .toLowerCase()
+                            .contains(
+                                _searchStore.searchFilterText.toLowerCase()))
+                        .map((district) => DistrictListTile(
+                              districtName: district.district,
+                              totalConfirmed: district.confirmed,
+                              delta: district.delta,
+                            ))
+                        .toList(),
                   )
                 : Container(
                     height: 72,
