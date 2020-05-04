@@ -30,20 +30,43 @@ class _SearchBarState extends State<SearchBar> {
         boxShape: NeumorphicBoxShape.roundRect(
             borderRadius: BorderRadius.circular(8)),
         style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -2),
-        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 4),
+        padding:
+            const EdgeInsets.only(left: 18.0, right: 8.0, top: 4, bottom: 4),
         child: Container(
-          child: TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: widget.title,
-                hintStyle: TextStyle(
-                    color: NeumorphicTheme.defaultTextColor(context)
-                        .withOpacity(0.5))),
-            keyboardType: TextInputType.text,
-            onChanged: (value) {
-              widget.searchStore.updateSearchFilterText(value);
-            },
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: widget.title,
+                      hintStyle: TextStyle(
+                          color: NeumorphicTheme.defaultTextColor(context)
+                              .withOpacity(0.5))),
+                  keyboardType: TextInputType.text,
+                  onChanged: (value) {
+                    widget.searchStore.updateSearchFilterText(value);
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 18,
+              ),
+              NeumorphicButton(
+                onClick: () {
+                  // Navigator.pop(context);
+                  _searchController.text = "";
+                  widget.searchStore.clearSearchFilterText();
+                },
+                style: NeumorphicStyle(shape: NeumorphicShape.convex),
+                boxShape: NeumorphicBoxShape.circle(),
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(LineAwesomeIcons.close,
+                    size: 22,
+                    color: NeumorphicTheme.currentTheme(context).accentColor),
+              ),
+            ],
           ),
         ),
       ),

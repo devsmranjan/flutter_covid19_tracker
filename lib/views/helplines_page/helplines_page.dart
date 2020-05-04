@@ -1,6 +1,9 @@
+import 'package:covid19_tracker/store/search/search.dart';
+import 'package:covid19_tracker/util/search_bar/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../store/api_data/api_data.dart';
@@ -16,9 +19,17 @@ class HelplinesPage extends StatefulWidget {
 class _HelplinesPageState extends State<HelplinesPage> {
   final ConnectionStore _connectionStore = ConnectionStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
+  SearchStore _searchStore = SearchStore();
 
   Future _getData() async {
     await _apiDataStore.fetchtHelplinesStatewiseData();
+    List list = [];
+    _apiDataStore.helplinesOfStatesList.forEach((data) {
+      list.add(data);
+    });
+
+    // print(list);
+    _searchStore.addObservableList(list);
   }
 
   @override
@@ -127,27 +138,51 @@ class _HelplinesPageState extends State<HelplinesPage> {
               SizedBox(
                 height: 36.0,
               ),
+              Text(
+                "Helplines",
+                style: GoogleFonts.paytoneOne(
+                    fontSize: 24, color: Theme.of(context).accentColor),
+                textAlign: TextAlign.center,
+              ),
+              !_connectionStore.isInternetConnected
+                  ? Container()
+                  : SizedBox(height: 24),
+              !_connectionStore.isInternetConnected
+                  ? Container()
+                  : SearchBar(
+                      searchStore: _searchStore, title: "Search States"),
+              !_connectionStore.isInternetConnected
+                  ? Container()
+                  : SizedBox(height: 24),
               Observer(
                 builder: (_) => !_connectionStore.isInternetConnected
                     ? ErrorContainer()
-                    : _apiDataStore.helplinesOfStatesList != null
+                    : _apiDataStore.helplinesOfStatesList != null &&
+                            _searchStore.observableList != null
                         ? ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount:
-                                _apiDataStore.helplinesOfStatesList.length ?? 0,
+                            itemCount: _searchStore.observableList
+                                    .where((element) => element.state
+                                        .toLowerCase()
+                                        .contains(_searchStore.searchFilterText
+                                            .toLowerCase()))
+                                    .length ??
+                                0,
                             itemBuilder: (BuildContext context, int index) {
-                              return index != 0
+                              List list = _searchStore.observableList
+                                  .where((element) => element.state
+                                      .toLowerCase()
+                                      .contains(_searchStore.searchFilterText
+                                          .toLowerCase()))
+                                  .toList();
+
+                              return list[index].state != ""
                                   ? HelplineContainer(
-                                      title: _apiDataStore
-                                              .helplinesOfStatesList[index]
-                                              .state ??
-                                          "",
-                                      helplines: _apiDataStore
-                                              .helplinesOfStatesList[index]
-                                              .helplinesList ??
-                                          [],
+                                      title: list[index].state ?? "",
+                                      helplines:
+                                          list[index].helplinesList ?? [],
                                     )
                                   : Container();
                             },
