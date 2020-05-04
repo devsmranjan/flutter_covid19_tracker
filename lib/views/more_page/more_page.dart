@@ -27,21 +27,6 @@ class _MorePageState extends State<MorePage> {
   final DarkModeStore _darkModeStore = DarkModeStore();
   final UpdateGlobal _updateGlobal = UpdateGlobal();
 
-  Future _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  void _shareApp() {
-    Share.text(
-        'COVID-19 Tracker',
-        'I am loving this app 😍. Download COVID-19 Tracker app to get track over Corona from all over the World.\nAndroid: ${_apiDataStore.appVersionsData.latestAppLink}\nLets fight against Corona together.',
-        'text/plain');
-  }
-
   // Future _launchURL(String url) async {
   //   if (await canLaunch(url)) {
   //     await launch(url);
@@ -49,6 +34,13 @@ class _MorePageState extends State<MorePage> {
   //     throw 'Could not launch $url';
   //   }
   // }
+
+  void _shareApp() {
+    Share.text(
+        'COVID-19 Tracker',
+        'I am loving this app 😍. Download COVID-19 Tracker app to get track over Corona from all over the World.\nAndroid: ${_apiDataStore.appVersionsData.latestAppLink}\nLets fight against Corona together.',
+        'text/plain');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,17 +144,28 @@ class _MorePageState extends State<MorePage> {
                         SizedBox(
                           height: 24.0,
                         ),
-                        MoreListTile(
-                            title: "Essentials",
-                            icon: LineAwesomeIcons.hand_stop_o,
-                            iconColor: Color(0xFFff9800),
-                            action: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HelplinesPage()))),
-                        SizedBox(
-                          height: 24.0,
-                        ),
+                        // MoreListTile(
+                        //     title: "Essentials",
+                        //     icon: LineAwesomeIcons.hand_stop_o,
+                        //     iconColor: Color(0xFFff9800),
+                        //     action: () => Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => HelplinesPage()))),
+                        // SizedBox(
+                        //   height: 24.0,
+                        // ),
+                        // MoreListTile(
+                        //     title: "Zones",
+                        //     icon: LineAwesomeIcons.pie_chart,
+                        //     iconColor: Color(0xFF00bcd4),
+                        //     action: () => Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => HelplinesPage()))),
+                        // SizedBox(
+                        //   height: 24.0,
+                        // ),
                         Neumorphic(
                           boxShape: NeumorphicBoxShape.roundRect(
                               borderRadius: BorderRadius.circular(14)),

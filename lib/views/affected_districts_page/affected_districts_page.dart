@@ -1,8 +1,11 @@
+import 'package:covid19_tracker/store/search/search.dart';
+import 'package:covid19_tracker/util/search_bar/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:mobx/mobx.dart';
 import '../../store/api_data/api_data.dart';
 import '../../store/connection/connection.dart';
 import '../../store/emoji/emoji.dart';
@@ -19,11 +22,20 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
   final ConnectionStore _connectionStore = ConnectionStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
   final Loading _loading = Loading();
-  final Emoji _emoji = Emoji();
+  SearchStore _searchStore = SearchStore();
+  // final Emoji _emoji = Emoji();
 
   void _getData() {
     _apiDataStore.getListOfMyStateDistrictsData(
         stateName: _apiDataStore.myStateData.state);
+
+    List list = [];
+    _apiDataStore.listOfMyStateDistrictsData.districtData.forEach((data) {
+      list.add(data);
+    });
+
+    // print(list);
+    _searchStore.addObservableList(list);
   }
 
   Future _refreshData() async {
@@ -34,13 +46,14 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
   @override
   void initState() {
     super.initState();
-    _emoji.getRandomEmoji();
+    // _emoji.getRandomEmoji();
     _loading.startLoading3000();
     _getData();
   }
 
   @override
   Widget build(BuildContext context) {
+    // print("_searchStore.observableList : " + _searchStore.observableList.toString());
     return Scaffold(
       backgroundColor: NeumorphicTheme.baseColor(context),
       body: SingleChildScrollView(
@@ -97,27 +110,37 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
                     ? Container()
                     : SizedBox(height: 24),
                 !_connectionStore.isInternetConnected
+                    ? Container()
+                    : SearchBar(
+                        searchStore: _searchStore, title: "Search Districts"),
+                !_connectionStore.isInternetConnected
+                    ? Container()
+                    : SizedBox(height: 24),
+                !_connectionStore.isInternetConnected
                     ? ErrorContainer()
-                    : !_loading.isLoading &&
-                            _apiDataStore.listOfMyStateDistrictsData != null
+                    : !_loading.isLoading && _searchStore.observableList != null
                         ? ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.zero,
-                            itemCount: _apiDataStore
-                                .listOfMyStateDistrictsData.districtData.length,
+                            itemCount: _searchStore.observableList
+                                .where((element) => element.district
+                                    .toLowerCase()
+                                    .contains(_searchStore.searchFilterText
+                                        .toLowerCase()))
+                                .length,
                             itemBuilder: (BuildContext context, int index) {
+                              List list = _searchStore.observableList
+                                  .where((element) => element.district
+                                      .toLowerCase()
+                                      .contains(_searchStore.searchFilterText
+                                          .toLowerCase()))
+                                  .toList();
+
                               return DistrictListTile(
-                                districtName: _apiDataStore
-                                    .listOfMyStateDistrictsData
-                                    .districtData[index]
-                                    .district,
-                                totalConfirmed: _apiDataStore
-                                    .listOfMyStateDistrictsData
-                                    .districtData[index]
-                                    .confirmed,
-                                delta: _apiDataStore.listOfMyStateDistrictsData
-                                    .districtData[index].delta,
+                                districtName: list[index].district,
+                                totalConfirmed: list[index].confirmed,
+                                delta: list[index].delta,
                               );
                             },
                           )
