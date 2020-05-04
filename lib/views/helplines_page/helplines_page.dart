@@ -1,4 +1,5 @@
 import 'package:covid19_tracker/store/search/search.dart';
+import 'package:covid19_tracker/util/header_3_container/header_3_container.dart';
 import 'package:covid19_tracker/util/search_bar/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -135,25 +136,11 @@ class _HelplinesPageState extends State<HelplinesPage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 36.0,
-              ),
-              Text(
-                "Helplines",
-                style: GoogleFonts.paytoneOne(
-                    fontSize: 24, color: Theme.of(context).accentColor),
-                textAlign: TextAlign.center,
-              ),
-              !_connectionStore.isInternetConnected
-                  ? Container()
-                  : SizedBox(height: 24),
+              Header3Container(title: "Helplines"),
               !_connectionStore.isInternetConnected
                   ? Container()
                   : SearchBar(
                       searchStore: _searchStore, title: "Search States"),
-              !_connectionStore.isInternetConnected
-                  ? Container()
-                  : SizedBox(height: 24),
               Observer(
                 builder: (_) => !_connectionStore.isInternetConnected
                     ? ErrorContainer()

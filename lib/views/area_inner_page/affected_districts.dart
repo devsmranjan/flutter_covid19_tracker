@@ -1,4 +1,5 @@
 import 'package:covid19_tracker/store/search/search.dart';
+import 'package:covid19_tracker/util/header_3_container/header_3_container.dart';
 import 'package:covid19_tracker/util/search_bar/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -35,21 +36,9 @@ class _AffectedDistrictsState extends State<AffectedDistricts> {
     return Container(
       child: Column(
         children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Affected Districts",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).accentColor,
-                  letterSpacing: 1),
-            ),
-          ),
+          Header3Container(title: "Affected Districts", makeBottomPaddingSmall: true,),
           SizedBox(height: 24),
           SearchBar(searchStore: _searchStore, title: "Search Districts"),
-          SizedBox(
-            height: 14.0,
-          ),
           Observer(
             builder: (_) => !_loading.isLoading &&
                     _apiDataStore.listOfOtherStateDistrictsData != null
