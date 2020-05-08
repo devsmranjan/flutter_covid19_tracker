@@ -4,18 +4,21 @@ class API1StateDistrictsData {
   API1StateDistrictsData({this.allStatesDistrictsData});
 
   API1StateDistrictsData.fromJson(List<dynamic> json) {
-    allStatesDistrictsData = json.map((v) => AllDistrictsData.fromJson(v)).toList();
+    allStatesDistrictsData =
+        json.map((v) => AllDistrictsData.fromJson(v)).toList();
   }
 }
 
 class AllDistrictsData {
   String state;
+  String stateCode;
   List<DistrictData> districtData;
 
-  AllDistrictsData({this.state, this.districtData});
+  AllDistrictsData({this.state, this.stateCode, this.districtData});
 
   AllDistrictsData.fromJson(Map<String, dynamic> json) {
     state = json['state'];
+    stateCode = json['statecode'];
 
     if (json['districtData'] != null) {
       districtData = List<DistrictData>();
@@ -30,26 +33,39 @@ class AllDistrictsData {
 class DistrictData {
   String district;
   int confirmed;
-  String lastUpdatedTime;
+  int active;
+  int recovered;
+  int deceased;
   Delta delta;
 
   DistrictData(
-      {this.district, this.confirmed, this.lastUpdatedTime, this.delta});
+      {this.district,
+      this.confirmed,
+      this.active,
+      this.recovered,
+      this.deceased,
+      this.delta});
 
   DistrictData.fromJson(Map<String, dynamic> json) {
     district = json['district'];
     confirmed = json['confirmed'];
-    lastUpdatedTime = json['lastupdatedtime'];
+    active = json['active'];
+    recovered = json['recovered'];
+    deceased = json['deceased'];
     delta = Delta.fromJson(json['delta']);
   }
 }
 
 class Delta {
   int confirmed;
+  int recovered;
+  int deceased;
 
-  Delta({this.confirmed});
+  Delta({this.confirmed, this.recovered, this.deceased});
 
   Delta.fromJson(Map<String, dynamic> json) {
     confirmed = json["confirmed"];
+    recovered = json["recovered"];
+    deceased = json["deceased"];
   }
 }

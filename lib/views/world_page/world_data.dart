@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/global/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
@@ -17,8 +18,10 @@ class WorldData extends StatelessWidget {
           Header2Container(
             title: "World",
             lastUpdatedTime: _apiDataStore.worldStatisticsData != null
-                ? DateFormat('dd/MM/yyyy hh:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(
-                    _apiDataStore.worldStatisticsData.lastUpdatedTime) * 1000))
+                ? DateFormat('dd/MM/yyyy hh:mm:ss').format(
+                    DateTime.fromMicrosecondsSinceEpoch(int.parse(
+                            _apiDataStore.worldStatisticsData.lastUpdatedTime) *
+                        1000))
                 : "",
             color: Colors.green,
           ),
@@ -32,7 +35,7 @@ class WorldData extends StatelessWidget {
                 newCases: _apiDataStore.worldStatisticsData != null
                     ? _apiDataStore.worldStatisticsData.deltaConfirmed
                     : "",
-                color: Colors.red,
+                color: ColorConstants.COLOR_CONFIRMED,
               ),
               SizedBox(
                 height: 14.0,
@@ -42,7 +45,7 @@ class WorldData extends StatelessWidget {
                 totalCases: _apiDataStore.worldStatisticsData != null
                     ? _apiDataStore.worldStatisticsData.active
                     : "",
-                color: Colors.blue,
+                color: ColorConstants.COLOR_ACTIVE,
               ),
               SizedBox(
                 height: 14.0,
@@ -52,7 +55,7 @@ class WorldData extends StatelessWidget {
                 totalCases: _apiDataStore.worldStatisticsData != null
                     ? _apiDataStore.worldStatisticsData.recovered
                     : "",
-                color: Colors.green,
+                color: ColorConstants.COLOR_RECOVERED,
               ),
               SizedBox(
                 height: 14.0,
@@ -65,7 +68,7 @@ class WorldData extends StatelessWidget {
                 newCases: _apiDataStore.worldStatisticsData != null
                     ? _apiDataStore.worldStatisticsData.deltaDeathes
                     : "",
-                color: Colors.grey,
+                color: ColorConstants.COLOR_DECEASED,
               ),
             ],
           ),

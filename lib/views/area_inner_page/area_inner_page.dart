@@ -61,6 +61,7 @@ class _AreaInnerPageState extends State<AreaInnerPage> {
     _scrollController.addListener(_scrollListener);
     _apiDataStore.getOtherStateDaily(stateCode: widget.stateCode);
     _apiDataStore.getListOfOtherStateDistrictsData(stateName: widget.stateName);
+    _apiDataStore.getOtherStateZoneData(stateName: widget.stateName);
   }
 
   @override
@@ -128,6 +129,8 @@ class _AreaInnerPageState extends State<AreaInnerPage> {
                       deltaDeaths: widget.deltaDeaths,
                       deltaRecovered: widget.deltaRecovered,
                     ),
+                    
+                    
                     AnalysisContainer(
                       scrollStore: _scrollStore,
                       loading: _loading,
@@ -155,7 +158,7 @@ class _AreaInnerPageState extends State<AreaInnerPage> {
                     SizedBox(
                       height: 48.0,
                     ),
-                    AffectedDistricts(),
+                    AffectedDistricts(state: widget.stateName),
                   ],
                 ),
               ],

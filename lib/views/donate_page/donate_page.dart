@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/util/header_3_container/header_3_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -64,22 +65,7 @@ class _DonatePageState extends State<DonatePage> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 24.0,
-                ),
-                _connectionStore.isInternetConnected &&
-                        _apiDataStore.organisationProfileList != null
-                    ? Text("Donate today",
-                        style: GoogleFonts.paytoneOne(
-                            fontSize: 24,
-                            color: Theme.of(context).accentColor))
-                    : Container(),
-                _connectionStore.isInternetConnected &&
-                        _apiDataStore.organisationProfileList != null
-                    ? SizedBox(
-                        height: 24.0,
-                      )
-                    : Container(),
+                Header3Container(title: "Donate Now"),
                 !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : _apiDataStore.organisationProfileList != null

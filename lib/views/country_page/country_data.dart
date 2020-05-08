@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/global/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -31,7 +32,7 @@ class CountryData extends StatelessWidget {
                 newCases: _apiDataStore.myCountryData != null
                     ? _apiDataStore.myCountryData.deltaConfirmed
                     : "",
-                color: Colors.red,
+                color: ColorConstants.COLOR_CONFIRMED,
               ),
               SizedBox(
                 height: 14.0,
@@ -43,7 +44,7 @@ class CountryData extends StatelessWidget {
                         .toString()
                         .padLeft(2, '0')
                     : "",
-                color: Colors.blue,
+                color: ColorConstants.COLOR_ACTIVE,
               ),
               SizedBox(
                 height: 14.0,
@@ -58,7 +59,7 @@ class CountryData extends StatelessWidget {
                 newCases: _apiDataStore.myCountryData != null
                     ? _apiDataStore.myCountryData.deltaRecovered
                     : "",
-                color: Colors.green,
+                color: ColorConstants.COLOR_RECOVERED
               ),
               SizedBox(
                 height: 14.0,
@@ -73,7 +74,7 @@ class CountryData extends StatelessWidget {
                 newCases: _apiDataStore.myCountryData != null
                     ? _apiDataStore.myCountryData.deltaDeaths
                     : "",
-                color: Colors.grey,
+                color: ColorConstants.COLOR_DECEASED,
               ),
             ],
           ),

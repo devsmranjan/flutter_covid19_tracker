@@ -97,7 +97,7 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
                 !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : !_loading.isLoading &&
-                            _apiDataStore.listOfCountriesData.isNotEmpty
+                            (_apiDataStore.listOfCountriesData.isNotEmpty || _apiDataStore.listOfCountriesData != null)
                         ? ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),

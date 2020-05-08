@@ -68,18 +68,29 @@ class _AboutPageState extends State<AboutPage> {
                 ),
               ),
               SizedBox(
-                height: 24.0,
+                height: 36.0,
+              ),
+              Image.asset(
+                "assets/icon/ic_launcher.png",
+                height: 100,
+              ),
+              SizedBox(
+                height: 18.0,
               ),
               Text("COVID-19 Tracker",
-                  style: GoogleFonts.paytoneOne(
-                      fontSize: 24, color: Theme.of(context).accentColor)),
+                  style: GoogleFonts.poiretOne(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).accentColor)),
               SizedBox(
                 height: 12.0,
               ),
               Text(
-                _version != "" ? "Version $_version" : "",
-                style: GoogleFonts.paytoneOne(
-                    fontSize: 18,
+                _version != "" ? "v$_version" : "",
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.9,
                     color: NeumorphicTheme.defaultTextColor(context)),
               ),
               SizedBox(
@@ -99,7 +110,7 @@ class _AboutPageState extends State<AboutPage> {
               ),
               Container(
                 child: Text(
-                  "This app is based on Covid19India API to get all the data of India and Rapid API to get World's data.",
+                  "This app is based on opensource APIs like Covid19India API to get all the data of India and Novel COVID API to get World's data.",
                   style: TextStyle(
                       height: 1.4,
                       color: NeumorphicTheme.defaultTextColor(context)),
@@ -109,28 +120,40 @@ class _AboutPageState extends State<AboutPage> {
               SizedBox(
                 height: 36.0,
               ),
-              Neumorphic(
-                  boxShape: NeumorphicBoxShape.circle(),
-                  style: NeumorphicStyle(
-                    shape: NeumorphicShape.flat,
-                    depth: 4,
-                  ),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                    child: Image.asset(
-                      'assets/images/developer.jpeg',
-                      width: 100,
-                      fit: BoxFit.cover,
-                    ),
-                  )),
+              // Neumorphic(
+              //     boxShape: NeumorphicBoxShape.circle(),
+              //     style: NeumorphicStyle(
+              //       shape: NeumorphicShape.flat,
+              //       depth: 4,
+              //     ),
+              //     child: Container(
+              //       decoration:
+              //           BoxDecoration(borderRadius: BorderRadius.circular(50)),
+              //       child: Image.asset(
+              //         'assets/images/developer.jpeg',
+              //         width: 100,
+              //         fit: BoxFit.cover,
+              //       ),
+              //     )),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 28),
+                child: Text(
+                  "A contribution from",
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      color: NeumorphicTheme.defaultTextColor(context),
+                      fontWeight: FontWeight.bold,
+                      height: 1.6),
+                  textAlign: TextAlign.center,
+                ),
+              ),
               SizedBox(
-                height: 14,
+                height: 2,
               ),
               Text(
                 "Smruti Ranjan Rana",
                 style: GoogleFonts.paytoneOne(
-                    fontSize: 18.0, color: Theme.of(context).accentColor),
+                    fontSize: 20.0, color: Theme.of(context).accentColor),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -139,11 +162,11 @@ class _AboutPageState extends State<AboutPage> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 28),
                 child: Text(
-                  "App Developer",
+                  "( App Developer )",
                   style: TextStyle(
                       fontSize: 14.0,
                       color: NeumorphicTheme.defaultTextColor(context),
-                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.bold,
                       height: 1.6),
                   textAlign: TextAlign.center,
                 ),
@@ -197,6 +220,9 @@ class _AboutPageState extends State<AboutPage> {
                       height: 1.6),
                   textAlign: TextAlign.center,
                 ),
+              ),
+              SizedBox(
+                height: 18.0,
               ),
             ],
           ),

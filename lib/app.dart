@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:system_info/system_info.dart';
 import 'store/dark_mode/dark_mode.dart';
 import 'views/home.dart';
 
@@ -19,6 +20,8 @@ class _Covid19TrackerState extends State<Covid19Tracker> {
   void initState() {
     super.initState();
     _darkModeStore.checkDarkMode();
+    print("Kernel architecture     : ${SysInfo.kernelArchitecture}");
+    print("Kernel bitness          : ${SysInfo.kernelBitness}");
   }
 
   @override

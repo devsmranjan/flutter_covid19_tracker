@@ -4,6 +4,7 @@ import 'package:covid19_tracker/store/scroll/scroll.dart';
 import 'package:covid19_tracker/util/all_afected_container/all_affected_container.dart';
 import 'package:covid19_tracker/util/analysis_container/analysis_container.dart';
 import 'package:covid19_tracker/util/error_container/error_container.dart';
+import 'package:covid19_tracker/util/factoids_container/factoids_container.dart';
 import 'package:covid19_tracker/util/header_1_container/header_1_container.dart';
 import 'package:covid19_tracker/util/location_container/location_container.dart';
 import 'package:covid19_tracker/views/affected_states_page/affected_states_page.dart';
@@ -61,9 +62,9 @@ class _CountryPageState extends State<CountryPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Header1Container(),
-                      LocationContainer(),
+                      FactoidsContainer(),
                       SizedBox(
-                        height: 36.0,
+                        height: 28.0,
                       ),
                       CountryData(),
                       SizedBox(

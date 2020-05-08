@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/global/color_constants.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import '../../store/location/location.dart';
 import '../../util/header_2_container/header_2_container.dart';
 import '../../store/api_data/api_data.dart';
 import '../../util/data_container/data_container.dart';
-
 
 class StateData extends StatelessWidget {
   final ApiDataStore _apiDataStore = ApiDataStore();
@@ -35,7 +35,7 @@ class StateData extends StatelessWidget {
                 newCases: _apiDataStore.myStateData != null
                     ? _apiDataStore.myStateData.deltaConfirmed
                     : "",
-                color: Colors.red,
+                color: ColorConstants.COLOR_CONFIRMED,
               ),
               SizedBox(
                 height: 14.0,
@@ -47,7 +47,7 @@ class StateData extends StatelessWidget {
                         .toString()
                         .padLeft(2, '0')
                     : "",
-                color: Colors.blue,
+                color: ColorConstants.COLOR_ACTIVE,
               ),
               SizedBox(
                 height: 14.0,
@@ -62,7 +62,7 @@ class StateData extends StatelessWidget {
                 newCases: _apiDataStore.myStateData != null
                     ? _apiDataStore.myStateData.deltaRecovered
                     : "",
-                color: Colors.green,
+                color: ColorConstants.COLOR_RECOVERED,
               ),
               SizedBox(
                 height: 14.0,
@@ -77,7 +77,7 @@ class StateData extends StatelessWidget {
                 newCases: _apiDataStore.myStateData != null
                     ? _apiDataStore.myStateData.deltaDeaths
                     : "",
-                color: Colors.grey,
+                color: ColorConstants.COLOR_DECEASED,
               ),
             ],
           ),

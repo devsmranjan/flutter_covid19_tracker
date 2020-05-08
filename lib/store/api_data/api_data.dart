@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:covid19_tracker/api/covid_19_india/all_data_model/resources_model.dart';
+import 'package:covid19_tracker/api/covid_19_india/all_data_model/zone_model.dart';
 import 'package:covid19_tracker/api/novel_covid/cases_by_country_data_model.dart';
 import 'package:covid19_tracker/api/novel_covid/world_statistics_data_model_v2.dart';
 import 'package:covid19_tracker/api/novel_covid/world_total_statistics.dart';
@@ -103,6 +105,43 @@ abstract class _ApiDataStoreBase with Store {
     factoroid = factoidsList[_random.nextInt(factoidsList.length)];
   }
 
+  // Get resources
+  @observable
+  List<Resource> allResourcesList;
+
+  @observable
+  List<Resource> myStateResourcesList;
+
+  Future<API1ResourcesData> _fetchAPI1ResourcesData() async {
+    final _dataURL = "https://api.covid19india.org/resources/resources.json";
+    final response = await _dio.get(_dataURL);
+    if (response.statusCode == 200) {
+      return API1ResourcesData.fromJson(response.data);
+    } else {
+      throw Exception('Failed to load state _fetchAPI1ResourcesData data.');
+    }
+  }
+
+  @action
+  Future fetchAPI1ResourcesData() async {
+    try {
+      var api1ResourcesData = await _fetchAPI1ResourcesData();
+      allResourcesList = api1ResourcesData.allResources;
+    } catch (e) {
+      print("Error in fetchAPI1ResourcesData : " + e.toString());
+    }
+  }
+
+  @action
+  void getMyStateResourcesData({String stateName}) {
+    myStateResourcesList = [];
+    allResourcesList.forEach((resourceData) {
+      if (resourceData.state.toLowerCase() == stateName.toLowerCase()) {
+        myStateResourcesList.add(resourceData);
+      }
+    });
+  }
+
   // state data
   @observable
   List<StateData> allStatesData;
@@ -159,6 +198,9 @@ abstract class _ApiDataStoreBase with Store {
       var api1Data = await _fetchAPI1Data();
       allStatesData = api1Data.stateData;
       myCountryData = api1Data.stateData[0];
+      allStatesData.sort(((a, b) =>
+          int.tryParse(b.confirmed).compareTo(int.tryParse(a.confirmed))));
+
       allCaseTimeSeriesData = api1Data.casesTimeSeriesData;
     } catch (e) {
       print("Error in fetchAPI1Data : " + e.toString());
@@ -233,6 +275,10 @@ abstract class _ApiDataStoreBase with Store {
     allStatesDistrictsData.forEach((stateDistrictsData) {
       if (stateDistrictsData.state.toLowerCase() == stateName.toLowerCase()) {
         listOfOtherStateDistrictsData = stateDistrictsData;
+        // print(listOfOtherStateDistrictsData.);
+
+        listOfOtherStateDistrictsData.districtData
+            .sort((a, b) => b.confirmed.compareTo(a.confirmed));
       }
     });
   }
@@ -247,11 +293,69 @@ abstract class _ApiDataStoreBase with Store {
       }
     });
 
+    _myStateDistrictsData.sort((a, b) => b.confirmed.compareTo(a.confirmed));
+
     _myStateDistrictsData.forEach((districtData) {
       if (districtData.district.toLowerCase() == districtName.toLowerCase()) {
         myDistrictData = districtData;
       } else {
         isMyDistrictDataAvailable = false;
+      }
+    });
+  }
+
+  // Zones
+  List<Zone> _allZonesList;
+
+  @observable
+  List<Zone> myStateZonesList;
+
+  @observable
+  Zone myDistrictZone;
+
+  @observable
+  List<Zone> otherStateZonesList;
+
+  Future<API1ZonesData> _fetchAPI1ZonesData() async {
+    final _dataURL = "https://api.covid19india.org/zones.json";
+    final response = await _dio.get(_dataURL);
+    if (response.statusCode == 200) {
+      return API1ZonesData.fromJson(response.data);
+    } else {
+      throw Exception('Failed to load state _fetchAPI1ZonesData data.');
+    }
+  }
+
+  @action
+  Future fetchAPI1ZonesData() async {
+    try {
+      var api1ZonesData = await _fetchAPI1ZonesData();
+      _allZonesList = api1ZonesData.allZones;
+    } catch (e) {
+      print("Error in fetchAPI1StateDistrictsData : " + e.toString());
+    }
+  }
+
+  @action
+  void getMyAreaZoneData({String stateName, String distName}) {
+    myStateZonesList = [];
+    _allZonesList.forEach((zoneData) {
+      if (zoneData.state.toLowerCase() == stateName.toLowerCase()) {
+        myStateZonesList.add(zoneData);
+
+        if (zoneData.district.toLowerCase() == distName.toLowerCase()) {
+          myDistrictZone = zoneData;
+        }
+      }
+    });
+  }
+
+  @action
+  void getOtherStateZoneData({String stateName}) {
+    otherStateZonesList = [];
+    _allZonesList.forEach((zoneData) {
+      if (zoneData.state.toLowerCase() == stateName.toLowerCase()) {
+        otherStateZonesList.add(zoneData);
       }
     });
   }
@@ -375,6 +479,8 @@ abstract class _ApiDataStoreBase with Store {
     stateCode = stateCode.toLowerCase();
     _statesDailyDataConfirmedMapList.forEach((dailyData) {
       if (dailyData[stateCode] != null) {
+        dailyData[stateCode] =
+            dailyData[stateCode] == "" ? "0" : dailyData[stateCode];
         var totalTillNow = stateDailyDataTotalConfirmed.length <= 0
             ? dailyData[stateCode]
             : (int.parse(stateDailyDataTotalConfirmed[
@@ -408,6 +514,76 @@ abstract class _ApiDataStoreBase with Store {
         stateDailyDataTotalDeceased.add(totalTillNow);
       }
     });
+  }
+
+  // district daily
+  @observable
+  Map<String, dynamic> districtsDaily;
+
+  // @observable
+  // List<dynamic> districtDaily;
+
+  @observable
+  List<String> districtDailyDates = [];
+
+  @observable
+  List<int> districtDailyConfirmed = [];
+
+  @observable
+  List<int> districtDailyRecovered = [];
+
+  @observable
+  List<int> districtDailyDeceased = [];
+
+  @action
+  Future fetchDistrictDaily() async {
+    Response response = await _dio.get(
+      "https://api.covid19india.org/districts_daily.json",
+    );
+
+    if (response.statusCode == 200) {
+      districtsDaily = response.data['districtsDaily'];
+    }
+  }
+
+  @action
+  void getDistrictDaily({String stateName, String districtName}) {
+    // print(districtsDaily);
+    // districtDaily = [];
+    districtDailyDates.clear();
+    districtDailyConfirmed.clear();
+    districtDailyRecovered.clear();
+    districtDailyDeceased.clear();
+
+    if (districtsDaily.containsKey(stateName) &&
+        districtsDaily[stateName].containsKey(districtName)) {
+      // districtDaily.addAll(_districtsDaily[stateName][districtName]);
+      List _districtDailyList = districtsDaily[stateName][districtName];
+
+      // print(_districtDailyList);
+
+      _districtDailyList.forEach((districtDailyData) {
+        if (!districtDailyDates.contains(districtDailyData['date'])) {
+          districtDailyDates.add(districtDailyData['date']);
+        }
+      });
+
+      // print(districtDailyDates);
+
+      _districtDailyList.forEach((districtDailyData) {
+        districtDailyConfirmed.add(districtDailyData['confirmed']);
+      });
+
+      // print(districtDailyConfirmed);
+
+      _districtDailyList.forEach((districtDailyData) {
+        districtDailyRecovered.add(districtDailyData['recovered']);
+      });
+
+      _districtDailyList.forEach((districtDailyData) {
+        districtDailyDeceased.add(districtDailyData['deceased']);
+      });
+    }
   }
 
   // api 2 - world data
@@ -490,6 +666,7 @@ abstract class _ApiDataStoreBase with Store {
     try {
       var api2CasesByCountriesData = await _fetchAPI2CasesByCountriesData();
       listOfCountriesData = api2CasesByCountriesData.countryData;
+      listOfCountriesData.sort((a, b) => b.confirmed.compareTo(a.confirmed));
     } catch (e) {
       print("Error in fetchAPI2CasesByCountriesData : " + e.toString());
     }
@@ -584,6 +761,7 @@ abstract class _ApiDataStoreBase with Store {
       countryDailyDataTotalRecovered
           .addAll(_countryDailyDataRecoveredMap.values);
       countryDailyDataTotalDeceased.addAll(_countryDailyDataDeathsMap.values);
+      print(_countryDailyDataDeathsMap.values);
     } else {
       throw Exception('Failed to fetchCountryDaily data');
     }

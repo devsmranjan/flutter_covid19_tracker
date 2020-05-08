@@ -15,7 +15,7 @@ class Header3Container extends StatelessWidget {
     return Column(
       children: <Widget>[
         SizedBox(
-          height: 28,
+          height: 32,
         ),
         Text(
           title,

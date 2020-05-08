@@ -23,7 +23,9 @@ class _LocationContainerState extends State<LocationContainer> {
     return Neumorphic(
         boxShape: NeumorphicBoxShape.roundRect(
             borderRadius: BorderRadius.circular(8)),
-        style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -4),
+        style: NeumorphicStyle(
+          shape: NeumorphicShape.flat,
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18),
         child: Observer(
           builder: (_) => _apiDataStore.myDistrictData != null
@@ -35,7 +37,8 @@ class _LocationContainerState extends State<LocationContainer> {
                           Neumorphic(
                               boxShape: NeumorphicBoxShape.circle(),
                               style: NeumorphicStyle(
-                                shape: NeumorphicShape.convex,
+                                shape: NeumorphicShape.flat,
+                                // depth: -2
                               ),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 10),
@@ -54,7 +57,7 @@ class _LocationContainerState extends State<LocationContainer> {
                           ),
                           Expanded(
                               child: Text(
-                            "${_apiDataStore.myDistrictData.delta.confirmed >= 1 ? _apiDataStore.myDistrictData.delta.confirmed : "No"} new ${_apiDataStore.myDistrictData.delta.confirmed > 1 || _apiDataStore.myDistrictData.delta.confirmed == 0 ? "cases" : "case"} in ${_apiDataStore.myDistrictData.district}. Total ${_apiDataStore.myDistrictData.confirmed >= 1 ? _apiDataStore.myDistrictData.confirmed : "No"} ${_apiDataStore.myDistrictData.confirmed > 1 || _apiDataStore.myDistrictData.confirmed == 0 ? "cases" : "case"} ${_apiDataStore.myDistrictData.confirmed > 1 || _apiDataStore.myDistrictData.confirmed == 0 ? "have" : "has"} confirmed till now.",
+                            "${_apiDataStore.myDistrictData.delta.confirmed >= 1 ? _apiDataStore.myDistrictData.delta.confirmed : "No"} new ${_apiDataStore.myDistrictData.delta.confirmed > 1 || _apiDataStore.myDistrictData.delta.confirmed == 0 ? "cases" : "case"} in ${_apiDataStore.myDistrictData.district}. ${_apiDataStore.myDistrictData.confirmed >= 1 ? "Total " : ""}${_apiDataStore.myDistrictData.confirmed >= 1 ? _apiDataStore.myDistrictData.confirmed : "No"} ${_apiDataStore.myDistrictData.confirmed > 1 || _apiDataStore.myDistrictData.confirmed == 0 ? "cases" : "case"} ${_apiDataStore.myDistrictData.confirmed > 1 || _apiDataStore.myDistrictData.confirmed == 0 ? "have" : "has"} confirmed till now.",
                             // textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 14.0,
@@ -65,9 +68,6 @@ class _LocationContainerState extends State<LocationContainer> {
                           )),
                         ],
                       ),
-                      // SizedBox(
-                      //   height: 8.0,
-                      // ),
                     ],
                   ),
                 )

@@ -78,6 +78,44 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
     }, _$factoroidAtom, name: '${_$factoroidAtom.name}_set');
   }
 
+  final _$allResourcesListAtom =
+      Atom(name: '_ApiDataStoreBase.allResourcesList');
+
+  @override
+  List<Resource> get allResourcesList {
+    _$allResourcesListAtom.context.enforceReadPolicy(_$allResourcesListAtom);
+    _$allResourcesListAtom.reportObserved();
+    return super.allResourcesList;
+  }
+
+  @override
+  set allResourcesList(List<Resource> value) {
+    _$allResourcesListAtom.context.conditionallyRunInAction(() {
+      super.allResourcesList = value;
+      _$allResourcesListAtom.reportChanged();
+    }, _$allResourcesListAtom, name: '${_$allResourcesListAtom.name}_set');
+  }
+
+  final _$myStateResourcesListAtom =
+      Atom(name: '_ApiDataStoreBase.myStateResourcesList');
+
+  @override
+  List<Resource> get myStateResourcesList {
+    _$myStateResourcesListAtom.context
+        .enforceReadPolicy(_$myStateResourcesListAtom);
+    _$myStateResourcesListAtom.reportObserved();
+    return super.myStateResourcesList;
+  }
+
+  @override
+  set myStateResourcesList(List<Resource> value) {
+    _$myStateResourcesListAtom.context.conditionallyRunInAction(() {
+      super.myStateResourcesList = value;
+      _$myStateResourcesListAtom.reportChanged();
+    }, _$myStateResourcesListAtom,
+        name: '${_$myStateResourcesListAtom.name}_set');
+  }
+
   final _$allStatesDataAtom = Atom(name: '_ApiDataStoreBase.allStatesData');
 
   @override
@@ -284,6 +322,61 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
         name: '${_$isMyDistrictDataAvailableAtom.name}_set');
   }
 
+  final _$myStateZonesListAtom =
+      Atom(name: '_ApiDataStoreBase.myStateZonesList');
+
+  @override
+  List<Zone> get myStateZonesList {
+    _$myStateZonesListAtom.context.enforceReadPolicy(_$myStateZonesListAtom);
+    _$myStateZonesListAtom.reportObserved();
+    return super.myStateZonesList;
+  }
+
+  @override
+  set myStateZonesList(List<Zone> value) {
+    _$myStateZonesListAtom.context.conditionallyRunInAction(() {
+      super.myStateZonesList = value;
+      _$myStateZonesListAtom.reportChanged();
+    }, _$myStateZonesListAtom, name: '${_$myStateZonesListAtom.name}_set');
+  }
+
+  final _$myDistrictZoneAtom = Atom(name: '_ApiDataStoreBase.myDistrictZone');
+
+  @override
+  Zone get myDistrictZone {
+    _$myDistrictZoneAtom.context.enforceReadPolicy(_$myDistrictZoneAtom);
+    _$myDistrictZoneAtom.reportObserved();
+    return super.myDistrictZone;
+  }
+
+  @override
+  set myDistrictZone(Zone value) {
+    _$myDistrictZoneAtom.context.conditionallyRunInAction(() {
+      super.myDistrictZone = value;
+      _$myDistrictZoneAtom.reportChanged();
+    }, _$myDistrictZoneAtom, name: '${_$myDistrictZoneAtom.name}_set');
+  }
+
+  final _$otherStateZonesListAtom =
+      Atom(name: '_ApiDataStoreBase.otherStateZonesList');
+
+  @override
+  List<Zone> get otherStateZonesList {
+    _$otherStateZonesListAtom.context
+        .enforceReadPolicy(_$otherStateZonesListAtom);
+    _$otherStateZonesListAtom.reportObserved();
+    return super.otherStateZonesList;
+  }
+
+  @override
+  set otherStateZonesList(List<Zone> value) {
+    _$otherStateZonesListAtom.context.conditionallyRunInAction(() {
+      super.otherStateZonesList = value;
+      _$otherStateZonesListAtom.reportChanged();
+    }, _$otherStateZonesListAtom,
+        name: '${_$otherStateZonesListAtom.name}_set');
+  }
+
   final _$stateDailyDataDatesAtom =
       Atom(name: '_ApiDataStoreBase.stateDailyDataDates');
 
@@ -422,6 +515,102 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
       _$stateDailyDataTotalDeceasedAtom.reportChanged();
     }, _$stateDailyDataTotalDeceasedAtom,
         name: '${_$stateDailyDataTotalDeceasedAtom.name}_set');
+  }
+
+  final _$districtsDailyAtom = Atom(name: '_ApiDataStoreBase.districtsDaily');
+
+  @override
+  Map<String, dynamic> get districtsDaily {
+    _$districtsDailyAtom.context.enforceReadPolicy(_$districtsDailyAtom);
+    _$districtsDailyAtom.reportObserved();
+    return super.districtsDaily;
+  }
+
+  @override
+  set districtsDaily(Map<String, dynamic> value) {
+    _$districtsDailyAtom.context.conditionallyRunInAction(() {
+      super.districtsDaily = value;
+      _$districtsDailyAtom.reportChanged();
+    }, _$districtsDailyAtom, name: '${_$districtsDailyAtom.name}_set');
+  }
+
+  final _$districtDailyDatesAtom =
+      Atom(name: '_ApiDataStoreBase.districtDailyDates');
+
+  @override
+  List<String> get districtDailyDates {
+    _$districtDailyDatesAtom.context
+        .enforceReadPolicy(_$districtDailyDatesAtom);
+    _$districtDailyDatesAtom.reportObserved();
+    return super.districtDailyDates;
+  }
+
+  @override
+  set districtDailyDates(List<String> value) {
+    _$districtDailyDatesAtom.context.conditionallyRunInAction(() {
+      super.districtDailyDates = value;
+      _$districtDailyDatesAtom.reportChanged();
+    }, _$districtDailyDatesAtom, name: '${_$districtDailyDatesAtom.name}_set');
+  }
+
+  final _$districtDailyConfirmedAtom =
+      Atom(name: '_ApiDataStoreBase.districtDailyConfirmed');
+
+  @override
+  List<int> get districtDailyConfirmed {
+    _$districtDailyConfirmedAtom.context
+        .enforceReadPolicy(_$districtDailyConfirmedAtom);
+    _$districtDailyConfirmedAtom.reportObserved();
+    return super.districtDailyConfirmed;
+  }
+
+  @override
+  set districtDailyConfirmed(List<int> value) {
+    _$districtDailyConfirmedAtom.context.conditionallyRunInAction(() {
+      super.districtDailyConfirmed = value;
+      _$districtDailyConfirmedAtom.reportChanged();
+    }, _$districtDailyConfirmedAtom,
+        name: '${_$districtDailyConfirmedAtom.name}_set');
+  }
+
+  final _$districtDailyRecoveredAtom =
+      Atom(name: '_ApiDataStoreBase.districtDailyRecovered');
+
+  @override
+  List<int> get districtDailyRecovered {
+    _$districtDailyRecoveredAtom.context
+        .enforceReadPolicy(_$districtDailyRecoveredAtom);
+    _$districtDailyRecoveredAtom.reportObserved();
+    return super.districtDailyRecovered;
+  }
+
+  @override
+  set districtDailyRecovered(List<int> value) {
+    _$districtDailyRecoveredAtom.context.conditionallyRunInAction(() {
+      super.districtDailyRecovered = value;
+      _$districtDailyRecoveredAtom.reportChanged();
+    }, _$districtDailyRecoveredAtom,
+        name: '${_$districtDailyRecoveredAtom.name}_set');
+  }
+
+  final _$districtDailyDeceasedAtom =
+      Atom(name: '_ApiDataStoreBase.districtDailyDeceased');
+
+  @override
+  List<int> get districtDailyDeceased {
+    _$districtDailyDeceasedAtom.context
+        .enforceReadPolicy(_$districtDailyDeceasedAtom);
+    _$districtDailyDeceasedAtom.reportObserved();
+    return super.districtDailyDeceased;
+  }
+
+  @override
+  set districtDailyDeceased(List<int> value) {
+    _$districtDailyDeceasedAtom.context.conditionallyRunInAction(() {
+      super.districtDailyDeceased = value;
+      _$districtDailyDeceasedAtom.reportChanged();
+    }, _$districtDailyDeceasedAtom,
+        name: '${_$districtDailyDeceasedAtom.name}_set');
   }
 
   final _$worldStatisticsDataAtom =
@@ -774,6 +963,15 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
     return _$fetchFactoidsDataAsyncAction.run(() => super.fetchFactoidsData());
   }
 
+  final _$fetchAPI1ResourcesDataAsyncAction =
+      AsyncAction('fetchAPI1ResourcesData');
+
+  @override
+  Future<dynamic> fetchAPI1ResourcesData() {
+    return _$fetchAPI1ResourcesDataAsyncAction
+        .run(() => super.fetchAPI1ResourcesData());
+  }
+
   final _$fetchAPI1DataAsyncAction = AsyncAction('fetchAPI1Data');
 
   @override
@@ -790,11 +988,27 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
         .run(() => super.fetchAPI1StateDistrictsData());
   }
 
+  final _$fetchAPI1ZonesDataAsyncAction = AsyncAction('fetchAPI1ZonesData');
+
+  @override
+  Future<dynamic> fetchAPI1ZonesData() {
+    return _$fetchAPI1ZonesDataAsyncAction
+        .run(() => super.fetchAPI1ZonesData());
+  }
+
   final _$fetchStatesDailyAsyncAction = AsyncAction('fetchStatesDaily');
 
   @override
   Future<dynamic> fetchStatesDaily() {
     return _$fetchStatesDailyAsyncAction.run(() => super.fetchStatesDaily());
+  }
+
+  final _$fetchDistrictDailyAsyncAction = AsyncAction('fetchDistrictDaily');
+
+  @override
+  Future<dynamic> fetchDistrictDaily() {
+    return _$fetchDistrictDailyAsyncAction
+        .run(() => super.fetchDistrictDaily());
   }
 
   final _$fetchAPI2WorldTotalStatisticsAsyncAction =
@@ -880,6 +1094,16 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
   }
 
   @override
+  void getMyStateResourcesData({String stateName}) {
+    final _$actionInfo = _$_ApiDataStoreBaseActionController.startAction();
+    try {
+      return super.getMyStateResourcesData(stateName: stateName);
+    } finally {
+      _$_ApiDataStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void getStateData({String stateName = "", String stateCode = ""}) {
     final _$actionInfo = _$_ApiDataStoreBaseActionController.startAction();
     try {
@@ -931,6 +1155,26 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
   }
 
   @override
+  void getMyAreaZoneData({String stateName, String distName}) {
+    final _$actionInfo = _$_ApiDataStoreBaseActionController.startAction();
+    try {
+      return super.getMyAreaZoneData(stateName: stateName, distName: distName);
+    } finally {
+      _$_ApiDataStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getOtherStateZoneData({String stateName}) {
+    final _$actionInfo = _$_ApiDataStoreBaseActionController.startAction();
+    try {
+      return super.getOtherStateZoneData(stateName: stateName);
+    } finally {
+      _$_ApiDataStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void getMyStateDaily({String stateCode}) {
     final _$actionInfo = _$_ApiDataStoreBaseActionController.startAction();
     try {
@@ -945,6 +1189,17 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
     final _$actionInfo = _$_ApiDataStoreBaseActionController.startAction();
     try {
       return super.getOtherStateDaily(stateCode: stateCode);
+    } finally {
+      _$_ApiDataStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getDistrictDaily({String stateName, String districtName}) {
+    final _$actionInfo = _$_ApiDataStoreBaseActionController.startAction();
+    try {
+      return super
+          .getDistrictDaily(stateName: stateName, districtName: districtName);
     } finally {
       _$_ApiDataStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -973,7 +1228,7 @@ mixin _$ApiDataStore on _ApiDataStoreBase, Store {
   @override
   String toString() {
     final string =
-        'appVersionsData: ${appVersionsData.toString()},isVersionMatched: ${isVersionMatched.toString()},factoidsList: ${factoidsList.toString()},factoroid: ${factoroid.toString()},allStatesData: ${allStatesData.toString()},allCaseTimeSeriesData: ${allCaseTimeSeriesData.toString()},mapOfIndivisualListOfCaseTimeSeries: ${mapOfIndivisualListOfCaseTimeSeries.toString()},myCountryData: ${myCountryData.toString()},myStateData: ${myStateData.toString()},otherStateData: ${otherStateData.toString()},allStatesDistrictsData: ${allStatesDistrictsData.toString()},listOfMyStateDistrictsData: ${listOfMyStateDistrictsData.toString()},listOfOtherStateDistrictsData: ${listOfOtherStateDistrictsData.toString()},myDistrictData: ${myDistrictData.toString()},isMyDistrictDataAvailable: ${isMyDistrictDataAvailable.toString()},stateDailyDataDates: ${stateDailyDataDates.toString()},myStateDailyDataTotalConfirmed: ${myStateDailyDataTotalConfirmed.toString()},myStateDailyDataTotalRecovered: ${myStateDailyDataTotalRecovered.toString()},myStateDailyDataTotalDeceased: ${myStateDailyDataTotalDeceased.toString()},stateDailyDataTotalConfirmed: ${stateDailyDataTotalConfirmed.toString()},stateDailyDataTotalRecovered: ${stateDailyDataTotalRecovered.toString()},stateDailyDataTotalDeceased: ${stateDailyDataTotalDeceased.toString()},worldStatisticsData: ${worldStatisticsData.toString()},listOfCountriesData: ${listOfCountriesData.toString()},worldDailyData: ${worldDailyData.toString()},worldDailyDataDates: ${worldDailyDataDates.toString()},worldDailyDataTotalConfirmed: ${worldDailyDataTotalConfirmed.toString()},worldDailyDataTotalRecovered: ${worldDailyDataTotalRecovered.toString()},worldDailyDataTotalDeceased: ${worldDailyDataTotalDeceased.toString()},countryDailyData: ${countryDailyData.toString()},countryDailyDataDates: ${countryDailyDataDates.toString()},countryDailyDataTotalConfirmed: ${countryDailyDataTotalConfirmed.toString()},countryDailyDataTotalRecovered: ${countryDailyDataTotalRecovered.toString()},countryDailyDataTotalDeceased: ${countryDailyDataTotalDeceased.toString()},twitterHandleOfStatesList: ${twitterHandleOfStatesList.toString()},twitterHandleOfMyState: ${twitterHandleOfMyState.toString()},helplinesOfStatesList: ${helplinesOfStatesList.toString()},organisationProfileList: ${organisationProfileList.toString()},myStateOrganisationsList: ${myStateOrganisationsList.toString()}';
+        'appVersionsData: ${appVersionsData.toString()},isVersionMatched: ${isVersionMatched.toString()},factoidsList: ${factoidsList.toString()},factoroid: ${factoroid.toString()},allResourcesList: ${allResourcesList.toString()},myStateResourcesList: ${myStateResourcesList.toString()},allStatesData: ${allStatesData.toString()},allCaseTimeSeriesData: ${allCaseTimeSeriesData.toString()},mapOfIndivisualListOfCaseTimeSeries: ${mapOfIndivisualListOfCaseTimeSeries.toString()},myCountryData: ${myCountryData.toString()},myStateData: ${myStateData.toString()},otherStateData: ${otherStateData.toString()},allStatesDistrictsData: ${allStatesDistrictsData.toString()},listOfMyStateDistrictsData: ${listOfMyStateDistrictsData.toString()},listOfOtherStateDistrictsData: ${listOfOtherStateDistrictsData.toString()},myDistrictData: ${myDistrictData.toString()},isMyDistrictDataAvailable: ${isMyDistrictDataAvailable.toString()},myStateZonesList: ${myStateZonesList.toString()},myDistrictZone: ${myDistrictZone.toString()},otherStateZonesList: ${otherStateZonesList.toString()},stateDailyDataDates: ${stateDailyDataDates.toString()},myStateDailyDataTotalConfirmed: ${myStateDailyDataTotalConfirmed.toString()},myStateDailyDataTotalRecovered: ${myStateDailyDataTotalRecovered.toString()},myStateDailyDataTotalDeceased: ${myStateDailyDataTotalDeceased.toString()},stateDailyDataTotalConfirmed: ${stateDailyDataTotalConfirmed.toString()},stateDailyDataTotalRecovered: ${stateDailyDataTotalRecovered.toString()},stateDailyDataTotalDeceased: ${stateDailyDataTotalDeceased.toString()},districtsDaily: ${districtsDaily.toString()},districtDailyDates: ${districtDailyDates.toString()},districtDailyConfirmed: ${districtDailyConfirmed.toString()},districtDailyRecovered: ${districtDailyRecovered.toString()},districtDailyDeceased: ${districtDailyDeceased.toString()},worldStatisticsData: ${worldStatisticsData.toString()},listOfCountriesData: ${listOfCountriesData.toString()},worldDailyData: ${worldDailyData.toString()},worldDailyDataDates: ${worldDailyDataDates.toString()},worldDailyDataTotalConfirmed: ${worldDailyDataTotalConfirmed.toString()},worldDailyDataTotalRecovered: ${worldDailyDataTotalRecovered.toString()},worldDailyDataTotalDeceased: ${worldDailyDataTotalDeceased.toString()},countryDailyData: ${countryDailyData.toString()},countryDailyDataDates: ${countryDailyDataDates.toString()},countryDailyDataTotalConfirmed: ${countryDailyDataTotalConfirmed.toString()},countryDailyDataTotalRecovered: ${countryDailyDataTotalRecovered.toString()},countryDailyDataTotalDeceased: ${countryDailyDataTotalDeceased.toString()},twitterHandleOfStatesList: ${twitterHandleOfStatesList.toString()},twitterHandleOfMyState: ${twitterHandleOfMyState.toString()},helplinesOfStatesList: ${helplinesOfStatesList.toString()},organisationProfileList: ${organisationProfileList.toString()},myStateOrganisationsList: ${myStateOrganisationsList.toString()}';
     return '{$string}';
   }
 }

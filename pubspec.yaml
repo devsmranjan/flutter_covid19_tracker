@@ -40,6 +40,7 @@ dependencies:
     permission_handler: ^5.0.0+hotfix.4
     install_plugin:
         path: ./install_plugin
+    system_info: ^0.1.3
 
 
     # The following adds the Cupertino Icons font to your application.
@@ -74,6 +75,7 @@ flutter:
      - assets/images/no-internet.png
      - assets/images/update.png
      - assets/images/no-location.png
+     - assets/icon/ic_launcher.png
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see

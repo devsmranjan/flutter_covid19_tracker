@@ -28,6 +28,10 @@ class AnalysisContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print("datesList: - " + datesList.toString());
+    // print("confirmedList: - " + confirmedList.toString());
+    // print("recoveredList: - " + recoveredList.toString());
+    // print("deceasedList: - " + deceasedList.toString());
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:covid19_tracker/api/covid_19_india/all_data_model/resources_model.dart';
 import 'package:covid19_tracker/global/update_global.dart';
 import 'package:covid19_tracker/store/keys/keys.dart';
 import 'package:covid19_tracker/util/update_dialog/update_dialog.dart';
@@ -49,6 +51,7 @@ class _HomeState extends State<Home> {
   StreamSubscription<bool> _isLocationPermissionGranted;
 
   final _locationStore = LocationStore();
+  Resource _resource = Resource();
   List<Widget> _allPageWidgets;
 
   PackageInfo packageInfo;
@@ -70,11 +73,11 @@ class _HomeState extends State<Home> {
     if (!checkLocationPermission) {
       await _locationPermission.request();
       checkLocationPermission = await _locationPermission.isGranted;
-      _locationStore.updateLocationPermissionGranted(checkLocationPermission);
     }
 
+    _locationStore.updateLocationPermissionGranted(checkLocationPermission);
+
     if (checkLocationPermission) {
-      
       // _locationStore.
       await _locationStore.getLocation();
 
@@ -158,13 +161,16 @@ class _HomeState extends State<Home> {
 
     await _apiDataStore.fetchAPI1Data();
     await _apiDataStore.fetchAPI1StateDistrictsData();
+    await _apiDataStore.fetchAPI1ZonesData();
 
     if (checkLocationPermission) {
-      print("isLocationPermissionGranted --- getStateData");
       _apiDataStore.getStateData(stateName: _locationStore.state);
+      _apiDataStore.getMyAreaZoneData(
+          stateName: _locationStore.state, distName: _locationStore.dist);
     }
 
     await _apiDataStore.fetchStatesDaily();
+    _apiDataStore.fetchDistrictDaily();
 
     if (checkLocationPermission) {
       _apiDataStore.getMyStateDaily(
@@ -177,6 +183,13 @@ class _HomeState extends State<Home> {
 
     _apiDataStore.fetchAPI2WorldTotalStatistics();
     _apiDataStore.fetchWorldDaily();
+
+    await _apiDataStore.fetchAPI1ResourcesData();
+
+    if (checkLocationPermission) {
+      _apiDataStore.getMyStateResourcesData(stateName: _locationStore.state);
+      // _getRandomResource();
+    }
 
     await _apiDataStore.fetchTwitterHandlesStatewise();
 

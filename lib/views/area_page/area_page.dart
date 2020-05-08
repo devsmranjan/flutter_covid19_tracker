@@ -2,6 +2,8 @@ import 'package:covid19_tracker/store/loading/loading.dart';
 import 'package:covid19_tracker/store/scroll/scroll.dart';
 import 'package:covid19_tracker/util/analysis_container/analysis_container.dart';
 import 'package:covid19_tracker/util/chart_container/chart_container.dart';
+import 'package:covid19_tracker/util/factoids_container/factoids_container.dart';
+import 'package:covid19_tracker/util/my_district_container/my_district_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -59,9 +61,10 @@ class _AreaPageState extends State<AreaPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Header1Container(),
-                    LocationContainer(),
+                    MyDistrictContainer(),
+                    FactoidsContainer(),
                     SizedBox(
-                      height: 36.0,
+                      height: 28.0,
                     ),
                     StateData(),
                     SizedBox(
@@ -96,12 +99,12 @@ class _AreaPageState extends State<AreaPage> {
                               .toStringAsFixed(2)
                           : "",
                       datesList: _apiDataStore.stateDailyDataDates,
-                      confirmedList: _apiDataStore.myStateDailyDataTotalConfirmed,
-                      recoveredList:  _apiDataStore.myStateDailyDataTotalRecovered,
+                      confirmedList:
+                          _apiDataStore.myStateDailyDataTotalConfirmed,
+                      recoveredList:
+                          _apiDataStore.myStateDailyDataTotalRecovered,
                       deceasedList: _apiDataStore.myStateDailyDataTotalDeceased,
                     )
-                 
-                 
                   ],
                 ),
               ),

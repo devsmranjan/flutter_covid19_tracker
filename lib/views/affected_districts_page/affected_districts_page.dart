@@ -1,4 +1,6 @@
+import 'package:covid19_tracker/store/location/location.dart';
 import 'package:covid19_tracker/store/search/search.dart';
+import 'package:covid19_tracker/store/show_zones/show_zones.dart';
 import 'package:covid19_tracker/util/header_3_container/header_3_container.dart';
 import 'package:covid19_tracker/util/search_bar/search_bar.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,9 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
   final ConnectionStore _connectionStore = ConnectionStore();
   final ApiDataStore _apiDataStore = ApiDataStore();
   final Loading _loading = Loading();
-  SearchStore _searchStore = SearchStore();
+  final SearchStore _searchStore = SearchStore();
+  final ShowZones _showZones = ShowZones();
+  final LocationStore _locationStore = LocationStore();
   // final Emoji _emoji = Emoji();
 
   void _getData() {
@@ -35,7 +39,6 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
       list.add(data);
     });
 
-    // print(list);
     _searchStore.addObservableList(list);
   }
 
@@ -54,7 +57,6 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
 
   @override
   Widget build(BuildContext context) {
-    // print("_searchStore.observableList : " + _searchStore.observableList.toString());
     return Scaffold(
       backgroundColor: NeumorphicTheme.baseColor(context),
       body: SingleChildScrollView(
@@ -103,6 +105,33 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
                     ? Container()
                     : SearchBar(
                         searchStore: _searchStore, title: "Search Districts"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text("Show Zones",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: !NeumorphicTheme.isUsingDark(context)
+                                ? Colors.black26
+                                : Colors.white)),
+                    SizedBox(width: 12),
+                    Observer(
+                      builder: (_) => NeumorphicSwitch(
+                        height: 22,
+                        value: _showZones.isShowZones,
+                        onChanged: (value) {
+                          _showZones.updateShowZones(!_showZones.isShowZones);
+                        },
+                        style: NeumorphicSwitchStyle(
+                            inactiveTrackColor: Colors.white.withOpacity(0.02),
+                            activeTrackColor: Theme.of(context).accentColor),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 24,
+                ),
                 !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : !_loading.isLoading && _searchStore.observableList != null
@@ -124,11 +153,17 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
                                           .toLowerCase()))
                                   .toList();
 
+                              List zone = _apiDataStore.myStateZonesList
+                                  .where((element) =>
+                                      element.district.toLowerCase() ==
+                                      list[index].district.toLowerCase())
+                                  .toList();
+
                               return DistrictListTile(
-                                districtName: list[index].district,
-                                totalConfirmed: list[index].confirmed,
-                                delta: list[index].delta,
-                              );
+                                  state: _locationStore.state,
+                                  districtData: list[index],
+                                  zone: zone[0],
+                                  showZones: _showZones);
                             },
                           )
                         : Container(

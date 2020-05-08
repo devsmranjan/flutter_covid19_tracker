@@ -17,70 +17,70 @@ class _StateListTileState extends State<StateListTile> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        ListTile(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AreaInnerPage(
-                        lastUpdatedTime: widget.stateData.lastUpdatedTime,
-                        stateName: widget.stateData.state,
-                        stateCode: widget.stateData.stateCode,
-                        confirmed: widget.stateData.confirmed,
-                        active: widget.stateData.active,
-                        recovered: widget.stateData.recovered,
-                        deaths: widget.stateData.deaths,
-                        deltaConfirmed: widget.stateData.deltaConfirmed,
-                        deltaRecovered: widget.stateData.deltaRecovered,
-                        deltaDeaths: widget.stateData.deltaDeaths)));
-          },
-          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                  child: Text(widget.stateData.state,
-                      style: TextStyle(
-                          color: NeumorphicTheme.currentTheme(context)
-                              .defaultTextColor))),
-              Row(
-                children: <Widget>[
-                  Text(
-                    "${widget.stateData.confirmed}",
-                    style: TextStyle(
-                        color: NeumorphicTheme.currentTheme(context)
-                            .defaultTextColor),
-                  ),
-                  int.parse(widget.stateData.deltaConfirmed) != 0
-                      ? SizedBox(
-                          width: 8,
-                        )
-                      : Container(),
-                  int.parse(widget.stateData.deltaConfirmed) != 0
-                      ? Text(
-                          "[ ↑ ${widget.stateData.deltaConfirmed} ]",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12),
-                        )
-                      : Container(),
-                ],
-              )
-            ],
-          ),
-        ),
-
         Neumorphic(
           boxShape: NeumorphicBoxShape.roundRect(
-              borderRadius: BorderRadius.circular(14)),
-          style: NeumorphicStyle(
-            shape: NeumorphicShape.flat,
-            depth: -10,
-          ),
+              borderRadius: BorderRadius.circular(8)),
+          style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: 1),
           child: Container(
-            height: 4,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AreaInnerPage(
+                            lastUpdatedTime: widget.stateData.lastUpdatedTime,
+                            stateName: widget.stateData.state,
+                            stateCode: widget.stateData.stateCode,
+                            confirmed: widget.stateData.confirmed,
+                            active: widget.stateData.active,
+                            recovered: widget.stateData.recovered,
+                            deaths: widget.stateData.deaths,
+                            deltaConfirmed: widget.stateData.deltaConfirmed,
+                            deltaRecovered: widget.stateData.deltaRecovered,
+                            deltaDeaths: widget.stateData.deltaDeaths)));
+              },
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                      child: Text(widget.stateData.state,
+                          style: TextStyle(
+                              color: NeumorphicTheme.currentTheme(context)
+                                  .defaultTextColor))),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        "${widget.stateData.confirmed}",
+                        style: TextStyle(
+                            color: NeumorphicTheme.currentTheme(context)
+                                .defaultTextColor),
+                      ),
+                      int.parse(widget.stateData.deltaConfirmed) != 0
+                          ? SizedBox(
+                              width: 8,
+                            )
+                          : Container(),
+                      int.parse(widget.stateData.deltaConfirmed) != 0
+                          ? Text(
+                              "[ ↑ ${widget.stateData.deltaConfirmed} ]",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12),
+                            )
+                          : Container(),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ),
+        ),
+        SizedBox(
+          height: 8,
         )
       ],
     );

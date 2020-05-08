@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:covid19_tracker/store/api_data/api_data.dart';
 import 'package:covid19_tracker/store/download/download.dart';
 import 'package:covid19_tracker/store/keys/keys.dart';
 import 'package:covid19_tracker/store/update_later/update_later.dart';
@@ -12,6 +12,7 @@ import 'package:install_plugin/install_plugin.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class UpdateGlobal {
+  final ApiDataStore _apiDataStore = ApiDataStore();
   final KeysStore _keysStore = KeysStore();
   final UpdateLaterStore _updateLaterStore = UpdateLaterStore();
 
@@ -103,8 +104,7 @@ class UpdateGlobal {
             ));
 
     if (_updateLaterStore.isUpdateNow) {
-      await _downloadApk(
-          "https://firebasestorage.googleapis.com/v0/b/covid-19-tracker-4cff5.appspot.com/o/app.apk?alt=media&token=4db2aba3-39f4-442c-b12b-c50c50140797");
+      await _downloadApk("${_apiDataStore.appVersionsData.latestAppLink}");
     }
   }
 }
