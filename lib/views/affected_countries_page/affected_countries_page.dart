@@ -93,7 +93,7 @@ class _AffectedCountriesPageState extends State<AffectedCountriesPage> {
                 !_connectionStore.isInternetConnected
                     ? Container()
                     : SearchBar(
-                        searchStore: _searchStore, title: "Search Countries"),
+                        searchStore: _searchStore, title: "Search for affected countries"),
                 !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : !_loading.isLoading &&

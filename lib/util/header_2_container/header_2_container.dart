@@ -25,7 +25,7 @@ class Header2Container extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        isDistrict
+        isDistrict && zone != null
             ? Icon(
                 LineAwesomeIcons.flag,
                 color: zone.zone.toLowerCase() == "red"
@@ -53,9 +53,9 @@ class Header2Container extends StatelessWidget {
                 "Lastly Updated at $lastUpdatedTime",
                 style: TextStyle(
                     fontSize: 12,
-                    color: NeumorphicTheme.currentTheme(context)
-                        .defaultTextColor
-                        .withOpacity(0.5)),
+                    color: !NeumorphicTheme.isUsingDark(context)
+                                ? Colors.black45
+                                : Colors.white.withOpacity(0.9)),
                 textAlign: TextAlign.center,
               )
             : Container(),
@@ -64,7 +64,7 @@ class Header2Container extends StatelessWidget {
                 height: 28.0,
               )
             : Container(),
-        isDistrict
+        isDistrict && zone != null
             ? Text(
                 "( ${zone.zone.toUpperCase()} Zone )",
                 style: TextStyle(
@@ -74,9 +74,14 @@ class Header2Container extends StatelessWidget {
                 textAlign: TextAlign.center,
               )
             : Container(),
-        isDistrict
+        isDistrict && zone != null
             ? SizedBox(
                 height: 28.0,
+              )
+            : Container(),
+        isDistrict && zone == null
+            ? SizedBox(
+                height: 14.0,
               )
             : Container()
       ],

@@ -44,7 +44,7 @@ class _AffectedDistrictsState extends State<AffectedDistricts> {
             makeBottomPaddingSmall: true,
           ),
           SizedBox(height: 24),
-          SearchBar(searchStore: _searchStore, title: "Search Districts"),
+          SearchBar(searchStore: _searchStore, title: "Search for affected districts"),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[

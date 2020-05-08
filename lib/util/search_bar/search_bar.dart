@@ -28,9 +28,9 @@ class _SearchBarState extends State<SearchBar> {
       child: Neumorphic(
         boxShape: NeumorphicBoxShape.roundRect(
             borderRadius: BorderRadius.circular(8)),
-        style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -2),
+        style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -1.5),
         padding:
-            const EdgeInsets.only(left: 18.0, right: 12.0, top: 6, bottom: 6),
+            const EdgeInsets.only(left: 18.0, right: 12.0, top: 4, bottom: 4),
         margin: const EdgeInsets.only(bottom: 18),
         child: Container(
           child: Row(
@@ -41,12 +41,14 @@ class _SearchBarState extends State<SearchBar> {
                   style: TextStyle(
                       color: NeumorphicTheme.defaultTextColor(context)),
                   decoration: InputDecoration(
+                      
                       border: InputBorder.none,
-                      hintText: widget.title,
+                      hintText: "${widget.title}",
                       hintStyle: TextStyle(
-                          color: NeumorphicTheme.defaultTextColor(context)
-                              .withOpacity(0.5))),
-                  keyboardType: TextInputType.text,
+                        fontSize: 14,
+                          color: !NeumorphicTheme.isUsingDark(context)
+                              ? Colors.black45
+                              : Colors.white.withOpacity(0.8))),
                   onChanged: (value) {
                     widget.searchStore.updateSearchFilterText(value);
                   },
@@ -57,7 +59,6 @@ class _SearchBarState extends State<SearchBar> {
               ),
               NeumorphicButton(
                 onClick: () {
-                  // Navigator.pop(context);
                   _searchController.text = "";
                   widget.searchStore.clearSearchFilterText();
                 },

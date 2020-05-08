@@ -62,8 +62,9 @@ class _FactoidsContainerState extends State<FactoidsContainer> {
                             fontSize: 12,
                             height: 1.22,
                             // letterSpacing: 0.1,
-                            color: NeumorphicTheme.defaultTextColor(context)
-                                .withOpacity(0.6)),
+                            color: !NeumorphicTheme.isUsingDark(context)
+                                ? Colors.black.withOpacity(0.65)
+                                : Colors.white.withOpacity(0.9)),
                       ),
                       SizedBox(
                         height: 6,
@@ -73,8 +74,9 @@ class _FactoidsContainerState extends State<FactoidsContainer> {
                         style: TextStyle(
                             fontSize: 12,
                             height: 1.22,
-                            color: NeumorphicTheme.defaultTextColor(context)
-                                .withOpacity(0.6)),
+                            color: !NeumorphicTheme.isUsingDark(context)
+                                ? Colors.black.withOpacity(0.65)
+                                : Colors.white.withOpacity(0.9)),
                       ),
                     ],
                   )
@@ -86,8 +88,9 @@ class _FactoidsContainerState extends State<FactoidsContainer> {
                         style: TextStyle(
                             fontSize: 12,
                             height: 1.22,
-                            color: NeumorphicTheme.defaultTextColor(context)
-                                .withOpacity(0.6)),
+                            color: !NeumorphicTheme.isUsingDark(context)
+                                ? Colors.black.withOpacity(0.65)
+                                : Colors.white.withOpacity(0.9)),
                         textAlign: TextAlign.center,
                       ),
                     ),

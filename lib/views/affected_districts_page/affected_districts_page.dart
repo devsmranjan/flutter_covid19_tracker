@@ -104,7 +104,7 @@ class _AffectedDistrictPageState extends State<AffectedDistrictPage> {
                 !_connectionStore.isInternetConnected
                     ? Container()
                     : SearchBar(
-                        searchStore: _searchStore, title: "Search Districts"),
+                        searchStore: _searchStore, title: "Search for affected districts"),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[

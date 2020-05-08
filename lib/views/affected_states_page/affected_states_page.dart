@@ -86,7 +86,7 @@ class _AffectedStatesPageState extends State<AffectedStatesPage> {
                 !_connectionStore.isInternetConnected
                     ? Container()
                     : SearchBar(
-                        searchStore: _searchStore, title: "Search States"),
+                        searchStore: _searchStore, title: "Search for affected states"),
                 !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : !_loading.isLoading &&

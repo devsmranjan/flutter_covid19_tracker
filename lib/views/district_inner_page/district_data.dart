@@ -1,5 +1,6 @@
 import 'package:covid19_tracker/api/covid_19_india/all_data_model/state_districts_data_model.dart';
 import 'package:covid19_tracker/api/covid_19_india/all_data_model/zone_model.dart';
+import 'package:covid19_tracker/global/color_constants.dart';
 import 'package:covid19_tracker/util/data_container/data_container.dart';
 import 'package:covid19_tracker/util/header_2_container/header_2_container.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class DistrictDataContainer extends StatelessWidget {
           isDistrict: true,
           lastUpdatedTime: "",
           zone: zone,
-          color: Color(0xFF778ca3),
+          color: Color(0xFF808e9b),
         ),
         Column(
           children: <Widget>[
@@ -29,7 +30,7 @@ class DistrictDataContainer extends StatelessWidget {
               title: "Confirmed",
               totalCases: districtData.confirmed.toString(),
               newCases: districtData.delta.confirmed.toString(),
-              color: Colors.red,
+              color: ColorConstants.COLOR_CONFIRMED,
             ),
             SizedBox(
               height: 14.0,
@@ -37,7 +38,7 @@ class DistrictDataContainer extends StatelessWidget {
             DataContainer(
               title: "Active",
               totalCases: districtData.active.toString(),
-              color: Colors.blue,
+              color: ColorConstants.COLOR_ACTIVE,
             ),
             SizedBox(
               height: 14.0,
@@ -46,7 +47,7 @@ class DistrictDataContainer extends StatelessWidget {
               title: "Recovered",
               totalCases: districtData.recovered.toString(),
               newCases: districtData.delta.recovered.toString(),
-              color: Colors.green,
+              color: ColorConstants.COLOR_RECOVERED,
             ),
             SizedBox(
               height: 14.0,
@@ -55,7 +56,7 @@ class DistrictDataContainer extends StatelessWidget {
               title: "Deceased",
               totalCases: districtData.deceased.toString(),
               newCases: districtData.delta.deceased.toString(),
-              color: Colors.grey,
+              color: ColorConstants.COLOR_DECEASED,
             ),
           ],
         ),
