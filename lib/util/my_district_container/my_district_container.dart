@@ -15,8 +15,7 @@ class MyDistrictContainer extends StatelessWidget {
   Widget _dataContainer(
       BuildContext context, String title, String value, Color color) {
     return Neumorphic(
-      boxShape:
-          NeumorphicBoxShape.roundRect(borderRadius: BorderRadius.circular(8)),
+      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
       style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -2),
       padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18),
       child: Container(
@@ -63,8 +62,7 @@ class MyDistrictContainer extends StatelessWidget {
     return Column(
       children: <Widget>[
         Neumorphic(
-          boxShape: NeumorphicBoxShape.roundRect(
-              borderRadius: BorderRadius.circular(8)),
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
           style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: 1),
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -146,8 +144,7 @@ class MyDistrictContainer extends StatelessWidget {
           height: 28,
         ),
         Neumorphic(
-          boxShape: NeumorphicBoxShape.roundRect(
-              borderRadius: BorderRadius.circular(8)),
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
           style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: 0),
           child: Container(
               width: MediaQuery.of(context).size.width,

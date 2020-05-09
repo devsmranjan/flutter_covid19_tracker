@@ -251,8 +251,7 @@ class _HomeState extends State<Home> {
                 onRefresh: _onRefresh)
             : _allPageWidgets[_navbarIndexStore.selectedIndex],
         bottomNavigationBar: Neumorphic(
-          boxShape: NeumorphicBoxShape.roundRect(
-              borderRadius: BorderRadius.circular(48)),
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(48)),
           style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -10),
           margin: const EdgeInsets.all(12.0),
           child: SafeArea(

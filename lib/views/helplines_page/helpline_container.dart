@@ -79,8 +79,7 @@ class HelplineContainer extends StatelessWidget {
           ],
         ),
         Neumorphic(
-          boxShape: NeumorphicBoxShape.roundRect(
-              borderRadius: BorderRadius.circular(14)),
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(14)),
           style: NeumorphicStyle(
             shape: NeumorphicShape.flat,
             depth: -10,

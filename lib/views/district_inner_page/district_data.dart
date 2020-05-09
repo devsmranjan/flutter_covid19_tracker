@@ -22,7 +22,7 @@ class DistrictDataContainer extends StatelessWidget {
           isDistrict: true,
           lastUpdatedTime: "",
           zone: zone,
-          color: Color(0xFF808e9b),
+          color: Colors.indigo[400],
         ),
         Column(
           children: <Widget>[

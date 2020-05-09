@@ -31,8 +31,7 @@ class _FactoidsContainerState extends State<FactoidsContainer> {
   Widget build(BuildContext context) {
     // _getRandomResource();
     return Neumorphic(
-        boxShape: NeumorphicBoxShape.roundRect(
-            borderRadius: BorderRadius.circular(8)),
+        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
         style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -2),
         child: Container(
           width: MediaQuery.of(context).size.width,

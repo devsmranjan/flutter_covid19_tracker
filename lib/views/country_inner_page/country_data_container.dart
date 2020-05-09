@@ -1,4 +1,5 @@
 import 'package:covid19_tracker/api/novel_covid/cases_by_country_data_model.dart';
+import 'package:covid19_tracker/global/color_constants.dart';
 import 'package:covid19_tracker/util/header_2_container/header_2_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -22,7 +23,7 @@ class CountryDataContainer extends StatelessWidget {
           lastUpdatedTime: DateFormat('dd/MM/yyyy hh:mm:ss').format(
               DateTime.fromMicrosecondsSinceEpoch(
                   countryData.lastUpdatedTime * 1000)),
-          color: Colors.indigo[400],
+          color: Colors.blue,
         ),
         Column(
           children: <Widget>[
@@ -30,7 +31,7 @@ class CountryDataContainer extends StatelessWidget {
               title: "Confirmed",
               totalCases: countryData.confirmed.toString().padLeft(2, '0'),
               newCases: countryData.deltaConfirmed.toString(),
-              color: Colors.red,
+              color: ColorConstants.COLOR_CONFIRMED,
             ),
             SizedBox(
               height: 14.0,
@@ -38,7 +39,7 @@ class CountryDataContainer extends StatelessWidget {
             DataContainer(
               title: "Active",
               totalCases: countryData.active.toString().padLeft(2, '0'),
-              color: Colors.blue,
+              color: ColorConstants.COLOR_ACTIVE,
             ),
             SizedBox(
               height: 14.0,
@@ -46,7 +47,7 @@ class CountryDataContainer extends StatelessWidget {
             DataContainer(
               title: "Recovered",
               totalCases: countryData.recovered.toString().padLeft(2, '0'),
-              color: Colors.green,
+              color: ColorConstants.COLOR_RECOVERED,
             ),
             SizedBox(
               height: 14.0,
@@ -55,7 +56,7 @@ class CountryDataContainer extends StatelessWidget {
               title: "Deceased",
               totalCases: countryData.deaths.toString().padLeft(2, '0'),
               newCases: countryData.deltaDeaths.toString(),
-              color: Colors.grey,
+              color: ColorConstants.COLOR_DECEASED,
             ),
           ],
         ),

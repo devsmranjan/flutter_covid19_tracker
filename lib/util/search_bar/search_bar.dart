@@ -26,8 +26,7 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Container(
       child: Neumorphic(
-        boxShape: NeumorphicBoxShape.roundRect(
-            borderRadius: BorderRadius.circular(8)),
+        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
         style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -1.5),
         padding:
             const EdgeInsets.only(left: 18.0, right: 12.0, top: 4, bottom: 4),
@@ -41,11 +40,10 @@ class _SearchBarState extends State<SearchBar> {
                   style: TextStyle(
                       color: NeumorphicTheme.defaultTextColor(context)),
                   decoration: InputDecoration(
-                      
                       border: InputBorder.none,
                       hintText: "${widget.title}",
                       hintStyle: TextStyle(
-                        fontSize: 14,
+                          fontSize: 14,
                           color: !NeumorphicTheme.isUsingDark(context)
                               ? Colors.black45
                               : Colors.white.withOpacity(0.8))),

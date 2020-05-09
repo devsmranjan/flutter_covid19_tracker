@@ -22,8 +22,7 @@ class DataContainer extends StatelessWidget {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
       child: Neumorphic(
-        boxShape: NeumorphicBoxShape.roundRect(
-            borderRadius: BorderRadius.circular(8)),
+        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
         style: NeumorphicStyle(
           shape: NeumorphicShape.flat,
         ),
@@ -70,7 +69,8 @@ class DataContainer extends StatelessWidget {
                         ),
                         newCases != "" && int.tryParse(newCases) != 0
                             ? Text(
-                                "+ ${newCases.length <= 4 ? NumberFormat.decimalPattern().format(int.parse(newCases)) : NumberFormat.compact().format(int.parse(newCases))}".toLowerCase(),
+                                "+ ${newCases.length <= 4 ? NumberFormat.decimalPattern().format(int.parse(newCases)) : NumberFormat.compact().format(int.parse(newCases))}"
+                                    .toLowerCase(),
                                 style: GoogleFonts.fjallaOne(
                                     fontSize: 18,
                                     color: color.withOpacity(0.7),

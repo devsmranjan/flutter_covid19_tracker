@@ -40,12 +40,10 @@ class _ChartContainerState extends State<ChartContainer> {
   //   print(_apiDataStore.mapOfIndivisualListOfCaseTimeSeries);
   // }
 
-
   @override
   Widget build(BuildContext context) {
     return Neumorphic(
-      boxShape:
-          NeumorphicBoxShape.roundRect(borderRadius: BorderRadius.circular(8)),
+      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
       style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -4),
       padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
       child: Column(
@@ -57,10 +55,14 @@ class _ChartContainerState extends State<ChartContainer> {
             child: Observer(
               builder: (_) => widget.scrollStore.isScrollReached &&
                       !widget.loading.isLoading &&
-                      (widget.datesList != null && widget.datesList.isNotEmpty)
-                      && (widget.confirmedList != null && widget.confirmedList.isNotEmpty)
-                      && (widget.recoveredList != null && widget.recoveredList.isNotEmpty)
-                      && (widget.deceasedList != null && widget.deceasedList.isNotEmpty)
+                      (widget.datesList != null &&
+                          widget.datesList.isNotEmpty) &&
+                      (widget.confirmedList != null &&
+                          widget.confirmedList.isNotEmpty) &&
+                      (widget.recoveredList != null &&
+                          widget.recoveredList.isNotEmpty) &&
+                      (widget.deceasedList != null &&
+                          widget.deceasedList.isNotEmpty)
                   ? Echarts(
                       theme: !NeumorphicTheme.isUsingDark(context)
                           ? 'covid19'

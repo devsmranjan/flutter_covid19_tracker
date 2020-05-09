@@ -27,8 +27,7 @@ class DistrictListTile extends StatelessWidget {
       builder: (_) => Column(
         children: <Widget>[
           Neumorphic(
-            boxShape: NeumorphicBoxShape.roundRect(
-                borderRadius: BorderRadius.circular(8)),
+            boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
             style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: 1),
             child: Container(
               decoration: BoxDecoration(
@@ -36,12 +35,12 @@ class DistrictListTile extends StatelessWidget {
                       ? !showZones.isShowZones
                           ? NeumorphicTheme.baseColor(context)
                           : zone.zone.toLowerCase() == "red"
-                              ? ColorConstants.COLOR_RED_ZONE.withOpacity(0.2)
+                              ? ColorConstants.COLOR_RED_ZONE.withOpacity(0.35)
                               : zone.zone.toLowerCase() == "orange"
                                   ? ColorConstants.COLOR_ORANGE_ZONE
-                                      .withOpacity(0.2)
+                                      .withOpacity(0.35)
                                   : ColorConstants.COLOR_GREEN_ZONE
-                                      .withOpacity(0.2)
+                                      .withOpacity(0.35)
                       : NeumorphicTheme.baseColor(context),
                   borderRadius: BorderRadius.circular(8)),
               child: ListTile(

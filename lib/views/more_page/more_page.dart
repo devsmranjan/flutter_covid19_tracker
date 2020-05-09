@@ -1,4 +1,5 @@
 import 'package:covid19_tracker/global/update_global.dart';
+import 'package:covid19_tracker/views/essentials_page/essentials_page.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -140,7 +141,7 @@ class _MorePageState extends State<MorePage> {
                             action: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HelplinesPage()))),
+                                    builder: (context) => EssentialsPage()))),
                         SizedBox(
                           height: 24.0,
                         ),
@@ -157,7 +158,7 @@ class _MorePageState extends State<MorePage> {
                         ),
                         Neumorphic(
                           boxShape: NeumorphicBoxShape.roundRect(
-                              borderRadius: BorderRadius.circular(14)),
+                              BorderRadius.circular(14)),
                           style: NeumorphicStyle(
                               shape: NeumorphicShape.flat, depth: -4),
                           child: Container(height: 4),

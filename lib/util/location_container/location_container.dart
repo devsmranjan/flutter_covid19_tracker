@@ -21,8 +21,7 @@ class _LocationContainerState extends State<LocationContainer> {
   @override
   Widget build(BuildContext context) {
     return Neumorphic(
-        boxShape: NeumorphicBoxShape.roundRect(
-            borderRadius: BorderRadius.circular(8)),
+        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
         style: NeumorphicStyle(
           shape: NeumorphicShape.flat,
         ),

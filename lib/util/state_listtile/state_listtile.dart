@@ -18,8 +18,7 @@ class _StateListTileState extends State<StateListTile> {
     return Column(
       children: <Widget>[
         Neumorphic(
-          boxShape: NeumorphicBoxShape.roundRect(
-              borderRadius: BorderRadius.circular(8)),
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
           style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: 1),
           child: Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),

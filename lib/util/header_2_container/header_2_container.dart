@@ -70,7 +70,9 @@ class Header2Container extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: !NeumorphicTheme.isUsingDark(context) ? Colors.black38 : Colors.white70),
+                    color: !NeumorphicTheme.isUsingDark(context)
+                                ? Colors.black45
+                                : Colors.white.withOpacity(1)),
                 textAlign: TextAlign.center,
               )
             : Container(),
@@ -81,7 +83,7 @@ class Header2Container extends StatelessWidget {
             : Container(),
         isDistrict && zone == null
             ? SizedBox(
-                height: 14.0,
+                height: 8.0,
               )
             : Container()
       ],

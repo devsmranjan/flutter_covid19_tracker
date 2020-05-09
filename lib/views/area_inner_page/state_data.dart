@@ -37,7 +37,7 @@ class StateData extends StatelessWidget {
         Header2Container(
             title: stateName,
             lastUpdatedTime: lastUpdatedTime != "" ? lastUpdatedTime : "",
-            color: Colors.indigo[400],
+            color: Colors.purple[400],
           ),
         Column(
           children: <Widget>[
