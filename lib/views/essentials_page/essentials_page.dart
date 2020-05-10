@@ -1,9 +1,14 @@
+import 'dart:convert';
+
+import 'package:covid19_tracker/api/covid_19_india/all_data_model/resources_model.dart';
 import 'package:covid19_tracker/store/essentials_filter/essentials_filter.dart';
 import 'package:covid19_tracker/store/loading/loading.dart';
 import 'package:covid19_tracker/store/location/location.dart';
 import 'package:covid19_tracker/store/search/search.dart';
+import 'package:covid19_tracker/util/essential_listtile/essential_listtile.dart';
 import 'package:covid19_tracker/util/header_3_container/header_3_container.dart';
 import 'package:covid19_tracker/util/search_bar/search_bar.dart';
+import 'package:covid19_tracker/views/essentials_page/essential.dart';
 import 'package:covid19_tracker/views/essentials_page/essentials_container.dart';
 import 'package:covid19_tracker/views/helplines_page/helpline_container.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +20,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../store/api_data/api_data.dart';
 import '../../store/connection/connection.dart';
 import '../../util/error_container/error_container.dart';
-// import 'helpline_container.dart';
+// import 'helpline_container.dart';\
+import 'package:sliding_panel/sliding_panel.dart';
 
 class EssentialsPage extends StatefulWidget {
   @override
@@ -36,6 +42,8 @@ class _EssentialsPageState extends State<EssentialsPage> {
     }
 
     _essentialsFilterStore.updateFilterState(_locationStore.state);
+    _essentialsFilterStore.updateFilterCity("All cities");
+    _essentialsFilterStore.updateFilterServices("All categories");
 
     List list = [];
     _apiDataStore.allResourcesList
@@ -43,7 +51,15 @@ class _EssentialsPageState extends State<EssentialsPage> {
             resourceData.state.toLowerCase() ==
             _essentialsFilterStore.filterState.toLowerCase())
         .forEach((data) {
-      list.add(data);
+      list.add(Essential(
+          category: data.category,
+          city: data.city,
+          contact: data.contact,
+          descriptionAndOrServiceprovided: data.descriptionAndOrServiceprovided,
+          nameOfTheOrganisation: data.nameOfTheOrganisation,
+          phoneNumber: data.phoneNumber,
+          state: data.state,
+          isExpanded: false));
     });
     _searchStore.addObservableList(list);
   }
@@ -62,6 +78,212 @@ class _EssentialsPageState extends State<EssentialsPage> {
     } else {
       throw 'Could not launch $helpline';
     }
+  }
+
+  Widget _bottomSheet() {
+    return Container(
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+          color: NeumorphicTheme.baseColor(context),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(4), topRight: Radius.circular(4))),
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 4,
+              width: 36,
+              decoration: BoxDecoration(
+                  color: NeumorphicTheme.accentColor(context).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(24)),
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            Container(
+              child: Center(
+                  child: Text(
+                "Filter Essentials",
+                style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
+              )),
+            ),
+            SizedBox(
+              height: 28,
+            ),
+            Observer(
+              builder: (_) => Neumorphic(
+                boxShape:
+                    NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
+                style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: -1),
+                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  dropdownColor: NeumorphicTheme.baseColor(context),
+                  hint: Text("Select State"),
+                  underline: Container(),
+                  value: _essentialsFilterStore.filterState,
+                  style: TextStyle(
+                      color: NeumorphicTheme.defaultTextColor(context)),
+                  iconEnabledColor: NeumorphicTheme.accentColor(context),
+                  items: _apiDataStore.stateAndCityResourcesMap.keys
+                      .map((String state) {
+                    return DropdownMenuItem<String>(
+                      value: state,
+                      child: Container(child: Text(state)),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    _essentialsFilterStore.updateFilterState(value);
+                    _essentialsFilterStore.updateFilterCity("All cities");
+                    _essentialsFilterStore
+                        .updateFilterServices("All categories");
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Observer(
+              builder: (_) {
+                List<String> _cities = [];
+
+                _apiDataStore.stateAndCityResourcesMap.forEach((key, value) {
+                  if (key.toLowerCase() ==
+                      _essentialsFilterStore.filterState.toLowerCase()) {
+                    _cities = value['cities'];
+                  }
+                });
+
+                return Neumorphic(
+                  boxShape:
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
+                  style:
+                      NeumorphicStyle(shape: NeumorphicShape.flat, depth: -1),
+                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    dropdownColor: NeumorphicTheme.baseColor(context),
+                    hint: Text("Select City"),
+                    underline: Container(),
+                    style: TextStyle(
+                        color: NeumorphicTheme.defaultTextColor(context)),
+                    iconEnabledColor: NeumorphicTheme.accentColor(context),
+                    value: _essentialsFilterStore.filterCity,
+                    items: _cities.map((var city) {
+                      return DropdownMenuItem<String>(
+                        value: city,
+                        child: Container(child: Text(city)),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      _essentialsFilterStore.updateFilterCity(value);
+                    },
+                  ),
+                );
+              },
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Observer(
+              builder: (_) {
+                // All categories
+                List<String> _categories = [];
+
+                _apiDataStore.stateAndCityResourcesMap.forEach((key, value) {
+                  if (key.toLowerCase() ==
+                      _essentialsFilterStore.filterState.toLowerCase()) {
+                    _categories = value['categories'];
+                  }
+                });
+
+                return Neumorphic(
+                  boxShape:
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
+                  style:
+                      NeumorphicStyle(shape: NeumorphicShape.flat, depth: -1),
+                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    dropdownColor: NeumorphicTheme.baseColor(context),
+                    hint: Text("Select Category"),
+                    underline: Container(),
+                    style: TextStyle(
+                        color: NeumorphicTheme.defaultTextColor(context)),
+                    iconEnabledColor: NeumorphicTheme.accentColor(context),
+                    value: _essentialsFilterStore.filterServices,
+                    items: _categories.map((var category) {
+                      return DropdownMenuItem<String>(
+                        value: category,
+                        child: Container(child: Text(category)),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      _essentialsFilterStore.updateFilterServices(value);
+                    },
+                  ),
+                );
+              },
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            NeumorphicButton(
+              onClick: () {
+                _loadingStore.startLoading2000();
+                Navigator.pop(context);
+                _searchStore.clearObservableList();
+
+                List list = [];
+                _apiDataStore.allResourcesList
+                    .where((resourceData) =>
+                        resourceData.state.toLowerCase() ==
+                        _essentialsFilterStore.filterState.toLowerCase())
+                    .where((resourceData2) =>
+                        _essentialsFilterStore.filterCity.toLowerCase() ==
+                                "all cities"
+                            ? true
+                            : resourceData2.city.toLowerCase() ==
+                                _essentialsFilterStore.filterCity.toLowerCase())
+                    .where((resourceData3) => _essentialsFilterStore
+                                .filterServices
+                                .toLowerCase() ==
+                            "all categories"
+                        ? true
+                        : resourceData3.category.toLowerCase() ==
+                            _essentialsFilterStore.filterServices.toLowerCase())
+                    .forEach((data) {
+                  list.add(Essential(
+                      category: data.category,
+                      city: data.city,
+                      contact: data.contact,
+                      descriptionAndOrServiceprovided:
+                          data.descriptionAndOrServiceprovided,
+                      nameOfTheOrganisation: data.nameOfTheOrganisation,
+                      phoneNumber: data.phoneNumber,
+                      state: data.state,
+                      isExpanded: false));
+                });
+                _searchStore.addObservableList(list);
+              },
+              child: Text(
+                "Filter",
+                style: TextStyle(
+                    color: NeumorphicTheme.accentColor(context),
+                    letterSpacing: 0.4),
+              ),
+            ),
+            SizedBox(
+              height: 28,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -96,7 +318,12 @@ class _EssentialsPageState extends State<EssentialsPage> {
                     ),
                     Observer(
                       builder: (_) => NeumorphicButton(
-                        onClick: () {},
+                        onClick: () {
+                          showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => _bottomSheet());
+                        },
                         isEnabled: _apiDataStore.allResourcesList != null &&
                             _searchStore.observableList != null,
                         style: NeumorphicStyle(shape: NeumorphicShape.convex),
@@ -110,50 +337,58 @@ class _EssentialsPageState extends State<EssentialsPage> {
                   ],
                 ),
               ),
-              Header3Container(title: "Essentials & Resources"),
+              Observer(
+                  builder: (_) => Header3Container(
+                      title:
+                          "${_essentialsFilterStore.filterState != "" ? _essentialsFilterStore.filterState : "Essentials & Resources"}")),
               !_connectionStore.isInternetConnected
                   ? Container()
                   : SearchBar(
-                      searchStore: _searchStore,
-                      title: "Search any keyword"),
+                      searchStore: _searchStore, title: "Search any keyword"),
               Observer(builder: (_) {
-                List _searchList = [];
-                _searchStore.observableList.forEach((searchData) {
-                  if (searchData.city.toLowerCase().contains(
-                          _searchStore.searchFilterText.toLowerCase()) ||
-                      searchData.category.toLowerCase().contains(
-                          _searchStore.searchFilterText.toLowerCase()) ||
-                      searchData.descriptionAndOrServiceprovided
-                          .toLowerCase()
-                          .contains(
-                              _searchStore.searchFilterText.toLowerCase()) ||
-                      searchData.nameOfTheOrganisation.toLowerCase().contains(
-                          _searchStore.searchFilterText.toLowerCase())) {
-                    _searchList.add(searchData);
-                  }
-                });
-
+                List<Essential> _searchList = [];
+                if (_searchStore.observableList != null) {
+                  _searchStore.observableList.forEach((searchData) {
+                    if (searchData.city.toLowerCase().contains(
+                            _searchStore.searchFilterText.toLowerCase()) ||
+                        searchData.category.toLowerCase().contains(
+                            _searchStore.searchFilterText.toLowerCase()) ||
+                        searchData.descriptionAndOrServiceprovided
+                            .toLowerCase()
+                            .contains(
+                                _searchStore.searchFilterText.toLowerCase()) ||
+                        searchData.nameOfTheOrganisation.toLowerCase().contains(
+                            _searchStore.searchFilterText.toLowerCase())) {
+                      _searchList.add(searchData);
+                    }
+                  });
+                }
                 return !_connectionStore.isInternetConnected
                     ? ErrorContainer()
                     : !_loadingStore.isLoading &&
                             _locationStore.state != null &&
                             _apiDataStore.allResourcesList != null &&
                             _searchStore.observableList != null
-                        ? ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: _searchList.length ?? 0,
-                            itemBuilder: (BuildContext context, int index) {
-                              List list = _searchList;
-
-                              return list[index].state != ""
-                                  ? EssentialsContainer(
-                                      title: list[index].city ?? "",
-                                    )
-                                  : Container();
-                            },
-                          )
+                        ? _searchStore.observableList.length >= 1
+                            ? ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: _searchList.length ?? 0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return _searchList[index].state != ""
+                                      ? EssentialListTile(
+                                          essential: _searchList[index],
+                                        )
+                                      : Container();
+                                },
+                              )
+                            : Container(
+                                height: 200,
+                                child: Center(
+                                  child: Text("No resources available"),
+                                ),
+                              )
                         : Container(
                             height: 400,
                             child: Center(

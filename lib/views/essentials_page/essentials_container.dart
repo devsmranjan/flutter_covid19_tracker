@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/api/covid_19_india/all_data_model/resources_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,10 +6,10 @@ import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EssentialsContainer extends StatelessWidget {
-  final title;
+  final Resource essential;
 
   const EssentialsContainer(
-      {Key key, @required this.title})
+      {Key key, @required this.essential})
       : super(key: key);
 
   void _launchURL(String helpline, BuildContext context) async {
@@ -31,42 +32,12 @@ class EssentialsContainer extends StatelessWidget {
                 color: NeumorphicTheme.baseColor(context),
                 child: InkWell(
                   onTap: () {
-                    // if (essentials.length >= 1) {
-                    //   showDialog(
-                    //       context: context,
-                    //       builder: (context) => SimpleDialog(
-                    //           backgroundColor:
-                    //               NeumorphicTheme.baseColor(context),
-                    //           contentPadding: EdgeInsets.symmetric(vertical: 4),
-                    //           shape: RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(8)),
-                    //           children: essentials
-                    //               .map(
-                    //                 (essential) => ListTile(
-                    //                     onTap: () {
-                    //                       _launchURL(essential, context);
-                    //                     },
-                    //                     title: Text(
-                    //                       essential,
-                    //                       style: TextStyle(
-                    //                           color:
-                    //                               NeumorphicTheme.currentTheme(
-                    //                                       context)
-                    //                                   .defaultTextColor),
-                    //                     ),
-                    //                     leading: Icon(
-                    //                         LineAwesomeIcons.phone_square,
-                    //                         color: NeumorphicTheme.currentTheme(
-                    //                                 context)
-                    //                             .accentColor)),
-                    //               )
-                    //               .toList()));
-                    // }
+                    
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 18.0, horizontal: 8),
-                    child: Text(title,
+                    child: Text(essential.city,
                         style: GoogleFonts.paytoneOne(
                             fontSize: 22,
                             color: NeumorphicTheme.currentTheme(context)
@@ -89,5 +60,7 @@ class EssentialsContainer extends StatelessWidget {
         )
       ],
     );
+  
+  
   }
 }

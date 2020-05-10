@@ -1,4 +1,5 @@
 import 'package:covid19_tracker/global/update_global.dart';
+import 'package:covid19_tracker/store/location/location.dart';
 import 'package:covid19_tracker/views/essentials_page/essentials_page.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -24,6 +25,7 @@ class _MorePageState extends State<MorePage> {
   final ApiDataStore _apiDataStore = ApiDataStore();
   final DarkModeStore _darkModeStore = DarkModeStore();
   final UpdateGlobal _updateGlobal = UpdateGlobal();
+  final LocationStore _locationStore = LocationStore();
 
   void _shareApp() {
     Share.text(
@@ -134,14 +136,17 @@ class _MorePageState extends State<MorePage> {
                         SizedBox(
                           height: 24.0,
                         ),
-                        MoreListTile(
-                            title: "Essentials",
-                            icon: LineAwesomeIcons.hand_stop_o,
-                            iconColor: Color(0xFFff9800),
-                            action: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EssentialsPage()))),
+                        Observer(
+                          builder: (_) => MoreListTile(
+                              title: "Essentials",
+                              icon: LineAwesomeIcons.hand_stop_o,
+                              iconColor: Color(0xFFff9800),
+                              isEnabled: _locationStore.state != "",
+                              action: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EssentialsPage()))),
+                        ),
                         SizedBox(
                           height: 24.0,
                         ),

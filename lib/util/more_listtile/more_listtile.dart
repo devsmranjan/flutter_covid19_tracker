@@ -7,14 +7,16 @@ class MoreListTile extends StatelessWidget {
   final IconData icon;
   final iconColor;
   final VoidCallback action;
+  final bool isEnabled;
 
-  const MoreListTile(
-      {Key key,
-      @required this.title,
-      @required this.icon,
-      this.iconColor,
-      @required this.action})
-      : super(key: key);
+  const MoreListTile({
+    Key key,
+    @required this.title,
+    @required this.icon,
+    this.iconColor,
+    @required this.action,
+    this.isEnabled = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class MoreListTile extends StatelessWidget {
                         .defaultTextColor)),
           ),
           NeumorphicButton(
+            isEnabled: isEnabled,
             onClick: action,
             style: NeumorphicStyle(shape: NeumorphicShape.convex),
             boxShape: NeumorphicBoxShape.circle(),

@@ -112,6 +112,9 @@ abstract class _ApiDataStoreBase with Store {
   @observable
   List<Resource> myStateResourcesList;
 
+  @observable
+  Map<String, dynamic> stateAndCityResourcesMap = {};
+
   Future<API1ResourcesData> _fetchAPI1ResourcesData() async {
     final _dataURL = "https://api.covid19india.org/resources/resources.json";
     final response = await _dio.get(_dataURL);
@@ -127,6 +130,25 @@ abstract class _ApiDataStoreBase with Store {
     try {
       var api1ResourcesData = await _fetchAPI1ResourcesData();
       allResourcesList = api1ResourcesData.allResources;
+
+      allResourcesList.forEach((resource) {
+        stateAndCityResourcesMap.putIfAbsent(
+            resource.state,
+            () => {
+                  "cities": ["All cities"],
+                  "categories": ["All categories"]
+                });
+        if (!stateAndCityResourcesMap[resource.state]["cities"]
+            .contains(resource.city)) {
+          stateAndCityResourcesMap[resource.state]["cities"].add(resource.city);
+        }
+        if (!stateAndCityResourcesMap[resource.state]["categories"]
+            .contains(resource.category)) {
+          stateAndCityResourcesMap[resource.state]["categories"]
+              .add(resource.category);
+        }
+      });
+      // print(stateAndCityResourcesMap);
     } catch (e) {
       print("Error in fetchAPI1ResourcesData : " + e.toString());
     }

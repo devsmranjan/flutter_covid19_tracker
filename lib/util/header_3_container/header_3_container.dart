@@ -23,7 +23,7 @@ class Header3Container extends StatelessWidget {
               fontSize:  !makeBottomPaddingSmall ? 22 : 18, color: Theme.of(context).accentColor),
           textAlign: TextAlign.center,
         ),
-        !makeBottomPaddingSmall ? SizedBox(height: 28) : SizedBox(height: 4),
+        !makeBottomPaddingSmall ? SizedBox(height: 18) : SizedBox(height: 4),
       ],
     );
   }

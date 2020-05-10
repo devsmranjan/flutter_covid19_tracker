@@ -21,6 +21,11 @@ abstract class _SearchStoreBase with Store {
   }
 
   @action
+  void clearObservableList() {
+    observableList.clear();
+  }
+
+  @action
   void updateSearchFilterText(String filterText) {
     searchFilterText = filterText;
   }
