@@ -1,6 +1,7 @@
 import 'package:covid19_tracker/global/update_global.dart';
 import 'package:covid19_tracker/store/location/location.dart';
 import 'package:covid19_tracker/views/essentials_page/essentials_page.dart';
+import 'package:covid19_tracker/views/zones_page/zones_page.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +24,7 @@ class MorePage extends StatefulWidget {
 
 class _MorePageState extends State<MorePage> {
   final ApiDataStore _apiDataStore = ApiDataStore();
-  final DarkModeStore _darkModeStore = DarkModeStore();
+  final DarkModeStore _darkModeStore = DarkModeStore(); 
   final UpdateGlobal _updateGlobal = UpdateGlobal();
   final LocationStore _locationStore = LocationStore();
 
@@ -154,10 +155,11 @@ class _MorePageState extends State<MorePage> {
                             title: "Zones",
                             icon: LineAwesomeIcons.flag,
                             iconColor: Color(0xFF00bcd4),
+                            isEnabled: _locationStore.state != "",
                             action: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HelplinesPage()))),
+                                    builder: (context) => ZonesPage()))),
                         SizedBox(
                           height: 24.0,
                         ),

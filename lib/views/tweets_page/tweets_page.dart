@@ -52,7 +52,8 @@ class _TweetsPageState extends State<TweetsPage> {
         duration: Duration(seconds: 3),
       ));
       Future.delayed(const Duration(milliseconds: 3500), () {
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        Navigator.popUntil(context, (route) => route.isFirst);
       });
     });
   }

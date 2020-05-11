@@ -330,6 +330,9 @@ abstract class _ApiDataStoreBase with Store {
   List<Zone> _allZonesList;
 
   @observable
+  List<String> zonesStateList;
+
+  @observable
   List<Zone> myStateZonesList;
 
   @observable
@@ -353,8 +356,18 @@ abstract class _ApiDataStoreBase with Store {
     try {
       var api1ZonesData = await _fetchAPI1ZonesData();
       _allZonesList = api1ZonesData.allZones;
+
+      zonesStateList = [];
+
+      for (var zoneData in _allZonesList) {
+        if (!zonesStateList.contains(zoneData.state)) {
+          zonesStateList.add(zoneData.state);
+        }
+      }
+
+      // print(zonesStateList);
     } catch (e) {
-      print("Error in fetchAPI1StateDistrictsData : " + e.toString());
+      print("Error in fetchAPI1ZonesData : " + e.toString());
     }
   }
 
@@ -377,6 +390,7 @@ abstract class _ApiDataStoreBase with Store {
     otherStateZonesList = [];
     _allZonesList.forEach((zoneData) {
       if (zoneData.state.toLowerCase() == stateName.toLowerCase()) {
+        // otherStateZonesStateList.add(zoneData.district)
         otherStateZonesList.add(zoneData);
       }
     });

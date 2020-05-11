@@ -71,14 +71,6 @@ class _EssentialsPageState extends State<EssentialsPage> {
     _loadingStore.startLoading3000();
   }
 
-  void _launchURL(String helpline, BuildContext context) async {
-    if (await canLaunch("tel:$helpline")) {
-      Navigator.pop(context);
-      await launch("tel:$helpline");
-    } else {
-      throw 'Could not launch $helpline';
-    }
-  }
 
   Widget _bottomSheet() {
     return Container(
@@ -384,9 +376,14 @@ class _EssentialsPageState extends State<EssentialsPage> {
                                 },
                               )
                             : Container(
-                                height: 200,
+                                height: 100,
                                 child: Center(
-                                  child: Text("No resources available"),
+                                  child: Text(
+                                    "No resources available !!!",
+                                    style: TextStyle(
+                                        color: NeumorphicTheme.defaultTextColor(
+                                            context)),
+                                  ),
                                 ),
                               )
                         : Container(

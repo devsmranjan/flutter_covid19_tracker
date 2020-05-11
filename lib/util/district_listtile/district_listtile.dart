@@ -15,8 +15,8 @@ class DistrictListTile extends StatelessWidget {
 
   const DistrictListTile(
       {Key key,
-      @required this.state,
-      @required this.districtData,
+      this.state,
+      this.districtData,
       @required this.zone,
       @required this.showZones})
       : super(key: key);
@@ -46,52 +46,61 @@ class DistrictListTile extends StatelessWidget {
               child: ListTile(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => DistrictInnerPage(
-                              state: state,
-                              districtData: districtData,
-                              zone: zone),
-                          fullscreenDialog: true));
-                },
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      districtData.district,
-                      style: TextStyle(
-                          color: NeumorphicTheme.currentTheme(context)
-                              .defaultTextColor),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "${districtData.confirmed}",
-                          style: TextStyle(
-                              color: NeumorphicTheme.currentTheme(context)
-                                  .defaultTextColor),
-                        ),
-                        districtData.delta.confirmed != 0
-                            ? SizedBox(
-                                width: 8,
-                              )
-                            : Container(),
-                        districtData.delta.confirmed != 0
-                            ? Text(
-                                "[ ↑ ${districtData.delta.confirmed} ]",
+                onTap: districtData != null
+                    ? () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => DistrictInnerPage(
+                                    state: state,
+                                    districtData: districtData,
+                                    zone: zone),
+                                fullscreenDialog: true));
+                      }
+                    : null,
+                title: districtData != null
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            districtData.district,
+                            style: TextStyle(
+                                color: NeumorphicTheme.currentTheme(context)
+                                    .defaultTextColor),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "${districtData.confirmed}",
                                 style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12),
-                              )
-                            : Container(),
-                      ],
-                    )
-                  ],
-                ),
+                                    color: NeumorphicTheme.currentTheme(context)
+                                        .defaultTextColor),
+                              ),
+                              districtData.delta.confirmed != 0
+                                  ? SizedBox(
+                                      width: 8,
+                                    )
+                                  : Container(),
+                              districtData.delta.confirmed != 0
+                                  ? Text(
+                                      "[ ↑ ${districtData.delta.confirmed} ]",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12),
+                                    )
+                                  : Container(),
+                            ],
+                          )
+                        ],
+                      )
+                    : Text(
+                        zone.district,
+                        style: TextStyle(
+                            color: NeumorphicTheme.currentTheme(context)
+                                .defaultTextColor),
+                      ),
               ),
             ),
           ),

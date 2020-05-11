@@ -58,6 +58,16 @@ mixin _$SearchStore on _SearchStoreBase, Store {
   }
 
   @override
+  void clearObservableList() {
+    final _$actionInfo = _$_SearchStoreBaseActionController.startAction();
+    try {
+      return super.clearObservableList();
+    } finally {
+      _$_SearchStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void updateSearchFilterText(String filterText) {
     final _$actionInfo = _$_SearchStoreBaseActionController.startAction();
     try {
