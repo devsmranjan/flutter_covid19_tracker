@@ -1,5 +1,6 @@
 import 'package:covid19_tracker/store/loading/loading.dart';
 import 'package:covid19_tracker/store/scroll/scroll.dart';
+import 'package:covid19_tracker/util/alert_container/alert_container.dart';
 import 'package:covid19_tracker/util/analysis_container/analysis_container.dart';
 import 'package:covid19_tracker/util/chart_container/chart_container.dart';
 import 'package:covid19_tracker/util/factoids_container/factoids_container.dart';
@@ -62,6 +63,11 @@ class _AreaPageState extends State<AreaPage> {
                   children: <Widget>[
                     Header1Container(),
                     MyDistrictContainer(),
+                    _apiDataStore.allStatesDistrictsData != null &&
+                            _apiDataStore.allStatesDistrictsData.isNotEmpty &&
+                            _apiDataStore.myStateData != null
+                        ? AlertContainer()
+                        : Container(),
                     FactoidsContainer(),
                     SizedBox(
                       height: 28.0,

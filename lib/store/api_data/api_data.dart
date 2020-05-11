@@ -288,6 +288,9 @@ abstract class _ApiDataStoreBase with Store {
     allStatesDistrictsData.forEach((stateDistrictsData) {
       if (stateDistrictsData.state.toLowerCase() == stateName.toLowerCase()) {
         listOfMyStateDistrictsData = stateDistrictsData;
+
+        listOfMyStateDistrictsData.districtData
+            .sort((a, b) => b.confirmed.compareTo(a.confirmed));
       }
     });
   }
@@ -315,7 +318,7 @@ abstract class _ApiDataStoreBase with Store {
       }
     });
 
-    _myStateDistrictsData.sort((a, b) => b.confirmed.compareTo(a.confirmed));
+    // _myStateDistrictsData.sort((a, b) => b.confirmed.compareTo(a.confirmed));
 
     _myStateDistrictsData.forEach((districtData) {
       if (districtData.district.toLowerCase() == districtName.toLowerCase()) {

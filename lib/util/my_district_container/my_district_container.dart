@@ -58,45 +58,6 @@ class MyDistrictContainer extends StatelessWidget {
     );
   }
 
-  Widget _alertContainer(BuildContext context, String details, Color color) {
-    return Column(
-      children: <Widget>[
-        Neumorphic(
-          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
-          style: NeumorphicStyle(shape: NeumorphicShape.flat, depth: 1),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18),
-            color: color,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    details,
-                    style: TextStyle(fontSize: 12, color: Colors.white),
-                  ),
-                ),
-                SizedBox(width: 12),
-                NeumorphicButton(
-                  onClick: () {},
-                  style: NeumorphicStyle(
-                      shape: NeumorphicShape.convex, color: color),
-                  boxShape: NeumorphicBoxShape.circle(),
-                  padding: const EdgeInsets.all(4.0),
-                  child: Icon(LineAwesomeIcons.close,
-                      size: 20, color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -200,12 +161,7 @@ class MyDistrictContainer extends StatelessWidget {
         SizedBox(
           height: 28,
         ),
-        // _alertContainer(context, "10 new cases from Jajpur",
-        //     ColorConstants.COLOR_CONFIRM_ALERT),
-        // _alertContainer(context, "2 new recovered from Jajpur",
-        //     ColorConstants.COLOR_RECOVERED_ALERT),
-        // _alertContainer(context, "1 new death from Jajpur",
-        //     ColorConstants.COLOR_DECEASED_ALERT),
+        
       ],
     );
   }

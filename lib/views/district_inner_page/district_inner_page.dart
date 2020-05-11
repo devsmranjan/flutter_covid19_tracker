@@ -99,7 +99,7 @@ class _DistrictInnerPageState extends State<DistrictInnerPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   SizedBox(
-                    height: 36.0,
+                    height: 28.0,
                   ),
                   DistrictDataContainer(
                     districtData: widget.districtData,

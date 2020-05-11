@@ -68,7 +68,7 @@ class _AboutPageState extends State<AboutPage> {
                 ),
               ),
               SizedBox(
-                height: 36.0,
+                height: 28.0,
               ),
               Image.asset(
                 "assets/icon/ic_launcher.png",

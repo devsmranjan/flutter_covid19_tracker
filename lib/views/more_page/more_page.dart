@@ -24,7 +24,7 @@ class MorePage extends StatefulWidget {
 
 class _MorePageState extends State<MorePage> {
   final ApiDataStore _apiDataStore = ApiDataStore();
-  final DarkModeStore _darkModeStore = DarkModeStore(); 
+  final DarkModeStore _darkModeStore = DarkModeStore();
   final UpdateGlobal _updateGlobal = UpdateGlobal();
   final LocationStore _locationStore = LocationStore();
 
@@ -201,8 +201,8 @@ class _MorePageState extends State<MorePage> {
                               ? MoreListTile(
                                   title: "Update Available",
                                   icon: LineAwesomeIcons.download,
-                                  iconColor: Color(0xFF304ffe),
-                                  action: () async {
+                                  iconColor: Color(0xFF5352ed),
+                                  action: () {
                                     _updateGlobal.handleUpdateAvailable();
                                   })
                               : Container(),
