@@ -76,11 +76,11 @@ class _SelfRiskScanState extends State<SelfRiskScan> {
     flutterWebviewPlugin.onHttpError.listen((event) async {
       flutterWebviewPlugin.close();
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
-        content: Text("Somthing went wrong"),
+        content: Text("Something went wrong"),
         duration: Duration(seconds: 3),
       ));
       Future.delayed(const Duration(milliseconds: 3500), () {
-        Navigator.pop(context);
+        Navigator.popUntil(context, (route) => route.isFirst);
       });
     });
   }
@@ -98,7 +98,7 @@ class _SelfRiskScanState extends State<SelfRiskScan> {
       backgroundColor: NeumorphicTheme.baseColor(context),
       resizeToAvoidBottomInset: false,
       body: Observer(
-              builder: (_) => Column(
+        builder: (_) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
@@ -122,30 +122,29 @@ class _SelfRiskScanState extends State<SelfRiskScan> {
                     height: 24,
                   )
                 : Container(),
-             Expanded(
-                  child: !_connectionStore.isInternetConnected
-                      ? ErrorContainer()
-                      : WebviewScaffold(
-                          url: "https://web.swaraksha.gov.in/ncv19/chat/?lang=en",
-                          withLocalStorage: true,
-                          hidden: true,
-                          geolocationEnabled: true,
-                          javascriptChannels: [
-                            JavascriptChannel(
-                                name: 'Print',
-                                onMessageReceived: (JavascriptMessage message) {
-                                  print(message.message);
-                                }),
-                          ].toSet(),
-                          withJavascript: true,
-                          initialChild: Container(
-                            color: NeumorphicTheme.baseColor(context),
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+            Expanded(
+                child: !_connectionStore.isInternetConnected
+                    ? ErrorContainer()
+                    : WebviewScaffold(
+                        url: "https://web.swaraksha.gov.in/ncv19/chat/?lang=en",
+                        withLocalStorage: true,
+                        hidden: true,
+                        geolocationEnabled: true,
+                        javascriptChannels: [
+                          JavascriptChannel(
+                              name: 'Print',
+                              onMessageReceived: (JavascriptMessage message) {
+                                print(message.message);
+                              }),
+                        ].toSet(),
+                        withJavascript: true,
+                        initialChild: Container(
+                          color: NeumorphicTheme.baseColor(context),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
                           ),
-                        )),
-         
+                        ),
+                      )),
             Container(
               height: 24,
               child: Center(

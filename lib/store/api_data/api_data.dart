@@ -330,7 +330,8 @@ abstract class _ApiDataStoreBase with Store {
   }
 
   // Zones
-  List<Zone> _allZonesList;
+  @observable
+  List<Zone> allZonesList;
 
   @observable
   List<String> zonesStateList;
@@ -358,11 +359,11 @@ abstract class _ApiDataStoreBase with Store {
   Future fetchAPI1ZonesData() async {
     try {
       var api1ZonesData = await _fetchAPI1ZonesData();
-      _allZonesList = api1ZonesData.allZones;
+      allZonesList = api1ZonesData.allZones;
 
       zonesStateList = [];
 
-      for (var zoneData in _allZonesList) {
+      for (var zoneData in allZonesList) {
         if (!zonesStateList.contains(zoneData.state)) {
           zonesStateList.add(zoneData.state);
         }
@@ -377,7 +378,7 @@ abstract class _ApiDataStoreBase with Store {
   @action
   void getMyAreaZoneData({String stateName, String distName}) {
     myStateZonesList = [];
-    _allZonesList.forEach((zoneData) {
+    allZonesList.forEach((zoneData) {
       if (zoneData.state.toLowerCase() == stateName.toLowerCase()) {
         myStateZonesList.add(zoneData);
 
@@ -391,7 +392,7 @@ abstract class _ApiDataStoreBase with Store {
   @action
   void getOtherStateZoneData({String stateName}) {
     otherStateZonesList = [];
-    _allZonesList.forEach((zoneData) {
+    allZonesList.forEach((zoneData) {
       if (zoneData.state.toLowerCase() == stateName.toLowerCase()) {
         // otherStateZonesStateList.add(zoneData.district)
         otherStateZonesList.add(zoneData);
@@ -401,16 +402,19 @@ abstract class _ApiDataStoreBase with Store {
 
   // api1 - states daily data
   // It dont have any model
-  List<dynamic> _statesDailyData;
+  List<dynamic> statesDailyData;
 
   @observable
   List<String> stateDailyDataDates = [];
 
-  List<dynamic> _statesDailyDataConfirmedMapList = [];
+  @observable
+  List<dynamic> statesDailyDataConfirmedMapList = [];
 
-  List<dynamic> _statesDailyDataRecoveredMapList = [];
+  @observable
+  List<dynamic> statesDailyDataRecoveredMapList = [];
 
-  List<dynamic> _statesDailyDataDeceasedMapList = [];
+  @observable
+  List<dynamic> statesDailyDataDeceasedMapList = [];
 
   @observable
   List<String> myStateDailyDataTotalConfirmed = [];
@@ -437,26 +441,26 @@ abstract class _ApiDataStoreBase with Store {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = await response.data;
-      _statesDailyData = [];
-      _statesDailyData = data['states_daily'];
+      statesDailyData = [];
+      statesDailyData = data['states_daily'];
 
-      _statesDailyDataConfirmedMapList.clear();
-      _statesDailyDataRecoveredMapList.clear();
-      _statesDailyDataDeceasedMapList.clear();
+      statesDailyDataConfirmedMapList.clear();
+      statesDailyDataRecoveredMapList.clear();
+      statesDailyDataDeceasedMapList.clear();
 
-      _statesDailyData.forEach((dailyData) {
+      statesDailyData.forEach((dailyData) {
         if (!stateDailyDataDates.contains(dailyData['date'])) {
           stateDailyDataDates.add(dailyData['date']);
         }
 
         if (dailyData['status'].toLowerCase() == "confirmed") {
-          _statesDailyDataConfirmedMapList.add(dailyData);
+          statesDailyDataConfirmedMapList.add(dailyData);
         }
         if (dailyData['status'].toLowerCase() == "recovered") {
-          _statesDailyDataRecoveredMapList.add(dailyData);
+          statesDailyDataRecoveredMapList.add(dailyData);
         }
         if (dailyData['status'].toLowerCase() == "deceased") {
-          _statesDailyDataDeceasedMapList.add(dailyData);
+          statesDailyDataDeceasedMapList.add(dailyData);
         }
       });
     } else {
@@ -472,7 +476,7 @@ abstract class _ApiDataStoreBase with Store {
 
     stateCode = stateCode.toLowerCase();
 
-    _statesDailyDataConfirmedMapList.forEach((dailyData) {
+    statesDailyDataConfirmedMapList.forEach((dailyData) {
       if (dailyData[stateCode] != null) {
         var totalTillNow = myStateDailyDataTotalConfirmed.length <= 0
             ? dailyData[stateCode]
@@ -484,7 +488,7 @@ abstract class _ApiDataStoreBase with Store {
       }
     });
 
-    _statesDailyDataRecoveredMapList.forEach((dailyData) {
+    statesDailyDataRecoveredMapList.forEach((dailyData) {
       if (dailyData[stateCode] != null) {
         var totalTillNow = myStateDailyDataTotalRecovered.length <= 0
             ? dailyData[stateCode]
@@ -496,7 +500,7 @@ abstract class _ApiDataStoreBase with Store {
       }
     });
 
-    _statesDailyDataDeceasedMapList.forEach((dailyData) {
+    statesDailyDataDeceasedMapList.forEach((dailyData) {
       if (dailyData[stateCode] != null) {
         var totalTillNow = myStateDailyDataTotalDeceased.length <= 0
             ? dailyData[stateCode]
@@ -516,7 +520,7 @@ abstract class _ApiDataStoreBase with Store {
     stateDailyDataTotalDeceased.clear();
 
     stateCode = stateCode.toLowerCase();
-    _statesDailyDataConfirmedMapList.forEach((dailyData) {
+    statesDailyDataConfirmedMapList.forEach((dailyData) {
       if (dailyData[stateCode] != null) {
         dailyData[stateCode] =
             dailyData[stateCode] == "" ? "0" : dailyData[stateCode];
@@ -530,7 +534,7 @@ abstract class _ApiDataStoreBase with Store {
       }
     });
 
-    _statesDailyDataRecoveredMapList.forEach((dailyData) {
+    statesDailyDataRecoveredMapList.forEach((dailyData) {
       if (dailyData[stateCode] != null) {
         var totalTillNow = stateDailyDataTotalRecovered.length <= 0
             ? dailyData[stateCode]
@@ -542,7 +546,7 @@ abstract class _ApiDataStoreBase with Store {
       }
     });
 
-    _statesDailyDataDeceasedMapList.forEach((dailyData) {
+    statesDailyDataDeceasedMapList.forEach((dailyData) {
       if (dailyData[stateCode] != null) {
         var totalTillNow = stateDailyDataTotalDeceased.length <= 0
             ? dailyData[stateCode]

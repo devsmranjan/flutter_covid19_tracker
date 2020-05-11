@@ -48,7 +48,7 @@ class _TweetsPageState extends State<TweetsPage> {
     flutterWebviewPlugin.onHttpError.listen((event) async {
       flutterWebviewPlugin.close();
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
-        content: Text("Somthing went wrong"),
+        content: Text("Something went wrong"),
         duration: Duration(seconds: 3),
       ));
       Future.delayed(const Duration(milliseconds: 3500), () {

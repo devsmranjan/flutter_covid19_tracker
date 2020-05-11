@@ -78,7 +78,6 @@ class _HomeState extends State<Home> {
     _locationStore.updateLocationPermissionGranted(checkLocationPermission);
 
     if (checkLocationPermission) {
-      // _locationStore.
       await _locationStore.getLocation();
 
       if (!_locationStore.isLocationEnabled) {
