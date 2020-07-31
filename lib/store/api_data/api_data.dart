@@ -263,7 +263,7 @@ abstract class _ApiDataStoreBase with Store {
         options: Options(headers: {
           'content-type': 'application/json',
           "x-rapidapi-host": "coronavirus-monitor.p.rapidapi.com",
-          "x-rapidapi-key": "ec10cd426bmsh3f5a4374a5c4830p175217jsnf3faaf2e0cde"
+          "x-rapidapi-key": "YOUR_API_KEY"
         }));
 
     if (response.statusCode == 200) {
